@@ -23,19 +23,27 @@ function run_oracle($script, $bin) {
 // End functions & helpers
 
 if  (!empty($_REQUEST['submit'])) {
-  if (! empty($_REQUEST['csrf']) && ! empty($_SESSION['csrf']) && $_REQUEST['csrf'] === $_SESSION['csrf']) {
-      if ($_REQUEST['submit'] == 'Recompile binary') {
-       	$oracle_says = run_oracle($_REQUEST['script'], $SYNC_BIN);
+  if (! empty($_REQUEST['csrf']) &&
+      ! empty($_SESSION['csrf']) &&
+      $_REQUEST['csrf'] === $_SESSION['csrf']) {
+      if ($_REQUEST['submit'] === 'Recompile binary') {
+        $oracle_says = run_oracle($_REQUEST['script'], $SYNC_BIN);
       } else {
-	      if (! empty($_REQUEST['script'])) {
-	        $expected = ! empty($_REQUEST['expected']) ? $_REQUEST['expected'] : run_oracle($_REQUEST['script'], $STATIC_BIN);
-        	$oracle_says = run_oracle($_REQUEST['script'], $ORACLE_BIN);
-	      	if (empty($oracle_says)) {
-        		array_push($alerts, "Something went wrong while trying to talk to oracle.");
-	      	}
-    	       } else {
-      		array_push($alerts, "Invalid request.");
-    	        }
+        if (! empty($_REQUEST['script'])) {
+          if (empty($_REQUEST['expected'])) {
+            $expected = run_oracle($_REQUEST['script'], $STATIC_BIN);
+          } else {
+            $expected = $_REQUEST['expected'];
+          }
+
+          $oracle_says = run_oracle($_REQUEST['script'], $ORACLE_BIN);
+          if (empty($oracle_says)) {
+            array_push($alerts, "Something went wrong while trying to talk to oracle.");
+          }
+        } else {
+          array_push($alerts, "Invalid request.");
+        }
+      }
   } else {
     array_push($alerts, "Session timed out. Please refresh the browser and try again!");
   }
