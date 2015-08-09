@@ -1,18 +1,20 @@
 <?php
 session_start();
 
-$ORACLE = "/cs/home/cse11011/www/3311/oracle/oracle";
+$ORACLE_BIN = "bin/oracle";
+$STATIC_BIN = "bin/static_analyzer";
+$SYNC_BIN = "bin/sync.sh";
+
 $alerts = array();
 
-function run_oracle($script, $expected) {
-  global $ORACLE;
+function run_oracle($script, $bin) {
   $script_file = tempnam(sys_get_temp_dir(), '3311-oracle-script');
 
   $script_handle = fopen($script_file, "w");
   fwrite($script_handle, $script);
   fclose($script_handle);
 
-  $output = shell_exec($ORACLE . ' -b ' . $script_file . ' 2>&1');
+  $output = shell_exec($bin . ' -b ' . $script_file . ' 2>&1');
 
   unlink($script_file);
 
@@ -22,15 +24,18 @@ function run_oracle($script, $expected) {
 
 if  (!empty($_REQUEST['submit'])) {
   if (! empty($_REQUEST['csrf']) && ! empty($_SESSION['csrf']) && $_REQUEST['csrf'] === $_SESSION['csrf']) {
-      if (! empty($_REQUEST['script'])) {
-        $expected = ! empty($_REQUEST['expected']) ? $_REQUEST['expected'] : '';
-        $oracle_says = run_oracle($_REQUEST['script'], $expected);
-      if (empty($oracle_says)) {
-        array_push($alerts, "Something went wrong while trying to talk to oracle.");
-      }
-    } else {
-      array_push($alerts, "Invalid request.");
-    }
+      if ($_REQUEST['submit'] == 'Recompile binary') {
+       	$oracle_says = run_oracle($_REQUEST['script'], $SYNC_BIN);
+      } else {
+	      if (! empty($_REQUEST['script'])) {
+	        $expected = ! empty($_REQUEST['expected']) ? $_REQUEST['expected'] : run_oracle($_REQUEST['script'], $STATIC_BIN);
+        	$oracle_says = run_oracle($_REQUEST['script'], $ORACLE_BIN);
+	      	if (empty($oracle_says)) {
+        		array_push($alerts, "Something went wrong while trying to talk to oracle.");
+	      	}
+    	       } else {
+      		array_push($alerts, "Invalid request.");
+    	        }
   } else {
     array_push($alerts, "Session timed out. Please refresh the browser and try again!");
   }
@@ -160,6 +165,7 @@ if  (!empty($_REQUEST['submit'])) {
         <input type="hidden" name="submit" value="true"/>
         <input type="hidden" name="csrf" value="<?php echo $_SESSION['csrf'] ?>"/>
         <input type="submit" name="submit" value="Ask the Oracle" class="btn btn-lg btn-primary"/>
+        <input type="submit" name="submit" value="Recompile binary" class="btn btn-lg btn-primary"/>
             <br/><br/>
 
           </form>
