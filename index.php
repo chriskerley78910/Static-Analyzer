@@ -22,8 +22,9 @@ function run_oracle($script, $expected) {
 
 if  (!empty($_REQUEST['submit'])) {
   if (! empty($_REQUEST['csrf']) && ! empty($_SESSION['csrf']) && $_REQUEST['csrf'] === $_SESSION['csrf']) {
-    if (! (empty($_REQUEST['script']) || empty($_REQUEST['expected']))) {
-      $oracle_says = run_oracle($_REQUEST['script'], $_REQUEST['expected']);
+      if (! empty($_REQUEST['script'])) {
+        $expected = ! empty($_REQUEST['expected']) ? $_REQUEST['expected'] : '';
+        $oracle_says = run_oracle($_REQUEST['script'], $expected);
       if (empty($oracle_says)) {
         array_push($alerts, "Something went wrong while trying to talk to oracle.");
       }
@@ -147,13 +148,13 @@ if  (!empty($_REQUEST['submit'])) {
         <div class="form-group col-md-6">
             <div class="input-group input-group-lg">
               <span class="input-group-addon">@</span>
-              <textarea required name="script" class="form-control" placeholder="Paste command script here."></textarea>
+              <textarea required name="script" class="form-control" placeholder="Paste command script here."><?php echo !empty($_REQUEST['script']) ? $_REQUEST['script'] : '' ?></textarea>
             </div>
         </div>  
         <div class="form-group col-md-6">
             <div class="input-group input-group-lg">
               <span class="input-group-addon">@</span>
-              <textarea required name="expected" class="form-control" placeholder="Paste expected output here."></textarea>
+              <textarea name="expected" class="form-control" placeholder="Paste expected output here."><?php echo !empty($_REQUEST['expected']) ? $_REQUEST['expected'] : '' ?></textarea>
             </div>
         </div>  
         <input type="hidden" name="submit" value="true"/>
