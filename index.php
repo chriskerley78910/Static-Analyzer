@@ -149,7 +149,7 @@ if  (!empty($_REQUEST['submit'])) {
               // include the Diff class
               require_once 'class.Diff.php';
               // output the result of comparing two files as a table
-              echo Diff::toTable(Diff::compare(preg_replace('~\R~u', "\n", $_REQUEST['expected']), $oracle_says));
+              echo Diff::toTable(Diff::compare(preg_replace('~\R~u', "\n", empty($expected) ? '' : $expected), $oracle_says));
             ?>
           </div>
           </div>
