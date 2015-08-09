@@ -58,6 +58,48 @@ if  (!empty($_REQUEST['submit'])) {
   <!-- build:js scripts/vendor/modernizr.js -->
   <!-- endbuild -->
 
+      <style type="text/css">
+
+      .diff td{
+        padding:0 0.667em;
+        vertical-align:top;
+        white-space:pre;
+        white-space:pre-wrap;
+        font-family:Consolas,'Courier New',Courier,monospace;
+        font-size:0.75em;
+        line-height:1.333;
+      }
+
+      .diff span{
+        display:block;
+        min-height:1.333em;
+        margin-top:-1px;
+        padding:0 3px;
+      }
+
+      * html .diff span{
+        height:1.333em;
+      }
+
+      .diff span:first-child{
+        margin-top:0;
+      }
+
+      .diffDeleted span{
+        border:1px solid rgb(255,192,192);
+        background:rgb(255,224,224);
+      }
+
+      .diffInserted span{
+        border:1px solid rgb(192,255,192);
+        background:rgb(224,255,224);
+      }
+
+      #toStringOutput{
+        margin:0 2em 2em;
+      }
+
+    </style>
 </head>
 <body style="height:100%">
     <!--[if lt IE 10]>
@@ -89,26 +131,14 @@ if  (!empty($_REQUEST['submit'])) {
         <?php if (! empty($oracle_says)) { ?>
         <div class="row">
           <div class="col-md-8 col-md-offset-2">
-            <pre id="display" style="text-align: left;"></pre>
+            <?php
+              // include the Diff class
+              require_once './class.Diff.php';
+              // output the result of comparing two files as a table
+              echo Diff::toTable(Diff::compare($_REQUEST['script'], $oracle_says));
+            ?>
           </div>
         </div>
-        <script src="diff.js"></script>
-        <script>
-          var one = <?php echo json_encode($_REQUEST['script']); ?>;
-          var other = <?php echo json_encode($oracle_says); ?>;
-          var diff = JsDiff.diffLines(other, one);
-          diff.forEach(function(part){
-            // green for additions, red for deletions
-            // grey for common parts
-            var color = part.added ? 'green' :
-              part.removed ? 'red' : 'grey';
-            var span = document.createElement('span');
-            span.style.color = color;
-            span.appendChild(document
-              .createTextNode(part.value));
-            display.appendChild(span);
-          });
-        </script>
         <?php } ?>
         <form role="form" id="login-form" action="" method="POST" class="row">
         <div class="form-group col-md-6">
