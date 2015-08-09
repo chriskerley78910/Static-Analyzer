@@ -1,17 +1,18 @@
 <?php
 session_start();
 
-$ORACLE_PATH = "oracle";
+$ORACLE = "/cs/home/cse11011/www/3311/oracle/oracle";
 $alerts = array();
 
 function run_oracle($script, $expected) {
-  $script_file = tempnam(sys_get_temp_dir(), '3311-Oracle-script');
+  global $ORACLE;
+  $script_file = tempnam(sys_get_temp_dir(), '3311-oracle-script');
 
   $script_handle = fopen($script_file, "w");
   fwrite($script_handle, $script);
   fclose($script_handle);
 
-  $output = shell_exec($ORACLE_PATH . ' -b ' . $script_file);
+  $output = shell_exec($ORACLE . ' -b ' . $script_file . ' 2>&1');
 
   unlink($script_file);
 
