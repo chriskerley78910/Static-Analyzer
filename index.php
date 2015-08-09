@@ -126,11 +126,10 @@ if  (!empty($_REQUEST['submit'])) {
            }
           ?>
         </div>
-        <div class="jumbotron" style="height:75%;position:relative;">
-        <?php if (empty($error)) { ?>
         <?php if (! empty($oracle_says)) { ?>
         <div class="row">
           <div class="col-md-8 col-md-offset-2">
+          <span><h3 style="text-align:center">YOU vs. ORACLE</h3></span>
           <div style="display:table;text-align:left;margin-left:auto;margin-right:auto">
             <?php
               // include the Diff class
@@ -142,6 +141,8 @@ if  (!empty($_REQUEST['submit'])) {
           </div>
         </div>
         <?php } ?>
+        <div class="jumbotron" style="height:75%;position:relative;">
+        <?php if (empty($error)) { ?>
         <form role="form" id="login-form" action="" method="POST" class="row">
         <div class="form-group col-md-6">
             <div class="input-group input-group-lg">
