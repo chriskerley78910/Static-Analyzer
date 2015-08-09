@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$ORACLE = "echo /cs/home/cse11011/www/3311/oracle/oracle";
+$ORACLE = "/cs/home/cse11011/www/3311/oracle/oracle";
 $alerts = array();
 
 function run_oracle($script, $expected) {
@@ -131,12 +131,14 @@ if  (!empty($_REQUEST['submit'])) {
         <?php if (! empty($oracle_says)) { ?>
         <div class="row">
           <div class="col-md-8 col-md-offset-2">
+          <div style="display:table;text-align:left;margin-left:auto;margin-right:auto">
             <?php
               // include the Diff class
-              require_once './class.Diff.php';
+              require_once 'class.Diff.php';
               // output the result of comparing two files as a table
-              echo Diff::toTable(Diff::compare(preg_replace('~\R~u', "\n", $_REQUEST['expected']);, $oracle_says));
+              echo Diff::toTable(Diff::compare(preg_replace('~\R~u', "\n", $_REQUEST['expected']), $oracle_says));
             ?>
+          </div>
           </div>
         </div>
         <?php } ?>
