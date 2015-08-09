@@ -13,7 +13,7 @@ function run_oracle($script, $bin) {
   $script_handle = fopen($script_file, "w");
   fwrite($script_handle, $script);
   fclose($script_handle);
-
+  chmod($script_file, 0644);
   $output = shell_exec($bin . ' -b ' . $script_file . ' 2>&1');
 
   unlink($script_file);
