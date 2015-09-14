@@ -45,8 +45,16 @@ feature -- Tests
 		do
 			-- add your tests here
 			add_test (create {TEST_NIL_EXPRESSION}.make)
+			add_test (create {TEST_COMPOSITE}.make_test)
+			add_test (create {TEST_INTEGER_CONSTANT}.init)
+			add_test (create {TEST_BOOLEAN_CONSTANT}.init)
+			add_test (create {TEST_NEGATIVE}.init_tests)
+			add_test (create {TEST_PLUS}.init_tests)
+			add_test (create {TEST_BINARY_OP}.init_tests)
+			add_test (create {TEST_UNARY_OP}.init_tests)
+			add_test (create {TEST_SUM}.init_tests)
+			add_test (create {TEST_SET_ENUM}.init_tests)
 			-- add cluster for tests
-			-- add_test (create {MY_TEST}.make)
 		end
 
 feature -- Constructor
