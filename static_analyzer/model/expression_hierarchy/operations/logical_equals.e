@@ -16,13 +16,19 @@ end
 create
 	make
 
+
 feature -- constructors
 
 	make
 	do
-		--precursor
+		precursor
 	end
 
+feature -- equality
 
+	is_equal(other: LOGICAL_EQUALS): BOOLEAN
+	do
+		Result := precursor(other)
+	end
 
 end

@@ -21,9 +21,14 @@ feature -- constructors
 
 	make
 	do
-		--precursor
+		precursor
 	end
 
+feature -- equality
 
+	is_equal(other: LOGICAL_AND): BOOLEAN
+	do
+		Result := precursor(other)
+	end
 
 end

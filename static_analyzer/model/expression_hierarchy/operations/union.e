@@ -21,7 +21,14 @@ feature -- constructors
 
 	make
 	do
-		--precursor
+		precursor
+	end
+
+feature -- equality
+
+	is_equal(other: UNION): BOOLEAN
+	do
+		Result := precursor(other)
 	end
 
 end

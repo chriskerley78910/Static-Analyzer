@@ -45,7 +45,6 @@ feature -- Tests
 		do
 			-- add your tests here
 			add_test (create {TEST_NIL_EXPRESSION}.make)
-			add_test (create {TEST_COMPOSITE}.make_test)
 			add_test (create {TEST_INTEGER_CONSTANT}.init)
 			add_test (create {TEST_BOOLEAN_CONSTANT}.init)
 			add_test (create {TEST_NEGATIVE}.init_tests)
@@ -54,6 +53,21 @@ feature -- Tests
 			add_test (create {TEST_UNARY_OP}.init_tests)
 			add_test (create {TEST_SUM}.init_tests)
 			add_test (create {TEST_SET_ENUM}.init_tests)
+--			add_test (create {TEST_DIFFERENCE}.init_tests)
+--			add_test (create {TEST_DIVIDES}.init_tests)
+--			add_test (create {TEST_EXISTS}.init_tests)
+--			add_test (create {TEST_FORALL}.init_tests)
+--			add_test (create {TEST_GREATER_THAN}.init_tests)
+--			add_test (create {TEST_INTERSECT}.init_tests)
+--			add_test (create {TEST_LESS_THAN}.init_tests)
+--			add_test (create {TEST_LOGICAL_AND}.init_tests)
+--			add_test (create {TEST_LOGICAL_EQUALS}.init_tests)
+--			add_test (create {TEST_LOGICAL_IMPLIES}.init_tests)
+--			add_test (create {TEST_LOGICAL_OR}.init_tests)
+--			add_test (create {TEST_MINUS}.init_tests)
+--			add_test (create {TEST_NEGATION}.init_tests)
+--			add_test (create {TEST_TIMES}.init_tests)
+--			add_test (create {TEST_UNION}.init_tests)
 			-- add cluster for tests
 		end
 

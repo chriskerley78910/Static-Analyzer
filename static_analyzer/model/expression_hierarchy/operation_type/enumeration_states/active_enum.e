@@ -37,6 +37,15 @@ feature -- commands
 		 end
 	end
 
+	reactivate
+		-- makes this inactive enum active again.
+	do
+		-- does nothing, should be an error.
+	ensure then
+		cant_reactivate_new_enum:
+		False
+	end
+
 	close
 		-- closes this open enum.
 	do

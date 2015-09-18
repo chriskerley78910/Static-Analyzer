@@ -20,6 +20,8 @@ feature -- creation
 			add_boolean_case (agent test_set_enum_active_state_close)
 			add_violation_case_with_tag ("postive_non_nil_count",agent test_set_enum_active_state_close_add)
 			add_boolean_case (agent test_set_enum_active_state_add_composite)
+			add_violation_case_with_tag ("no_nil_decendants",agent test_set_enum_reactivate_state_violation)
+			add_boolean_case (agent test_set_enum_reactivate_state_good)
 	end
 
 feature -- unit tests
@@ -94,5 +96,42 @@ feature -- unit tests
 		Result := across set_enum as cur all attached {PLUS}cur.item  end
 		check Result end
 	end
+
+	test_set_enum_reactivate_state_violation
+		-- makes sure a enum cannot be reactivated unless all decendants are full specified.
+	local
+		set_enum: SET_ENUMERATION
+		plus: PLUS
+	do
+		comment("t5: test the reactivate feature of set enumeration.")
+		create set_enum.make
+
+		create plus.make
+		plus.add_operand (create {INTEGER_CONSTANT}.make (3))
+		-- add plus
+		set_enum.enter_element (plus)
+		-- try to reactivate enum (should fail because a plus operand is nil)
+		set_enum.reactivate
+	end
+
+	test_set_enum_reactivate_state_good:BOOLEAN
+	local
+		set_enum: SET_ENUMERATION
+		plus: PLUS
+	do
+		comment("t6: test the reactivate feature of set enumeration.")
+		create set_enum.make
+
+		create plus.make
+		plus.add_operand (create {INTEGER_CONSTANT}.make (3))
+		plus.add_operand (create {INTEGER_CONSTANT}.make (4))
+		-- add plus
+		set_enum.enter_element (plus)
+		-- try to reactivate enum (should passs because all operands are full)
+		set_enum.reactivate
+		Result := set_enum.count = 2
+		check Result end
+	end
+
 
 end

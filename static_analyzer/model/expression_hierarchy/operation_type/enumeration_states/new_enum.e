@@ -40,7 +40,16 @@ feature -- commands
 
 		element_is_nil:
 		across context as cur all attached {NIL_EXPRESSION}cur.item end
-		
+
+
+	end
+
+	reactivate
+	do
+		-- do Nothing.
+	ensure then
+		cant_reactivate_new_enum:
+		False
 	end
 
 	close

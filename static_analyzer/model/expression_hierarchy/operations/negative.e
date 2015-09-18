@@ -29,7 +29,7 @@ feature -- equality
 
 	is_equal(other: NEGATIVE):BOOLEAN
 	do
-		Result := elements[1] ~ other.elements[1]
+		Result := precursor(other)
 		-- Result := true -- Bad implementation
 	end
 

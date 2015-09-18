@@ -19,10 +19,18 @@ create
 
 feature -- constructors
 
+feature -- constructors
+
 	make
 	do
-		--precursor
+		precursor
 	end
 
+feature -- equality
+
+	is_equal(other: INTERSECT): BOOLEAN
+	do
+		Result := precursor(other)
+	end
 
 end

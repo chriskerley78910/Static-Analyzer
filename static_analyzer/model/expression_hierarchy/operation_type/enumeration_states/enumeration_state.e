@@ -17,6 +17,13 @@ feature -- commmands
 		-- adds new expression to this enumeration.
 	deferred end
 
+	reactivate
+		-- makes this inactive enum active again.
+	require
+		current_is_inactive:
+		attached {INACTIVE_ENUM}current
+	deferred end
+
 	close
 	deferred end
 

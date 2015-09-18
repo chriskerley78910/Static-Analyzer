@@ -22,14 +22,10 @@ feature -- constructors
 
 feature -- commands
 
-
-
-
 	add(e:EXPRESSION)
 		-- adds the expression to this enumeration.
 	require ELSE
-		no_nil_decendants:
-		not has_nil_decendants
+
 	do
 
 		-- nil member -> (open active enum ^ unfilled composite)
@@ -38,29 +34,29 @@ feature -- commands
 		-- else violation.
 	end
 
+	reactivate
+		-- makes this inactive enum active again.
+	do
+		 context.elements.forth
+		 context.elements.force(create {NIL_EXPRESSION}.make)
+		 context.set_state (create {ACTIVE_ENUM}.make(context))
+	ensure then
+		no_nil_decendants:
+		across
+			context as cur
+		all
+			attached {COMPOSITE_EXPRESSION}cur.item as item implies not has_nil_decend(item)
+		end
+	end
+
+
 	close
 		-- closes this open enum.
 	do
 		--context.set_state (create {CLOSED_ENUM}.make(context))
 	end
 
-feature {NONE} -- auxilary queries
-
-	has_nil_decendants: BOOLEAN
-		-- checks is this enum has descendants which are nil.
-	do
-		Result := False
-		across
-			context as cur
-		loop
-			if attached {COMPOSITE_EXPRESSION}cur.item as comp then
-				Result := has_nil_decend(comp)
-			elseif attached {NIL_EXPRESSION}cur.item then  -- all element at the current level should be non-nil
-				Result := True
-			end
-		end
-
-	end
+feature -- auxilary queries
 
 	has_nil_decend(e:COMPOSITE_EXPRESSION):BOOLEAN
 	do

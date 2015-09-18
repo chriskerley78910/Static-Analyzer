@@ -30,6 +30,15 @@ feature -- commands
 		False
 	end
 
+	reactivate
+		-- error
+	do
+		-- does nothing, should be an error.
+	ensure then
+		cant_reactivate_new_enum:
+		False
+	end
+
 	close
 		-- can't close a set enumeration that's already closed
 	do

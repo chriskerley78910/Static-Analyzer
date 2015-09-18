@@ -48,6 +48,12 @@ feature -- commands
 		not attached {COMPOSITE_EXPRESSION}e implies state.count = old state.count + 1
 	end
 
+	reactivate
+		-- reactivates the enumeration if it is inactive.
+	do
+		state.reactivate
+	end
+
 	-- so from the state, I call add on the composite add feature which is visible to all.
 
 	close
