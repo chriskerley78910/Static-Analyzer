@@ -62,4 +62,10 @@ feature -- equality
 		-- Result := False -- Bad implementation to test post-condition.
 	end
 
+feature -- visitor
+
+	accept(v:VISITOR)
+	do
+		v.visit_bool_const(current)
+	end
 end

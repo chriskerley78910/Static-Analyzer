@@ -31,4 +31,10 @@ feature -- equality
 	do
 		Result := precursor(other)
 	end
+
+feature -- visitor
+	accept(v:VISITOR)
+	do
+		v.visit_plus(current)
+	end
 end

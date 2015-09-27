@@ -28,4 +28,10 @@ feature -- comparison
 	do
 		Result := attached {NIL_EXPRESSION}other
 	end
+
+feature -- visitor
+	accept(v:VISITOR)
+	do
+		v.visit_nil(current)
+	end
 end

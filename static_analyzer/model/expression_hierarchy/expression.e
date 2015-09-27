@@ -18,4 +18,7 @@ feature -- deferred features
 	is_equal(other: EXPRESSION): BOOLEAN
 	deferred end
 
+	accept(v: VISITOR)
+	deferred end
+
 end

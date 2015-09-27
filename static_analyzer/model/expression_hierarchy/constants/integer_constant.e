@@ -66,4 +66,10 @@ feature -- comparison
 		value_same:
 		value = old value
 	end
+
+feature -- visitor
+	accept(v:VISITOR)
+	do
+		v.visit_int_const(current)
+	end
 end

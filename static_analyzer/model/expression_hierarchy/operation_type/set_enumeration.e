@@ -79,4 +79,10 @@ feature -- equality
 		Result := precursor(other)
 	end
 
+feature -- visitor
+	accept(v:VISITOR)
+	do
+		v.visit_set_enum(current)
+	end
+
 end

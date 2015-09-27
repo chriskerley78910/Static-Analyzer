@@ -33,4 +33,10 @@ feature -- equality
 		-- Result := true -- Bad implementation
 	end
 
+feature -- visitor
+	accept(v:VISITOR)
+	do
+		v.visit_negative(current)
+	end
+
 end
