@@ -6,6 +6,11 @@ note
 
 deferred class
 	VISITOR
+inherit
+	ANY
+undefine
+	out
+end
 
 feature
 

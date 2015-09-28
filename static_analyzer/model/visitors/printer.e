@@ -6,35 +6,56 @@ note
 
 class
 	PRINTER
+inherit
+	VISITOR
+	ANY
+redefine
+	out
+end
+create
+	new_printer
+
+feature -- creation features
+
+	new_printer
+	do
+		create string.make_empty
+	end
+
+feature {NONE}
+
+	string:STRING
 
 feature
 
+	visit_bool_const(e: BOOLEAN_CONSTANT)
+	do
+		string.append (e.get_state.out)
+	end
 
+	visit_nil(e: NIL_EXPRESSION)
+	do end
+
+	visit_int_const(e: INTEGER_CONSTANT)
+	do end
+
+	visit_plus(e: PLUS)
+	do end
+
+	visit_sum(e: SUM)
+	do end
+
+	visit_negative(e: NEGATIVE)
+	do end
+
+	visit_set_enum(e: SET_ENUMERATION)
+	do end
 
 feature
 
---	visit_bool_const(e: BOOLEAN_CONSTANT)
---	do
-
---	end
-
---	visit_nil(e: NIL_EXPRESSION)
---	deferred end
-
---	visit_int_const(e: INTEGER_CONSTANT)
---	deferred end
-
---	visit_plus(e: PLUS)
---	deferred end
-
---	visit_sum(e: SUM)
---	deferred end
-
---	visit_negative(e: NEGATIVE)
---	deferred end
-
---	visit_set_enum(e: SET_ENUMERATION)
---	deferred end
-
+	out: STRING
+	do
+		Result := string.out
+	end
 
 end

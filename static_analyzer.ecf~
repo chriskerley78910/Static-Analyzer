@@ -93,11 +93,17 @@
 			<file_rule>
 				<exclude>^model/composite_expression/operations/arithmetic_operations$</exclude>
 			</file_rule>
-			<cluster name="enumeration_state" location="\home\chris\Play\Static_Analyzer\static_analyzer\model\expression_hierarchy\operation_type\enumeration_state\"/>
 		</cluster>
 		<cluster name="tests" location=".\tests\" recursive="true">
 			<option void_safety="all" syntax="standard">
 			</option>
+			<file_rule>
+				<exclude>^unit/student/operations$</exclude>
+			</file_rule>
+			<file_rule>
+				<exclude>^unit/student/expression_hierarchy/type$</exclude>
+			</file_rule>
+			<cluster name="visitors" location="\home\chris\Play\Static_Analyzer\tests\unit\student\visitors\"/>
 		</cluster>
 	</target>
 </system>
