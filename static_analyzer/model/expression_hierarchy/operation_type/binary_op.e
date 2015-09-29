@@ -52,6 +52,30 @@ feature -- commands
 		or	(elements.i_th (2) ~ e implies elements[1] ~ old elements[1])
 	end
 
+feature -- queries
+
+	get_left:EXPRESSION
+		-- returns the left operand.		
+	do
+		Result := elements.i_th (1)
+
+	ensure
+	rest_unchanged:
+	old elements ~ elements
+
+	end
+
+	get_right:EXPRESSION
+		-- returns the right operand.
+	do
+		Result := elements.i_th (2)
+
+	ensure
+	rest_unchanged:
+	old elements ~ elements
+
+	end
+
 feature -- aux queries
 
 	is_equal(other: BINARY_OP): BOOLEAN
@@ -59,4 +83,5 @@ feature -- aux queries
 	do
 	 	Result := precursor(other)
 	end
+
 end

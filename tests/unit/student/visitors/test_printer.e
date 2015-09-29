@@ -16,6 +16,7 @@ feature
 	do
 		add_boolean_case (agent test_printer_creation)
 		add_boolean_case (agent test_printer_bool_const)
+		add_boolean_case (agent test_printer_plus)
 	end
 
 feature
@@ -50,6 +51,25 @@ feature
 		bc.accept (p)
 		Result := p.out.is_equal ("False")
 		check Result end
+
+	end
+
+	test_printer_plus: BOOLEAN
+	local
+		p:PRINTER
+		plus: PLUS
+	do
+		comment("t2 - test printing a PLUS")
+		create p.new_printer
+		Result := p.out.is_equal ("")
+		check Result end
+
+		create plus.make
+		plus.add_operand (create {BOOLEAN_CONSTANT}.make (True))
+		plus.add_operand (create {INTEGER_CONSTANT}.make (4))
+		plus.accept (p)
+		Result := p.out.is_equal ("(True + 4)")
+		Check Result end
 
 	end
 
