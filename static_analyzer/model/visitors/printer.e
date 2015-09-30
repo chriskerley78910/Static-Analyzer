@@ -20,16 +20,14 @@ feature -- creation features
 	new_printer
 	do
 		create string.make_empty
+		passed_first_nil := false
 	end
 
 feature {NONE}
 
 	string:STRING
 
-	visit_expression(e: EXPRESSION)
-	do
-		-- it attached PLUS
-	end
+	passed_first_nil:BOOLEAN
 
 feature
 
@@ -40,7 +38,11 @@ feature
 
 	visit_nil(e: NIL_EXPRESSION)
 	do
-		string.append ("nil")
+		if passed_first_nil = True then
+			string.append ("nil")
+		else
+			string.append ("?")
+		end
 	end
 
 	visit_int_const(e: INTEGER_CONSTANT)
@@ -50,8 +52,11 @@ feature
 
 	visit_plus(e: PLUS)
 	do
-		string.append ("(" + e.get_left.out + "+" + e.get_right.out + ")")
-		-- should be recursively calling printer.
+		string := string + "("
+		e.get_left.accept (current)  -- this call the appropriate print feature on this printer.
+		string := string + " + "
+		e.get_right.accept (current)
+		string := string + ")"
 	end
 
 	visit_sum(e: SUM)

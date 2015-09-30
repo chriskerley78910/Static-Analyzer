@@ -3,18 +3,18 @@
 <base target="main">
 </head>
 <body>
-<p align="center"><b>Test Run:09/29/2015   4:26:40.605 PM</b></p><font color="blue"><H2  align="center">ROOT</H2></font><p align="center">Note: * indicates a violation test case</p>
+<p align="center"><b>Test Run:09/30/2015   4:03:38.372 PM</b></p><font color="blue"><H2  align="center">ROOT</H2></font><p align="center">Note: * indicates a violation test case</p>
 <table border=1 align="center">
-<tr><td bgcolor="#FF0000" colspan="3">&nbsp;</td></tr><tr><td align="center" colspan="3">FAILED (1 failed & 28 passed out of 29)</td></tr>
+<tr><td bgcolor="#FF0000" colspan="3">&nbsp;</td></tr><tr><td align="center" colspan="3">FAILED (2 failed & 28 passed out of 30)</td></tr>
 <tr><td align="center" bgcolor="#000080"><font color="#FFCC00"><b>Case Type</b></font></td>
 <td align="center" bgcolor="#000080"><font color="#FFCC00"><b>Passed</b></font></td>
 <td align="center" bgcolor="#000080"><font color="#FFCC00"><b>Total</b></font></td></tr>
 <tr><td align="center"><font color="blue"><b>Violation</b></font></td>
 <td align="center">4</td><td align="center">4</td></tr>
 <tr><td align="center"><font color="blue"><b>Boolean</b></font></td>
-<td align="center">24</td><td align="center">25</td></tr>
+<td align="center">24</td><td align="center">26</td></tr>
 <tr><td align="center"><font color="blue"><b>All Cases</b></font></td>
-<td align="center">28</td><td align="center">29</td></tr>
+<td align="center">28</td><td align="center">30</td></tr>
 <tr><td align="center" bgcolor="#000080"><font color="#FFCC00"><b>State</b></font></td>
 <td align="center" bgcolor="#000080"><font color="#FFCC00"><b>Contract Violation</b></font></td>
 <td align="center" bgcolor="#000080"><font color="#FFCC00"><b>Test Name</b></font></td></tr>
@@ -132,7 +132,7 @@
 <td>t6: test the reactivate feature of set enumeration.</td>
 </tr>
 <tr><td bgcolor="#008080" align="center"><font color="#FFCC00"><b>Test10</b></font></td>
-<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_PRINTER</font></td></tr><tr><td><font color="green"><b>PASSED</b></font></td>
+<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_PRINTER</font></td></tr><tr><td><font color="red"><b>FAILED</b></font></td>
 <td align="center">NONE</td>
 <td>t0 - test the creation of a new PRINTER object.</td>
 </tr>
@@ -140,9 +140,13 @@
 <td align="center">NONE</td>
 <td>t1 - test printing a boolean constant.</td>
 </tr>
-<tr><td><font color="red"><b>FAILED</b></font></td>
-<td align="center">Check assertion violated.</td>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
 <td>t2 - test printing a PLUS</td>
+</tr>
+<tr><td><font color="red"><b>FAILED</b></font></td>
+<td align="center">NONE</td>
+<td>t3 - test printing a PLUS with a missing operand - should show question mark</td>
 </tr>
 </table></body>
 </html>

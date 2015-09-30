@@ -17,6 +17,7 @@ feature
 		add_boolean_case (agent test_printer_creation)
 		add_boolean_case (agent test_printer_bool_const)
 		add_boolean_case (agent test_printer_plus)
+		add_boolean_case (agent test_printer_plus_question_mark)
 	end
 
 feature
@@ -27,7 +28,7 @@ feature
 	do
 		comment("t0 - test the creation of a new PRINTER object.")
 		create p.new_printer
-		Result := p.out.is_equal ("")
+		Result := p.out.is_equal ("?")
 
 	end
 
@@ -71,6 +72,21 @@ feature
 		Result := p.out.is_equal ("(True + 4)")
 		Check Result end
 
+	end
+
+	test_printer_plus_question_mark: BOOLEAN
+	local
+		p:PRINTER
+		plus: PLUS
+	do
+		comment("t3 - test printing a PLUS with a missing operand - should show question mark")
+		create p.new_printer
+		Result := p.out.is_equal ("")
+		check Result end
+
+		create plus.make
+		plus.accept (p)
+		Result := p.out.is_equal ("(? + nil)")
 	end
 
 end
