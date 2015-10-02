@@ -18,6 +18,9 @@ feature
 		add_boolean_case (agent test_printer_bool_const)
 		add_boolean_case (agent test_printer_plus)
 		add_boolean_case (agent test_printer_plus_question_mark)
+		add_boolean_case (agent test_printer_sum)
+		add_boolean_case (agent test_printer_enum)
+
 	end
 
 feature
@@ -25,9 +28,12 @@ feature
 	test_printer_creation: BOOLEAN
 	local
 		p:PRINTER
+		e: NIL_EXPRESSION
 	do
 		comment("t0 - test the creation of a new PRINTER object.")
 		create p.new_printer
+		create e.make
+		e.accept (p)
 		Result := p.out.is_equal ("?")
 
 	end
@@ -87,6 +93,53 @@ feature
 		create plus.make
 		plus.accept (p)
 		Result := p.out.is_equal ("(? + nil)")
+		check Result end
+		plus.add_operand (create {BOOLEAN_CONSTANT}.make (True) )
+
+		p.new_printer
+		plus.accept (p)
+		Result := p.out.is_equal ("(True + ?)")
+		check Result end
+	end
+
+	test_printer_sum: BOOLEAN
+	local
+		p:PRINTER
+		sum: SUM
+	do
+		comment("t4 - test printing a SUM")
+		create p.new_printer
+		Result := p.out.is_equal ("")
+		check Result end
+
+		create sum.make
+		sum.accept (p)
+		Result := p.out ~ "(+ ?)"
+
+		p.new_printer
+		sum.add_operand (create {PLUS}.make)
+		sum.accept (p)
+		Result := p.out ~ "(+ (? + nil))"
+	end
+
+	test_printer_enum: BOOLEAN
+	local
+		p:PRINTER
+		sum: SUM
+	do
+		comment("t4 - test printing a SUM")
+		create p.new_printer
+		Result := p.out.is_equal ("")
+		check Result end
+
+		create sum.make
+		sum.accept (p)
+		Result := p.out ~ "(+ ?)"
+
+		p.new_printer
+		sum.add_operand (create {PLUS}.make)
+		sum.accept (p)
+		Result := p.out ~ "(+ (? + nil))"
 	end
 
 end

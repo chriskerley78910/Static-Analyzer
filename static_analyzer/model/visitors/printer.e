@@ -29,6 +29,26 @@ feature {NONE}
 
 	passed_first_nil:BOOLEAN
 
+	visit_binary_op(e:BINARY_OP;c:CHARACTER)
+	do
+		string := string + "("
+		e.get_left.accept (current)  -- this call the appropriate print feature on this printer.
+		string := string + " "
+	    string.append_character (c)
+		string := string + " "
+		e.get_right.accept (current)
+		string := string + ")"
+	end
+
+	visit_unary_op(e:UNARY_OP;c:CHARACTER)
+	do
+		string := string + "("
+		string.append_character (c)
+		string := string + " "
+		e.get_operand.accept (current)  -- this call the appropriate print feature on this printer.
+		string := string + ")"
+	end
+
 feature
 
 	visit_bool_const(e: BOOLEAN_CONSTANT)
@@ -42,6 +62,7 @@ feature
 			string.append ("nil")
 		else
 			string.append ("?")
+			passed_first_nil := True
 		end
 	end
 
@@ -52,15 +73,13 @@ feature
 
 	visit_plus(e: PLUS)
 	do
-		string := string + "("
-		e.get_left.accept (current)  -- this call the appropriate print feature on this printer.
-		string := string + " + "
-		e.get_right.accept (current)
-		string := string + ")"
+		visit_binary_op(e,'+')
 	end
 
 	visit_sum(e: SUM)
-	do end
+	do
+		visit_unary_op(e,'+')
+	end
 
 	visit_negative(e: NEGATIVE)
 	do end

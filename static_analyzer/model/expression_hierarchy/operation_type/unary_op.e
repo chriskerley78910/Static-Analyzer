@@ -42,6 +42,13 @@ feature -- commands
 		elements.i_th (1) = e
 	end
 
+feature -- queries
+
+	get_operand: EXPRESSION
+	do
+		Result := elements.i_th (1)
+	end
+
 	is_equal(other: UNARY_OP): BOOLEAN
 	 	-- check that other is a unary op and has the same elements.
 	do
