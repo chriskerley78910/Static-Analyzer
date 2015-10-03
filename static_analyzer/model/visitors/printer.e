@@ -49,6 +49,8 @@ feature {NONE}
 		string := string + ")"
 	end
 
+
+
 feature
 
 	visit_bool_const(e: BOOLEAN_CONSTANT)
@@ -85,7 +87,19 @@ feature
 	do end
 
 	visit_set_enum(e: SET_ENUMERATION)
-	do end
+	do
+	string := string + "{"
+	across
+		e as cur
+	loop
+		cur.item.accept (current)
+		if (not attached {NIL_EXPRESSION}cur.item) and (not e.is_inactive) then
+		    string := string + ","
+		end
+
+	end
+	string := string + "}"
+	end
 
 feature
 

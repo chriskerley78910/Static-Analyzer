@@ -79,6 +79,11 @@ feature -- equality
 		Result := precursor(other)
 	end
 
+	is_inactive:BOOLEAN
+	do
+		Result := attached {INACTIVE_ENUM}state
+	end
+
 feature -- visitor
 	accept(v:VISITOR)
 	do

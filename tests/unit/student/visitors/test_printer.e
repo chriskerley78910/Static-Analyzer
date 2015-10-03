@@ -126,20 +126,27 @@ feature
 	local
 		p:PRINTER
 		sum: SUM
+		enum: SET_ENUMERATION
 	do
-		comment("t4 - test printing a SUM")
+		comment("t5 - test printing a enumeration")
 		create p.new_printer
 		Result := p.out.is_equal ("")
 		check Result end
 
-		create sum.make
-		sum.accept (p)
-		Result := p.out ~ "(+ ?)"
 
 		p.new_printer
-		sum.add_operand (create {PLUS}.make)
-		sum.accept (p)
-		Result := p.out ~ "(+ (? + nil))"
+		create enum.make
+		enum.enter_element (create {INTEGER_CONSTANT}.make (4))
+		enum.accept (p)
+		Result := p.out ~ "{4,?}"
+		check Result end
+
+		p.new_printer
+		create sum.make
+		enum.enter_element (sum)
+		enum.accept (p)
+		Result := p.out ~ "{4,(+ ?)}"
+
 	end
 
 end
