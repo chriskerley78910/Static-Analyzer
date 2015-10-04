@@ -84,6 +84,11 @@ feature -- equality
 		Result := attached {INACTIVE_ENUM}state
 	end
 
+	is_active: BOOLEAN
+	do
+		Result := attached {ACTIVE_ENUM}state
+	end
+
 feature -- visitor
 	accept(v:VISITOR)
 	do

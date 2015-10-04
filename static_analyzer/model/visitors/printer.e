@@ -93,12 +93,32 @@ feature
 		e as cur
 	loop
 		cur.item.accept (current)
-		if (not attached {NIL_EXPRESSION}cur.item) and (not e.is_inactive) then
-		    string := string + ","
+		-- {4,(? + nil)}
+		--
+		if attached {SET_ENUMERATION}cur.item as enum then
+			visit_set_enum(enum)
+		elseif attached {PLUS}cur.item as plus then
+			visit_plus(plus)
 		end
-
 	end
 	string := string + "}"
+	end
+
+	nil_decendant(e: COMPOSITE_EXPRESSION): BOOLEAN
+	do
+		across
+			e as cur
+		loop
+			if (not attached {SET_ENUMERATION}cur.item) and attached {NIL_EXPRESSION}cur.item then
+				Result := True
+			elseif attached {SET_ENUMERATION}cur.item as item then
+				if item.is_active then
+					Result := True
+				end
+			elseif attached {COMPOSITE_EXPRESSION}cur.item as d then
+				Result := nil_decendant(d)
+			end
+		end
 	end
 
 feature
