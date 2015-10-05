@@ -89,6 +89,16 @@ feature -- equality
 		Result := attached {ACTIVE_ENUM}state
 	end
 
+	is_closed: BOOLEAN
+	do
+		Result := attached {CLOSED_ENUM}state
+	end
+
+	get_element(i:INTEGER):EXPRESSION
+	do
+		Result := elements.i_th (i)
+	end
+
 feature -- visitor
 	accept(v:VISITOR)
 	do

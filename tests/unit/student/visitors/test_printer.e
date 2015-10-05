@@ -146,7 +146,25 @@ feature
 		enum.enter_element (sum)
 		enum.accept (p)
 		Result := p.out ~ "{4,(+ ?)}"
+		check Result end
 
+		sum.add_operand (create {BOOLEAN_CONSTANT}.make (True))
+		p.new_printer
+		enum.accept (p)
+		Result := p.out ~ "{4,(+ True)}"
+		check Result end
+
+		enum.reactivate
+		p.new_printer
+		enum.accept (p)
+		Result := p.out ~ "{4,(+ True),?}"
+		check Result end
+
+		enum.close
+		p.new_printer
+		enum.accept (p)
+		Result := p.out ~ "{4,(+ True)}"
+		check Result end
 	end
 
 end

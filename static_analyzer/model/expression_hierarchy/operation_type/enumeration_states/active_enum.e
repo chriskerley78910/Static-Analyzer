@@ -50,6 +50,8 @@ feature -- commands
 		-- closes this open enum.
 	do
 		context.set_state (create {CLOSED_ENUM}.make(context))
+		context.elements.move (context.elements.count)
+		-- left off here.
 	ensure then
 		postive_non_nil_count:
 			count >= 1
