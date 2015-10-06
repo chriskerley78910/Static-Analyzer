@@ -20,6 +20,7 @@ feature
 		add_boolean_case (agent test_printer_plus_question_mark)
 		add_boolean_case (agent test_printer_sum)
 		add_boolean_case (agent test_printer_enum)
+		add_boolean_case (agent test_printer_combination)
 
 	end
 
@@ -148,23 +149,49 @@ feature
 		Result := p.out ~ "{4,(+ ?)}"
 		check Result end
 
+		-- goes inactive upon entering composite
 		sum.add_operand (create {BOOLEAN_CONSTANT}.make (True))
 		p.new_printer
 		enum.accept (p)
 		Result := p.out ~ "{4,(+ True)}"
 		check Result end
 
+		-- manually reactiated
 		enum.reactivate
 		p.new_printer
 		enum.accept (p)
 		Result := p.out ~ "{4,(+ True),?}"
 		check Result end
 
+		-- manually close.
 		enum.close
 		p.new_printer
 		enum.accept (p)
 		Result := p.out ~ "{4,(+ True)}"
 		check Result end
+	end
+
+	test_printer_combination: BOOLEAN
+	local
+		p:PRINTER
+		enum: SET_ENUMERATION
+		sum: SUM
+		plus: PLUS
+		e: NIL_EXPRESSION
+	do
+		comment("t5 - test printing a complex combination")
+		create e.make
+		create p.new_printer
+		e.accept (p)
+		Result := p.out.is_equal ("?")
+		check False end										--- left here.
+
+		create sum.make
+		create enum.make
+		create plus.make
+
+		plus.add_operand (create {BOOLEAN_CONSTANT}.make (False))
+		plus.add_operand (create {INTEGER_CONSTANT}.make (8))
 	end
 
 end

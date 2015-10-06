@@ -48,14 +48,34 @@ feature -- commands
 
 	close
 		-- closes this open enum.
+	local
+		el:ARRAYED_LIST[EXPRESSION]
+		i: INTEGER
 	do
 		context.set_state (create {CLOSED_ENUM}.make(context))
-		context.elements.move (context.elements.count)
-		-- left off here.
+		-- remove the last nil
+
+		-- if the expression has more than one element and the last element is a nil expression
+		-- then remove it upon closing the enumeration.
+		if attached {NIL_EXPRESSION}context.elements.i_th(context.elements.upper) and count > 1 then
+			create el.make (context.elements.count-1)
+			from
+				i := context.elements.lower
+			until
+				i > context.elements.upper - 1
+			loop
+				el.go_i_th (i)
+				el.force (context.elements.i_th (i))
+				i := i + 1
+			end
+			context.elements.wipe_out
+			context.elements.copy (el)
+		end
+
 	ensure then
 		postive_non_nil_count:
 			count >= 1
-		and across context as cur some attached {CONSTANT}cur.item or attached {COMPOSITE_EXPRESSION}cur.item end
+		and across context as cur some not attached {NIL_EXPRESSION}cur.item end
 	end
 
 end
