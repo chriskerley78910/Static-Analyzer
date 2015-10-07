@@ -184,7 +184,7 @@ feature
 		create p.new_printer
 		e.accept (p)
 		Result := p.out.is_equal ("?")
-		check False end										--- left here.
+		check Result end										--- left here.
 
 		create sum.make
 		create enum.make
@@ -192,6 +192,14 @@ feature
 
 		plus.add_operand (create {BOOLEAN_CONSTANT}.make (False))
 		plus.add_operand (create {INTEGER_CONSTANT}.make (8))
+		enum.enter_element (create {INTEGER_CONSTANT}.make (1))
+		enum.enter_element (plus)
+		enum.close
+		sum.add_operand (enum)
+		p.new_printer
+		sum.accept (p)
+		Result := p.out ~ "(+ {1,(False + 8)})"
+		check Result end
 	end
 
 end

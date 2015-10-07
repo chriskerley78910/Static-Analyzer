@@ -70,6 +70,7 @@ feature -- Tests
 --			add_test (create {TEST_UNION}.init_tests)
 
 			add_test (create {TEST_PRINTER}.init_tests)
+			add_test (create {TEST_TYPE_CHECKER}.init_tests)
 			-- add cluster for tests
 		end
 
