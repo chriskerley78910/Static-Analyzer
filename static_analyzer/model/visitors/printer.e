@@ -86,6 +86,11 @@ feature
 	visit_negative(e: NEGATIVE)
 	do end
 
+	visit_negation(e: NEGATION)
+	do
+		visit_unary_op(e,'!')
+	end
+
 	visit_set_enum(e: SET_ENUMERATION)
 	local
 		i: INTEGER

@@ -35,4 +35,7 @@ feature
 	visit_set_enum(e: SET_ENUMERATION)
 	deferred end
 
+	visit_negation(e: NEGATION)
+	deferred end
+
 end

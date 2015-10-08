@@ -12,7 +12,8 @@ inherit
 	UNARY_OP
 
 redefine
-	make
+	make,
+	is_equal
 end
 
 create
@@ -32,4 +33,9 @@ feature -- equality
 		Result := precursor(other)
 	end
 
+feature -- visitor
+	accept(v:VISITOR)
+	do
+		v.visit_negation(current)
+	end
 end

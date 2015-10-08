@@ -18,15 +18,23 @@ feature -- constructors
 		value := True
 	end
 
-	out:STRING
-	do
-		Result := ""
-	end
+feature {NONE} -- attributes
 
 	value:BOOLEAN
 
+feature -- queries
 
-feature -- basically check that a formula is type correct.
+	out:STRING
+	do
+		Result := value.out
+	end
+
+	get_value:BOOLEAN
+	do
+		Result := value
+	end
+
+feature {NONE} -- basically check that a formula is type correct.
 
 	-- type rules?  - return types
 	-- arithmetic type
@@ -59,26 +67,32 @@ feature -- basically check that a formula is type correct.
 		type_check(e:COMPOSITE_EXPRESSION):BOOLEAN
 		do
 			if attached {ARITHMETIC_TYPE}e then
+			Result :=
 				across
-					e as cur
-				loop
-					if not attached {ARITHMETIC_TYPE}cur then
-						Result := False
-					end
+					e as c
+				all
+					attached {ARITHMETIC_TYPE}c.item
 				end
+			elseif attached {LOGICAL_TYPE}e then
+			Result :=
+				across
+					e as c
+				all
+					attached {LOGICAL_TYPE}c.item
+				end
+
 			end
-
-
 		end
 
+feature -- visitors
 
 		visit_bool_const(e: BOOLEAN_CONSTANT)
 		do
-			end
+		end
 
 		visit_nil(e: NIL_EXPRESSION)
 		do
-			end
+		end
 
 		visit_int_const(e: INTEGER_CONSTANT)
 		do
@@ -96,6 +110,11 @@ feature -- basically check that a formula is type correct.
 
 		visit_negative(e: NEGATIVE)
 		do
+		end
+
+		visit_negation(e: NEGATION)
+		do
+			value := type_check(e)
 		end
 
 		visit_set_enum(e: SET_ENUMERATION)
