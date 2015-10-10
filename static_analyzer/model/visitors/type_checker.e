@@ -66,6 +66,7 @@ feature {NONE} -- basically check that a formula is type correct.
 
 		type_check(e:COMPOSITE_EXPRESSION):BOOLEAN
 		do
+
 			if attached {ARITHMETIC_TYPE}e then
 			Result :=
 				across
@@ -80,23 +81,34 @@ feature {NONE} -- basically check that a formula is type correct.
 				all
 					attached {LOGICAL_TYPE}c.item
 				end
-
+			elseif attached {SET_TYPE}e then
+				Result :=
+					across
+						e as c
+					all
+						attached {SET_ENUMERATION}c.item
+					end
+				end
 			end
-		end
 
 feature -- visitors
 
 		visit_bool_const(e: BOOLEAN_CONSTANT)
 		do
+			-- do nothing.
 		end
 
 		visit_nil(e: NIL_EXPRESSION)
 		do
+			-- should be an error, type can't be correct if nothing there,
+		ensure then
+			nil_never_type_correct:
+			False
 		end
 
 		visit_int_const(e: INTEGER_CONSTANT)
 		do
-
+			-- do nothing.
 		end
 
 		visit_plus(e: PLUS)
@@ -106,10 +118,12 @@ feature -- visitors
 
 		visit_sum(e: SUM)
 		do
+			value := type_check(e)
 		end
 
 		visit_negative(e: NEGATIVE)
 		do
+			value := type_check(e)
 		end
 
 		visit_negation(e: NEGATION)
@@ -119,6 +133,7 @@ feature -- visitors
 
 		visit_set_enum(e: SET_ENUMERATION)
 		do
+			value := type_check(e)
 		end
 
 	end

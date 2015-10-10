@@ -16,8 +16,10 @@ feature -- constructors.
 	init_tests
 	do
 		add_boolean_case (agent test_type_check_creation)
-		add_boolean_case (agent test_type_check_incorrect_type)
-		add_boolean_case (agent test_type_check_negation)
+		add_violation_case_with_tag ("nil_never_type_correct", agent test_type_check_nil)
+		add_boolean_case (agent test_type_check_logical)
+		add_boolean_case (agent test_type_check_arithmetic)
+		add_boolean_case (agent test_type_check_set_enum)
 	end
 
 feature -- tests
@@ -40,33 +42,26 @@ feature -- tests
 		check Result end
 	end
 
-	test_type_check_incorrect_type:BOOLEAN
+	test_type_check_nil
 	local
 		tc:TYPE_CHECKER
-		plus:PLUS
-		int1: INTEGER_CONSTANT
-		bool1: BOOLEAN_CONSTANT
+		neg:NEGATION
 	do
-		comment("t1: Test a incorrect type.")
+		comment("t1: Test that nil results in error.")
 		create tc.make
-		create int1.make (2)
-		create bool1.make (True)
-		create plus.make
-		plus.add_operand (int1)
-		plus.add_operand (bool1)
-		plus.accept (tc)
-		Result := not tc.get_value
-		check Result end
+		create neg.make
+		neg.accept (tc)
 	end
 
-	test_type_check_negation:BOOLEAN
+	test_type_check_logical:BOOLEAN
 	local
 		tc:TYPE_CHECKER
 		neg:NEGATION
 		int1: INTEGER_CONSTANT
 		bool1: BOOLEAN_CONSTANT
 	do
-		comment("t3: Test boolean.")
+		comment("t2: Test the logical types.")
+		-- test wrong type
 		create tc.make
 		create int1.make (2)
 		create bool1.make (True)
@@ -76,12 +71,101 @@ feature -- tests
 		Result := not tc.get_value
 		check Result end
 
+		-- test correct type
 		neg.make
 		tc.make
 		neg.add_operand (bool1)
 		neg.accept (tc)
 		Result := tc.get_value
 		check Result end
+
+	end
+
+	test_type_check_arithmetic:BOOLEAN
+	local
+		tc:TYPE_CHECKER
+		neg:NEGATIVE
+		plus:PLUS
+		int1: INTEGER_CONSTANT
+		bool1: BOOLEAN_CONSTANT
+	do
+		comment("t3: Test arithmetic types.")
+		create tc.make
+		create int1.make (2)
+		create bool1.make (True)
+		create neg.make
+		neg.add_operand (int1)
+		neg.accept (tc)
+		Result := tc.get_value
+		check Result end
+
+		neg.make
+		tc.make
+		neg.add_operand (bool1)
+		neg.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		create plus.make
+		tc.make
+		plus.add_operand (bool1)
+		plus.add_operand (bool1)
+		plus.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		plus.make
+		tc.make
+		plus.add_operand (int1)
+		plus.add_operand (int1)
+		plus.accept (tc)
+		Result := tc.get_value
+		check Result end
+
+	end
+
+	test_type_check_set_enum:BOOLEAN
+	local
+		tc:TYPE_CHECKER
+		arith_set:SET_ENUMERATION
+		sum: SUM
+		neg:NEGATION
+		int1: INTEGER_CONSTANT
+		bool1: BOOLEAN_CONSTANT
+	do
+		comment("t4: Test set types.")
+		create tc.make
+		create sum.make
+		create int1.make (5)
+		create neg.make
+		sum.add_operand (int1)
+		neg.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		sum.make
+		tc.make
+		neg.add_operand (create {SET_ENUMERATION}.make) -- NOT type correct because only nil element.
+		neg.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		create arith_set.make
+		arith_set.enter_element (int1)
+		sum.make
+		tc.make
+		sum.add_operand (arith_set)
+		sum.accept (tc)
+		Result := tc.get_value
+
+		create arith_set.make
+		create bool1.make (true)
+		arith_set.enter_element (bool1)
+		sum.make
+		tc.make
+		sum.add_operand (arith_set)
+		sum.accept (tc)
+		Result := tc.get_value
 
 	end
 
