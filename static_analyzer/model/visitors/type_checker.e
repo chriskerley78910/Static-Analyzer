@@ -91,6 +91,35 @@ feature {NONE} -- basically check that a formula is type correct.
 				end
 			end
 
+		check_by_level(e:EXPRESSION)
+		-- level by level traversal.
+		local
+			queue: LINKED_QUEUE[EXPRESSION]
+			tmp_node: EXPRESSION
+		do
+			create queue.make
+			from
+				tmp_node := e
+			until
+				attached {NIL_EXPRESSION}tmp_node or value = false
+			loop
+				-- check the types of children.
+				if attached {COMPOSITE_EXPRESSION}tmp_node as c then
+					value := type_check(c)
+				end
+
+				if attached {COMPOSITE_EXPRESSION}tmp_node as c then
+					-- add all children to queue
+					across
+						c as child
+					loop
+						queue.extend (child.item)
+					end
+					tmp_node := queue.item
+				end
+			end
+		end
+
 feature -- visitors
 
 		visit_bool_const(e: BOOLEAN_CONSTANT)
@@ -128,7 +157,7 @@ feature -- visitors
 
 		visit_negation(e: NEGATION)
 		do
-			value := type_check(e)
+			check_by_level(e)
 		end
 
 		visit_set_enum(e: SET_ENUMERATION)
