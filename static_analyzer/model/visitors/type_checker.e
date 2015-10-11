@@ -98,25 +98,26 @@ feature {NONE} -- basically check that a formula is type correct.
 			tmp_node: EXPRESSION
 		do
 			create queue.make
+			if not attached {CONSTANT}e then
+				queue.put (e)
+			end
 			from
-				tmp_node := e
+			--
 			until
-				attached {NIL_EXPRESSION}tmp_node or value = false
+				queue.off or (value = false)
 			loop
-				-- check the types of children.
-				if attached {COMPOSITE_EXPRESSION}tmp_node as c then
-					value := type_check(c)
-				end
-
-				if attached {COMPOSITE_EXPRESSION}tmp_node as c then
-					-- add all children to queue
+				tmp_node := queue.item
+				if attached {COMPOSITE_EXPRESSION}tmp_node as comp then
+					value := type_check(comp)
 					across
-						c as child
+						comp as c
 					loop
-						queue.extend (child.item)
+						if attached {COMPOSITE_EXPRESSION}c.item then
+							queue.extend (c.item)
+						end
 					end
-					tmp_node := queue.item
-				end
+				end -- adds all children to the queue.
+
 			end
 		end
 
@@ -142,17 +143,17 @@ feature -- visitors
 
 		visit_plus(e: PLUS)
 		do
-			value := type_check(e)
+			check_by_level(e)
 		end
 
 		visit_sum(e: SUM)
 		do
-			value := type_check(e)
+		check_by_level(e)
 		end
 
 		visit_negative(e: NEGATIVE)
 		do
-			value := type_check(e)
+			check_by_level(e)
 		end
 
 		visit_negation(e: NEGATION)
@@ -162,7 +163,7 @@ feature -- visitors
 
 		visit_set_enum(e: SET_ENUMERATION)
 		do
-			value := type_check(e)
+			check_by_level(e)
 		end
 
 	end
