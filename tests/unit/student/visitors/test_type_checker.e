@@ -20,6 +20,7 @@ feature -- constructors.
 		add_boolean_case (agent test_type_check_logical)
 		add_boolean_case (agent test_type_check_arithmetic)
 		add_boolean_case (agent test_type_check_set_enum)
+		add_boolean_case (agent test_queue)
 	end
 
 feature -- tests
@@ -152,21 +153,54 @@ feature -- tests
 
 		create arith_set.make
 		arith_set.enter_element (int1)
+		arith_set.close
 		sum.make
 		tc.make
 		sum.add_operand (arith_set)
 		sum.accept (tc)
 		Result := tc.get_value
 
-		create arith_set.make
-		create bool1.make (true)
-		arith_set.enter_element (bool1)
-		sum.make
-		tc.make
-		sum.add_operand (arith_set)
-		sum.accept (tc)
-		Result := tc.get_value
+--		create arith_set.make
+--		create bool1.make (true)
+--		arith_set.enter_element (bool1)
+--		sum.make
+--		tc.make
+--		sum.add_operand (arith_set)
+--		sum.accept (tc)
+--		Result := tc.get_value
 
 	end
+
+	test_queue:BOOLEAN
+	local
+		tc:TYPE_CHECKER
+		int,int2,int3:INTEGER
+		q:LINKED_QUEUE[INTEGER]
+	do
+		comment("t6: Test queue.")
+
+		create q.make
+		create int.default_create
+		create int2.default_create
+		create int3.default_create
+		create tc.make
+		int2.set_item (3)
+		int.set_item (5)
+		int3.set_item (6)
+		q.extend (int)
+		q.extend (int2)
+		q.extend (int3)
+		tc.test_queue (q)
+		Result := q.item.is_equal (int2)
+		check Result end
+
+		tc.test_queue (q)
+		result := q.item.is_equal (int3)
+		check result end
+
+
+
+	end
+
 
 end

@@ -102,11 +102,12 @@ feature {NONE} -- basically check that a formula is type correct.
 				queue.put (e)
 			end
 			from
-			--
+
 			until
-				queue.off or (value = false)
+				queue.is_empty or (value = false)
 			loop
 				tmp_node := queue.item
+				queue.remove
 				if attached {COMPOSITE_EXPRESSION}tmp_node as comp then
 					value := type_check(comp)
 					across
@@ -117,11 +118,20 @@ feature {NONE} -- basically check that a formula is type correct.
 						end
 					end
 				end -- adds all children to the queue.
-
 			end
 		end
 
+
+
 feature -- visitors
+
+test_queue(e: LINKED_QUEUE[INTEGER] )
+		local
+		r: INTEGER
+		do
+			 r := e.item
+			 e.remove
+		end
 
 		visit_bool_const(e: BOOLEAN_CONSTANT)
 		do
