@@ -66,8 +66,20 @@ feature {NONE} -- basically check that a formula is type correct.
 
 		type_check(e:COMPOSITE_EXPRESSION):BOOLEAN
 		do
-
-			if attached {ARITHMETIC_TYPE}e then
+			if attached {SUM}e as sum then
+				-- check that the element is a set enum
+				-- then check that all elements of the set are arithemetic type.
+				if attached {SET_ENUMERATION}sum.get_operand as set then
+					Result :=
+					across
+						set as c
+					all
+						attached {ARITHMETIC_TYPE}c.item
+					end
+				else
+					Result := False
+				end
+			elseif attached {ARITHMETIC_TYPE}e then
 			Result :=
 				across
 					e as c
@@ -88,8 +100,12 @@ feature {NONE} -- basically check that a formula is type correct.
 					all
 						attached {SET_ENUMERATION}c.item
 					end
-				end
+			elseif attached {SET_ENUMERATION}e then
+				-- a set can contain any type of elements and still be type correct.
+				-- its parent operator decides whether it is the correct operand.
+				Result := true  --
 			end
+		end
 
 		check_by_level(e:EXPRESSION)
 		-- level by level traversal.

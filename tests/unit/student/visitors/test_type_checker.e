@@ -159,15 +159,20 @@ feature -- tests
 		sum.add_operand (arith_set)
 		sum.accept (tc)
 		Result := tc.get_value
+		check Result end
 
---		create arith_set.make
---		create bool1.make (true)
---		arith_set.enter_element (bool1)
---		sum.make
---		tc.make
---		sum.add_operand (arith_set)
---		sum.accept (tc)
---		Result := tc.get_value
+		create arith_set.make
+		create bool1.make (true)
+		arith_set.make
+		arith_set.enter_element (int1)
+		arith_set.enter_element (bool1)
+		arith_set.close
+		sum.make
+		tc.make
+		sum.add_operand (arith_set)
+		sum.accept (tc)
+		Result := not tc.get_value -- should be not type correct
+		check Result end
 
 	end
 
