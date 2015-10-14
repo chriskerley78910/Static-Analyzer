@@ -21,6 +21,9 @@ feature
 		add_boolean_case (agent test_printer_sum)
 		add_boolean_case (agent test_printer_enum)
 		add_boolean_case (agent test_printer_combination)
+--		add_boolean_case (agent test_printer_diff)
+--		add_boolean_case (agent test_printer_exists)
+--		add_boolean_case (agent test_printer_greater_than)
 
 	end
 

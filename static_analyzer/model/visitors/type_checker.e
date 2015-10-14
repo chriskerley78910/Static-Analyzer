@@ -54,6 +54,7 @@ feature {NONE} -- basically check that a formula is type correct.
 		-- EXISTS
 		-- FOR_ALL
 		-- GREATER_THAN
+		-- LESS_THAN
 		-- LOGICAL_AND
 		-- LOGICAL_EQUALS
 		-- LOGICAL_IMPLIES
@@ -65,6 +66,10 @@ feature {NONE} -- basically check that a formula is type correct.
 		-- UNION
 
 		type_check(e:COMPOSITE_EXPRESSION):BOOLEAN
+		-- different types
+		require
+			no_nil_element:
+			not across e as element some attached {NIL_EXPRESSION}element.item end
 		do
 			if attached {SUM}e as sum then
 				-- check that the element is a set enum
@@ -108,7 +113,7 @@ feature {NONE} -- basically check that a formula is type correct.
 		end
 
 		check_by_level(e:EXPRESSION)
-		-- level by level traversal.
+		-- traverses the tree checking level by level for type correctness.
 		local
 			queue: LINKED_QUEUE[EXPRESSION]
 			tmp_node: EXPRESSION
@@ -116,7 +121,10 @@ feature {NONE} -- basically check that a formula is type correct.
 			create queue.make
 			if not attached {CONSTANT}e then
 				queue.put (e)
+			elseif attached {NIL_EXPRESSION}e then
+				e.accept (current)
 			end
+			-- at this point must be composite
 			from
 
 			until
@@ -174,7 +182,7 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 
 		visit_sum(e: SUM)
 		do
-		check_by_level(e)
+			check_by_level(e)
 		end
 
 		visit_negative(e: NEGATIVE)

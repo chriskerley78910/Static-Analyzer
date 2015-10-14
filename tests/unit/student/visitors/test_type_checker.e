@@ -16,7 +16,7 @@ feature -- constructors.
 	init_tests
 	do
 		add_boolean_case (agent test_type_check_creation)
-		add_violation_case_with_tag ("nil_never_type_correct", agent test_type_check_nil)
+		add_violation_case_with_tag ("no_nil_element", agent test_type_check_nil)
 		add_boolean_case (agent test_type_check_logical)
 		add_boolean_case (agent test_type_check_arithmetic)
 		add_boolean_case (agent test_type_check_set_enum)
@@ -139,18 +139,13 @@ feature -- tests
 		create sum.make
 		create int1.make (5)
 		create neg.make
+
 		sum.add_operand (int1)
-		neg.accept (tc)
+		sum.accept(tc)
 		Result := not tc.get_value
 		check Result end
 
-		sum.make
-		tc.make
-		neg.add_operand (create {SET_ENUMERATION}.make) -- NOT type correct because only nil element.
-		neg.accept (tc)
-		Result := not tc.get_value
-		check Result end
-
+		-- check sum with a set of int
 		create arith_set.make
 		arith_set.enter_element (int1)
 		arith_set.close
@@ -161,6 +156,7 @@ feature -- tests
 		Result := tc.get_value
 		check Result end
 
+		-- check sum with set of int and bool.
 		create arith_set.make
 		create bool1.make (true)
 		arith_set.make
