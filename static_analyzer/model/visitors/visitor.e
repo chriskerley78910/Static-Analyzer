@@ -38,4 +38,15 @@ feature
 	visit_negation(e: NEGATION)
 	deferred end
 
+	visit_difference(e:DIFFERENCE)
+	deferred end
+
+	visit_exists(e:EXISTS)
+	deferred end
+
+	visit_greater_than(e: GREATER_THAN)
+	deferred end
+
 end
+
+

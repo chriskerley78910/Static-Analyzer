@@ -11,6 +11,7 @@ inherit
 	SET_TYPE
 	BINARY_OP
 redefine
+	is_equal,
 	make
 end
 
@@ -29,6 +30,12 @@ feature -- equality
 	is_equal(other: DIFFERENCE): BOOLEAN
 	do
 		Result := precursor(other)
+	end
+
+feature -- visitor
+	accept(v:VISITOR)
+	do
+		v.visit_difference(current)
 	end
 
 end

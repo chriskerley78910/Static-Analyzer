@@ -71,6 +71,7 @@ feature {NONE} -- basically check that a formula is type correct.
 			no_nil_element:
 			not across e as element some attached {NIL_EXPRESSION}element.item end
 		do
+			-- check the type of EXISTS
 			if attached {SUM}e as sum then
 				-- check that the element is a set enum
 				-- then check that all elements of the set are arithemetic type.
@@ -197,6 +198,22 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 
 		visit_set_enum(e: SET_ENUMERATION)
 		do
+			check_by_level(e)
+		end
+
+		visit_difference(e:DIFFERENCE)
+		do
+			check_by_level(e)
+		end
+
+		visit_greater_than(e:GREATER_THAN)
+		do
+			check_by_level(e)
+		end
+
+		visit_exists(e:EXISTS)
+		do
+			-- 
 			check_by_level(e)
 		end
 

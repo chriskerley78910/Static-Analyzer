@@ -60,6 +60,9 @@ feature -- tests
 		neg:NEGATION
 		int1: INTEGER_CONSTANT
 		bool1: BOOLEAN_CONSTANT
+		exists: EXISTS
+		gt: GREATER_THAN
+		set:SET_ENUMERATION
 	do
 		comment("t2: Test the logical types.")
 		-- test wrong type
@@ -79,6 +82,37 @@ feature -- tests
 		neg.accept (tc)
 		Result := tc.get_value
 		check Result end
+
+		-- cehck exists
+		create exists.make
+		create gt.make
+		exists.add_operand (int1)
+		tc.make
+		exists.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		exists.make
+		create set.make
+		set.enter_element (bool1)
+		exists.add_operand (set)
+		tc.make
+		exists.accept (tc)
+		Result := tc.get_value
+		check Result end
+
+--		set.make
+--		set.enter_element (int1)
+--		exists.accept (tc)
+--		Result := not tc.get_value
+--		check Result end
+
+	-- check greater than
+		create gt.make
+		gt.add_operand (int1)
+		gt.add_operand (create {INTEGER_CONSTANT}.make (0))
+		
+
 
 	end
 

@@ -21,9 +21,9 @@ feature
 		add_boolean_case (agent test_printer_sum)
 		add_boolean_case (agent test_printer_enum)
 		add_boolean_case (agent test_printer_combination)
---		add_boolean_case (agent test_printer_diff)
---		add_boolean_case (agent test_printer_exists)
---		add_boolean_case (agent test_printer_greater_than)
+		add_boolean_case (agent test_printer_diff)
+		add_boolean_case (agent test_printer_exists)
+		add_boolean_case (agent test_printer_greater_than)
 
 	end
 
@@ -203,6 +203,48 @@ feature
 		sum.accept (p)
 		Result := p.out ~ "(+ {1,(False + 8)})"
 		check Result end
+	end
+
+	test_printer_diff: BOOLEAN
+	local
+		diff: DIFFERENCE
+		p: PRINTER
+	do
+		comment("t6: test printer workds for DIFFERENCE")
+		create diff.make
+		diff.add_operand (create {INTEGER_CONSTANT}.make (5))
+		create p.new_printer
+		diff.accept (p)
+	Result := p.out ~ "(5 \ ?)"
+
+	end
+
+	test_printer_exists: BOOLEAN
+	local
+		exists: EXISTS
+		p: PRINTER
+	do
+		comment("t7: test printer works for EXISTS")
+		create exists.make
+		exists.add_operand (create {INTEGER_CONSTANT}.make (5))
+		create p.new_printer
+		exists.accept (p)
+	Result := p.out ~ "(|| 5)"
+
+	end
+
+	test_printer_greater_than: BOOLEAN
+	local
+		gt: GREATER_THAN
+		p: PRINTER
+	do
+		comment("t8: test printer works for GREATER_THAN")
+		create gt.make
+		gt.add_operand (create {INTEGER_CONSTANT}.make (5))
+		create p.new_printer
+		gt.accept (p)
+		Result := p.out ~ "(5 > ?)"
+
 	end
 
 end

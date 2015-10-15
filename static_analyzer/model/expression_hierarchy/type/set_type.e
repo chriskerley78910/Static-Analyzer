@@ -6,5 +6,10 @@ note
 
 deferred class
 	SET_TYPE
+inherit
+	ANY
+undefine
+	is_equal
+end
 
 end

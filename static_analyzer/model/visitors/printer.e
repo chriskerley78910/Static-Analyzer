@@ -29,21 +29,21 @@ feature {NONE}
 
 	passed_first_nil:BOOLEAN
 
-	visit_binary_op(e:BINARY_OP;c:CHARACTER)
+	visit_binary_op(e:BINARY_OP;c:STRING)
 	do
 		string := string + "("
 		e.get_left.accept (current)  -- this call the appropriate print feature on this printer.
 		string := string + " "
-	    string.append_character (c)
+	    string.append (c)
 		string := string + " "
 		e.get_right.accept (current)
 		string := string + ")"
 	end
 
-	visit_unary_op(e:UNARY_OP;c:CHARACTER)
+	visit_unary_op(e:UNARY_OP;c:STRING)
 	do
 		string := string + "("
-		string.append_character (c)
+		string.append (c)
 		string := string + " "
 		e.get_operand.accept (current)  -- this call the appropriate print feature on this printer.
 		string := string + ")"
@@ -52,6 +52,20 @@ feature {NONE}
 
 
 feature
+
+	visit_greater_than(e:GREATER_THAN)
+	do
+		visit_binary_op(e,">")
+	end
+
+	visit_exists(e: EXISTS)
+	do
+		visit_unary_op(e,"||")
+	end
+	visit_difference(e: DIFFERENCE)
+	do
+		visit_binary_op(e,"\")
+	end
 
 	visit_bool_const(e: BOOLEAN_CONSTANT)
 	do
@@ -75,12 +89,12 @@ feature
 
 	visit_plus(e: PLUS)
 	do
-		visit_binary_op(e,'+')
+		visit_binary_op(e,"+")
 	end
 
 	visit_sum(e: SUM)
 	do
-		visit_unary_op(e,'+')
+		visit_unary_op(e,"+")
 	end
 
 	visit_negative(e: NEGATIVE)
@@ -88,7 +102,7 @@ feature
 
 	visit_negation(e: NEGATION)
 	do
-		visit_unary_op(e,'!')
+		visit_unary_op(e,"!")
 	end
 
 	visit_set_enum(e: SET_ENUMERATION)
