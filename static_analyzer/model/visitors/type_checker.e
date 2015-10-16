@@ -65,88 +65,30 @@ feature {NONE} -- basically check that a formula is type correct.
 		-- INTERSECT
 		-- UNION
 
-		type_check(e:COMPOSITE_EXPRESSION):BOOLEAN
-		-- different types
-		require
-			no_nil_element:
-			not across e as element some attached {NIL_EXPRESSION}element.item end
-		do
-			-- check the type of EXISTS
-			if attached {SUM}e as sum then
-				-- check that the element is a set enum
-				-- then check that all elements of the set are arithemetic type.
-				if attached {SET_ENUMERATION}sum.get_operand as set then
-					Result :=
-					across
-						set as c
-					all
-						attached {ARITHMETIC_TYPE}c.item
-					end
-				else
-					Result := False
-				end
-			elseif attached {ARITHMETIC_TYPE}e then
-			Result :=
-				across
-					e as c
-				all
-					attached {ARITHMETIC_TYPE}c.item
-				end
-			elseif attached {LOGICAL_TYPE}e then
-			Result :=
-				across
-					e as c
-				all
-					attached {LOGICAL_TYPE}c.item
-				end
-			elseif attached {SET_TYPE}e then
-				Result :=
-					across
-						e as c
-					all
-						attached {SET_ENUMERATION}c.item
-					end
-			elseif attached {SET_ENUMERATION}e then
-				-- a set can contain any type of elements and still be type correct.
-				-- its parent operator decides whether it is the correct operand.
-				Result := true  --
-			end
-		end
-
-		check_by_level(e:EXPRESSION)
+		check_decendants(e:COMPOSITE_EXPRESSION):BOOLEAN
 		-- traverses the tree checking level by level for type correctness.
 		local
-			queue: LINKED_QUEUE[EXPRESSION]
-			tmp_node: EXPRESSION
+			queue: LINKED_QUEUE[COMPOSITE_EXPRESSION]
+			tmp_node: COMPOSITE_EXPRESSION
 		do
 			create queue.make
-			if not attached {CONSTANT}e then
-				queue.put (e)
-			elseif attached {NIL_EXPRESSION}e then
-				e.accept (current)
-			end
-			-- at this point must be composite
 			from
-
+				queue.put (e)
 			until
 				queue.is_empty or (value = false)
 			loop
 				tmp_node := queue.item
 				queue.remove
-				if attached {COMPOSITE_EXPRESSION}tmp_node as comp then
-					value := type_check(comp)
-					across
-						comp as c
-					loop
-						if attached {COMPOSITE_EXPRESSION}c.item then
-							queue.extend (c.item)
-						end
+				tmp_node.accept (current)
+				across
+					tmp_node as c
+				loop
+					if attached {COMPOSITE_EXPRESSION}c.item as composite then
+						queue.extend (composite)
 					end
-				end -- adds all children to the queue.
+				end
 			end
 		end
-
-
 
 feature -- visitors
 
@@ -178,43 +120,50 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 
 		visit_plus(e: PLUS)
 		do
-			check_by_level(e)
+
 		end
 
 		visit_sum(e: SUM)
 		do
-			check_by_level(e)
+
 		end
 
 		visit_negative(e: NEGATIVE)
 		do
-			check_by_level(e)
+
 		end
 
 		visit_negation(e: NEGATION)
 		do
-			check_by_level(e)
+
 		end
 
 		visit_set_enum(e: SET_ENUMERATION)
 		do
-			check_by_level(e)
+
 		end
 
 		visit_difference(e:DIFFERENCE)
 		do
-			check_by_level(e)
+
 		end
 
 		visit_greater_than(e:GREATER_THAN)
 		do
-			check_by_level(e)
+
 		end
 
 		visit_exists(e:EXISTS)
 		do
-			-- 
-			check_by_level(e)
+			if attached {SET_ENUMERATION}e.get_operand as set then
+				value := across set as index
+						 all
+						 	attached {LOGICAL_TYPE}index.item and
+						 	(attached {COMPOSITE_EXPRESSION}index.item as composite implies check_decendants(composite))
+						 end
+			 else
+			 	value := false
+			end
 		end
 
 	end
