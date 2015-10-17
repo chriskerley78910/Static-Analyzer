@@ -16,8 +16,12 @@ feature -- constructors.
 	init_tests
 	do
 		add_boolean_case (agent test_type_check_creation)
-		add_violation_case_with_tag ("no_nil_element", agent test_type_check_nil)
-		add_boolean_case (agent test_type_check_logical)
+		add_violation_case_with_tag ("incomplete_expression_error", agent test_type_check_nil)
+		add_boolean_case(agent test_type_check_gt)
+		add_boolean_case(agent test_type_check_negation)
+		add_boolean_case (agent test_type_check_exists)
+		--add_boolean_case (agent test_type_check_logical)
+
 		add_boolean_case (agent test_type_check_arithmetic)
 		add_boolean_case (agent test_type_check_set_enum)
 		add_boolean_case (agent test_queue)
@@ -28,17 +32,9 @@ feature -- tests
 	test_type_check_creation:BOOLEAN
 	local
 		tc:TYPE_CHECKER
-		plus:PLUS
-		int1,int2: INTEGER_CONSTANT
 	do
-		comment("t0: Test the creation of type checker, and test a correct type.")
+		comment("t0: Test the creation of type checker")
 		create tc.make
-		create int1.make (2)
-		create int2.make(3)
-		create plus.make
-		plus.add_operand (int1)
-		plus.add_operand (int2)
-		plus.accept (tc)
 		Result := tc.get_value
 		check Result end
 	end
@@ -46,12 +42,95 @@ feature -- tests
 	test_type_check_nil
 	local
 		tc:TYPE_CHECKER
-		neg:NEGATION
+		nil:NIL_EXPRESSION
 	do
 		comment("t1: Test that nil results in error.")
 		create tc.make
+		create nil.make
+		nil.accept (tc)
+	end
+
+	test_type_check_exists:BOOLEAN
+	local
+		exists: EXISTS
+		set: SET_ENUMERATION
+		int:INTEGER_CONSTANT
+		bool:BOOLEAN_CONSTANT
+		tc: TYPE_CHECKER
+	do
+		comment("test exists")
+		create exists.make
+		create set.make
+		create int.make (5)
+		create bool.make(true)
+		create tc.make
+
+		set.enter_element (int)
+		set.close
+		exists.add_operand (set)
+		exists.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		set.make
+		set.enter_element (bool)
+		set.close
+		exists.accept (tc)
+		Result := tc.get_value
+		check Result end
+
+	end
+
+	test_type_check_gt:BOOLEAN
+	local
+		int:INTEGER_CONSTANT
+		bool:BOOLEAN_CONSTANT
+		tc: TYPE_CHECKER
+		gt:GREATER_THAN
+	do
+		comment("test GREATER_THAN")
+		create gt.make
+		create int.make (5)
+		create bool.make(true)
+		create tc.make
+
+		gt.add_operand(bool)
+		gt.add_operand(int)
+		gt.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		gt.make
+		gt.add_operand (int)
+		gt.add_operand (int)
+		gt.accept (tc)
+		Result := tc.get_value
+		check Result end
+	end
+
+	test_type_check_negation:BOOLEAN
+	local
+		int:INTEGER_CONSTANT
+		bool:BOOLEAN_CONSTANT
+		tc: TYPE_CHECKER
+		neg:NEGATION
+	do
+		comment("test NEGATION")
 		create neg.make
+		create int.make (5)
+		create bool.make(true)
+		create tc.make
+
+		neg.add_operand(int)
 		neg.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		neg.make
+		neg.add_operand (bool)
+		neg.accept (tc)
+		Result := tc.get_value
+		check Result end
 	end
 
 	test_type_check_logical:BOOLEAN

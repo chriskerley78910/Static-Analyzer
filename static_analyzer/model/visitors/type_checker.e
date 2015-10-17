@@ -107,9 +107,8 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 
 		visit_nil(e: NIL_EXPRESSION)
 		do
-			-- should be an error, type can't be correct if nothing there,
 		ensure then
-			nil_never_type_correct:
+			incomplete_expression_error:
 			False
 		end
 
@@ -135,7 +134,7 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 
 		visit_negation(e: NEGATION)
 		do
-
+			value := attached {LOGICAL_TYPE}e.get_operand and (attached {COMPOSITE_EXPRESSION}e.get_operand as c implies check_decendants(c))
 		end
 
 		visit_set_enum(e: SET_ENUMERATION)
@@ -150,19 +149,19 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 
 		visit_greater_than(e:GREATER_THAN)
 		do
-
+			value :=
+			across e as c all
+			 attached {ARITHMETIC_TYPE}c.item and
+			(attached {COMPOSITE_EXPRESSION}c.item as comp implies check_decendants(comp))
+			end
 		end
 
 		visit_exists(e:EXISTS)
 		do
 			if attached {SET_ENUMERATION}e.get_operand as set then
-				value := across set as index
-						 all
-						 	attached {LOGICAL_TYPE}index.item and
-						 	(attached {COMPOSITE_EXPRESSION}index.item as composite implies check_decendants(composite))
-						 end
-			 else
-			 	value := false
+		    	value := across set as i all attached {LOGICAL_TYPE}i.item and (attached {COMPOSITE_EXPRESSION}i.item as c implies check_decendants(c))  end
+		    else
+				value := false
 			end
 		end
 
