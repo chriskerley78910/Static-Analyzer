@@ -11,7 +11,8 @@ inherit
 	LOGICAL_TYPE
 	BINARY_OP
 redefine
-	make
+	make,
+	is_equal
 end
 
 create
@@ -31,6 +32,13 @@ feature -- equality
 	is_equal(other: LESS_THAN): BOOLEAN
 	do
 		Result := precursor(other)
+	end
+
+feature -- visitors
+
+	accept(e:VISITOR)
+	do
+		e.visit_lt(current)
 	end
 
 end

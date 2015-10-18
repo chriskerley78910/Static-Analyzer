@@ -47,6 +47,9 @@ feature
 	visit_greater_than(e: GREATER_THAN)
 	deferred end
 
+	visit_lt(e: LESS_THAN)
+	deferred end
+
 end
 
 

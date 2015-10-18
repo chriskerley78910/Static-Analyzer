@@ -36,41 +36,14 @@ feature -- queries
 
 feature {NONE} -- basically check that a formula is type correct.
 
-	-- type rules?  - return types
-	-- arithmetic type
-		-- DIVIDES
-		-- MINUS
-		-- NEGATIVE
-		-- PLUS
-		-- SUM
-		-- TIMES
-		--
-	-- CONSTANT
-		-- BOOLEAN
-			-- BOOLEAN_CONSTANT
-		-- ARITHMETIC
-			-- INTEGER_CONSTANT
-	-- LOGICAL_TYPE
-		-- EXISTS
-		-- FOR_ALL
-		-- GREATER_THAN
-		-- LESS_THAN
-		-- LOGICAL_AND
-		-- LOGICAL_EQUALS
-		-- LOGICAL_IMPLIES
-		-- LOGICAL_OR
-		-- NEGATION
-	-- SET_TYPE
-		-- DIFFERENCE
-		-- INTERSECT
-		-- UNION
 
-		check_decendants(e:COMPOSITE_EXPRESSION):BOOLEAN
+		check_decendants(e:COMPOSITE_EXPRESSION)
 		-- traverses the tree checking level by level for type correctness.
 		local
 			queue: LINKED_QUEUE[COMPOSITE_EXPRESSION]
 			tmp_node: COMPOSITE_EXPRESSION
 		do
+			value := True -- reset value.
 			create queue.make
 			from
 				queue.put (e)
@@ -79,7 +52,7 @@ feature {NONE} -- basically check that a formula is type correct.
 			loop
 				tmp_node := queue.item
 				queue.remove
-				tmp_node.accept (current)
+				check_level(tmp_node)
 				across
 					tmp_node as c
 				loop
@@ -88,6 +61,19 @@ feature {NONE} -- basically check that a formula is type correct.
 					end
 				end
 			end
+		end
+
+		check_level(e: COMPOSITE_EXPRESSION)
+		do
+			if attached {SUM}e as sum then
+				value := attached {SET_ENUMERATION}sum.get_operand as set
+				and then (across set as c all attached {ARITHMETIC_TYPE}c.item end)
+			elseif attached {ARITHMETIC_TYPE}e then
+				value := across e as operand all attached{ARITHMETIC_TYPE}operand.item end
+			elseif attached {GREATER_THAN}e or attached {LESS_THAN}e then
+				value := across e as operand all attached {ARITHMETIC_TYPE}operand.item end
+			end
+
 		end
 
 feature -- visitors
@@ -119,50 +105,47 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 
 		visit_plus(e: PLUS)
 		do
-
+			check_decendants(e)
 		end
 
 		visit_sum(e: SUM)
 		do
-
+		check_decendants(e)
 		end
 
 		visit_negative(e: NEGATIVE)
 		do
-
+		check_decendants(e)
 		end
 
 		visit_negation(e: NEGATION)
 		do
-			value := attached {LOGICAL_TYPE}e.get_operand and (attached {COMPOSITE_EXPRESSION}e.get_operand as c implies check_decendants(c))
+		check_decendants(e)
 		end
 
 		visit_set_enum(e: SET_ENUMERATION)
 		do
-
+			-- do nothing.
 		end
 
 		visit_difference(e:DIFFERENCE)
 		do
-
+		check_decendants(e)
 		end
 
 		visit_greater_than(e:GREATER_THAN)
 		do
-			value :=
-			across e as c all
-			 attached {ARITHMETIC_TYPE}c.item and
-			(attached {COMPOSITE_EXPRESSION}c.item as comp implies check_decendants(comp))
-			end
+		check_decendants(e)
+		end
+
+		visit_lt(e:LESS_THAN)
+		do
+			check_decendants(e)
 		end
 
 		visit_exists(e:EXISTS)
 		do
-			if attached {SET_ENUMERATION}e.get_operand as set then
-		    	value := across set as i all attached {LOGICAL_TYPE}i.item and (attached {COMPOSITE_EXPRESSION}i.item as c implies check_decendants(c))  end
-		    else
-				value := false
-			end
+		check_decendants(e)
 		end
 
 	end

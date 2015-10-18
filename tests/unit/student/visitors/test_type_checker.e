@@ -17,12 +17,12 @@ feature -- constructors.
 	do
 		add_boolean_case (agent test_type_check_creation)
 		add_violation_case_with_tag ("incomplete_expression_error", agent test_type_check_nil)
+		add_boolean_case(agent test_type_check_sum)
 		add_boolean_case(agent test_type_check_gt)
 		add_boolean_case(agent test_type_check_negation)
 		add_boolean_case (agent test_type_check_exists)
-		--add_boolean_case (agent test_type_check_logical)
-
-		add_boolean_case (agent test_type_check_arithmetic)
+		add_boolean_case (agent test_type_check_diff)
+		add_boolean_case (agent test_type_check_plus)
 		add_boolean_case (agent test_type_check_set_enum)
 		add_boolean_case (agent test_queue)
 	end
@@ -58,7 +58,7 @@ feature -- tests
 		bool:BOOLEAN_CONSTANT
 		tc: TYPE_CHECKER
 	do
-		comment("test exists")
+		comment("test EXISTS")
 		create exists.make
 		create set.make
 		create int.make (5)
@@ -72,12 +72,12 @@ feature -- tests
 		Result := not tc.get_value
 		check Result end
 
-		set.make
-		set.enter_element (bool)
-		set.close
-		exists.accept (tc)
-		Result := tc.get_value
-		check Result end
+--		set.make
+--		set.enter_element (bool)
+--		set.close
+--		exists.accept (tc)
+--		Result := tc.get_value
+--		check Result end
 
 	end
 
@@ -133,69 +133,111 @@ feature -- tests
 		check Result end
 	end
 
-	test_type_check_logical:BOOLEAN
+	test_type_check_sum:BOOLEAN
 	local
-		tc:TYPE_CHECKER
-		neg:NEGATION
-		int1: INTEGER_CONSTANT
-		bool1: BOOLEAN_CONSTANT
-		exists: EXISTS
-		gt: GREATER_THAN
+		plus:PLUS
+		int:INTEGER_CONSTANT
+		bool:BOOLEAN_CONSTANT
+		tc: TYPE_CHECKER
+		sum:SUM
 		set:SET_ENUMERATION
 	do
-		comment("t2: Test the logical types.")
-		-- test wrong type
+		comment("test SUM")
+		create sum.make
+		create int.make (5)
+		create bool.make(true)
 		create tc.make
-		create int1.make (2)
-		create bool1.make (True)
-		create neg.make
-		neg.add_operand (int1)
-		neg.accept (tc)
-		Result := not tc.get_value
---		check Result end
-
-		-- test correct type
-		neg.make
-		tc.make
-		neg.add_operand (bool1)
-		neg.accept (tc)
-		Result := tc.get_value
---		check Result end
-
-		-- cehck exists
-		create exists.make
-		create gt.make
-		exists.add_operand (int1)
-		tc.make
-		exists.accept (tc)
-		Result := not tc.get_value
-		check Result end
-
-		exists.make
 		create set.make
-		set.enter_element (bool1)
-		exists.add_operand (set)
-		tc.make
-		exists.accept (tc)
+
+		-- not set
+		sum.add_operand(int)
+		sum.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		-- wrong type in set
+		sum.make
+		set.enter_element (bool)
+		set.close
+		sum.add_operand (set)
+		sum.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		-- correct type in set
+		sum.make
+		set.make
+		set.enter_element (int)
+		set.close
+		sum.add_operand (set)
+		sum.accept (tc)
 		Result := tc.get_value
 		check Result end
 
---		set.make
---		set.enter_element (int1)
---		exists.accept (tc)
---		Result := not tc.get_value
---		check Result end
+		-- incorrect composite type in set
+		sum.make
+		set.make
+		create plus.make
+		plus.add_operand (int)
+		plus.add_operand (bool)
+		set.enter_element (int)
+		set.enter_element (plus)
+		set.close
+		sum.add_operand (set)
+		sum.accept (tc)
+		Result := not tc.get_value
+		check Result end
 
-	-- check greater than
---		create gt.make
---		gt.add_operand (int1)
---		gt.add_operand (create {INTEGER_CONSTANT}.make (0))
-
-
-
+		-- correct composite type in set
+		sum.make
+		set.make
+		create plus.make
+		plus.add_operand (int)
+		plus.add_operand (int)
+		set.enter_element (int)
+		set.enter_element (plus)
+		set.close
+		sum.add_operand (set)
+		sum.accept (tc)
+		Result :=  tc.get_value
+		check Result end
 	end
 
-	test_type_check_arithmetic:BOOLEAN
+	test_type_check_diff:BOOLEAN
+	local
+		int:INTEGER_CONSTANT
+		bool:BOOLEAN_CONSTANT
+		tc: TYPE_CHECKER
+		diff:DIFFERENCE
+		s1,s2:SET_ENUMERATION
+	do
+		comment("test DIFFERENCE")
+		create diff.make
+		create int.make (5)
+		create bool.make(true)
+		create tc.make
+
+		diff.add_operand(int)
+		diff.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		create s1.make
+		create s2.make
+		s1.enter_element (int)
+		s2.enter_element (bool)
+		s1.close
+		s2.close
+		diff.make
+		diff.add_operand (s1)
+		diff.add_operand (s2)
+		diff.accept (tc)
+		Result := tc.get_value
+		check Result end
+	end
+
+
+	test_type_check_plus:BOOLEAN
 	local
 		tc:TYPE_CHECKER
 		neg:NEGATIVE
@@ -203,33 +245,22 @@ feature -- tests
 		int1: INTEGER_CONSTANT
 		bool1: BOOLEAN_CONSTANT
 	do
-		comment("t3: Test arithmetic types.")
+		comment("Test PLUS")
 		create tc.make
 		create int1.make (2)
 		create bool1.make (True)
 		create neg.make
-		neg.add_operand (int1)
-		neg.accept (tc)
-		Result := tc.get_value
-		check Result end
-
-		neg.make
-		tc.make
-		neg.add_operand (bool1)
-		neg.accept (tc)
-		Result := not tc.get_value
-		check Result end
-
 		create plus.make
-		tc.make
+
+		-- wrong operand
 		plus.add_operand (bool1)
-		plus.add_operand (bool1)
+		plus.add_operand (int1)
 		plus.accept (tc)
 		Result := not tc.get_value
 		check Result end
 
+		-- right operands
 		plus.make
-		tc.make
 		plus.add_operand (int1)
 		plus.add_operand (int1)
 		plus.accept (tc)

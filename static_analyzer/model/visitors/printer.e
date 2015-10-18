@@ -53,6 +53,11 @@ feature {NONE}
 
 feature
 
+	visit_lt(e:LESS_THAN)
+	do
+		visit_binary_op(e,"<")
+	end
+
 	visit_greater_than(e:GREATER_THAN)
 	do
 		visit_binary_op(e,">")
