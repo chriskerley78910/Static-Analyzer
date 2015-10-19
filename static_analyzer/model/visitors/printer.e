@@ -67,6 +67,12 @@ feature
 	do
 		visit_unary_op(e,"||")
 	end
+
+	visit_forall(e: FOR_ALL)
+	do
+		visit_unary_op(e,"&&")
+	end
+
 	visit_difference(e: DIFFERENCE)
 	do
 		visit_binary_op(e,"\")

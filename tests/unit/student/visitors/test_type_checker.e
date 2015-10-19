@@ -23,7 +23,6 @@ feature -- constructors.
 		add_boolean_case (agent test_type_check_exists)
 		add_boolean_case (agent test_type_check_diff)
 		add_boolean_case (agent test_type_check_plus)
-		add_boolean_case (agent test_type_check_set_enum)
 		add_boolean_case (agent test_queue)
 	end
 
@@ -33,7 +32,7 @@ feature -- tests
 	local
 		tc:TYPE_CHECKER
 	do
-		comment("t0: Test the creation of type checker")
+		comment("Test the creation of type checker")
 		create tc.make
 		Result := tc.get_value
 		check Result end
@@ -44,7 +43,7 @@ feature -- tests
 		tc:TYPE_CHECKER
 		nil:NIL_EXPRESSION
 	do
-		comment("t1: Test that nil results in error.")
+		comment("test nil results in error.")
 		create tc.make
 		create nil.make
 		nil.accept (tc)
@@ -65,20 +64,30 @@ feature -- tests
 		create bool.make(true)
 		create tc.make
 
+		-- not set
+		exists.add_operand (int)
+		exists.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		-- not logical set
 		set.enter_element (int)
 		set.close
+		exists.make
 		exists.add_operand (set)
 		exists.accept (tc)
 		Result := not tc.get_value
 		check Result end
 
---		set.make
---		set.enter_element (bool)
---		set.close
---		exists.accept (tc)
---		Result := tc.get_value
---		check Result end
-
+		-- logical set
+		set.make
+		exists.make
+		set.enter_element (bool)
+		set.close
+		exists.add_operand (set)
+		exists.accept (tc)
+		Result := tc.get_value
+		check Result end
 	end
 
 	test_type_check_gt:BOOLEAN
@@ -216,17 +225,20 @@ feature -- tests
 		create int.make (5)
 		create bool.make(true)
 		create tc.make
+		create s1.make
+		create s2.make
 
-		diff.add_operand(int)
+		-- not both sets
+		s1.enter_element (bool)
+		s1.close
+		diff.add_operand(s1)
+		diff.add_operand (int)
 		diff.accept (tc)
 		Result := not tc.get_value
 		check Result end
 
-		create s1.make
-		create s2.make
-		s1.enter_element (int)
+		-- both sets.
 		s2.enter_element (bool)
-		s1.close
 		s2.close
 		diff.make
 		diff.add_operand (s1)
@@ -269,52 +281,6 @@ feature -- tests
 
 	end
 
-	test_type_check_set_enum:BOOLEAN
-	local
-		tc:TYPE_CHECKER
-		arith_set:SET_ENUMERATION
-		sum: SUM
-		neg:NEGATION
-		int1: INTEGER_CONSTANT
-		bool1: BOOLEAN_CONSTANT
-	do
-		comment("t4: Test set types.")
-		create tc.make
-		create sum.make
-		create int1.make (5)
-		create neg.make
-
-		sum.add_operand (int1)
-		sum.accept(tc)
-		Result := not tc.get_value
-		check Result end
-
-		-- check sum with a set of int
-		create arith_set.make
-		arith_set.enter_element (int1)
-		arith_set.close
-		sum.make
-		tc.make
-		sum.add_operand (arith_set)
-		sum.accept (tc)
-		Result := tc.get_value
-		check Result end
-
-		-- check sum with set of int and bool.
-		create arith_set.make
-		create bool1.make (true)
-		arith_set.make
-		arith_set.enter_element (int1)
-		arith_set.enter_element (bool1)
-		arith_set.close
-		sum.make
-		tc.make
-		sum.add_operand (arith_set)
-		sum.accept (tc)
-		Result := not tc.get_value -- should be not type correct
-		check Result end
-
-	end
 
 	test_queue:BOOLEAN
 	local
@@ -342,9 +308,6 @@ feature -- tests
 		tc.test_queue (q)
 		result := q.item.is_equal (int3)
 		check result end
-
-
-
 	end
 
 

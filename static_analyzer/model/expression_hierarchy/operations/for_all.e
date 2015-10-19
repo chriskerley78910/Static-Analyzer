@@ -13,7 +13,8 @@ inherit
 	UNARY_OP
 
 redefine
-	make
+	make,
+	is_equal
 end
 
 create
@@ -31,6 +32,13 @@ feature -- equality
 	is_equal(other: FOR_ALL): BOOLEAN
 	do
 		Result := precursor(other)
+	end
+
+feature -- visitor
+
+	accept(v:VISITOR)
+	do
+		v.visit_forall(current)
 	end
 
 

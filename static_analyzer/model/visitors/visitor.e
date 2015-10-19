@@ -44,6 +44,9 @@ feature
 	visit_exists(e:EXISTS)
 	deferred end
 
+	visit_forall(e:FOR_ALL)
+	deferred end
+
 	visit_greater_than(e: GREATER_THAN)
 	deferred end
 

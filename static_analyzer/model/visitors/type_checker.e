@@ -72,8 +72,17 @@ feature {NONE} -- basically check that a formula is type correct.
 				value := across e as operand all attached{ARITHMETIC_TYPE}operand.item end
 			elseif attached {GREATER_THAN}e or attached {LESS_THAN}e then
 				value := across e as operand all attached {ARITHMETIC_TYPE}operand.item end
+			elseif attached {EXISTS}e or attached {FOR_ALL}e then
+				value := across e as set
+				 all
+				 	attached {SET_ENUMERATION}set.item as enum and then
+				 	(across enum as c all attached {LOGICAL_TYPE}c.item end)
+				 end
+			elseif attached {LOGICAL_TYPE}e then
+				value := across e as operand all attached {LOGICAL_TYPE}operand.item end
+			elseif attached {SET_TYPE}e and attached {COMPOSITE_EXPRESSION}e as sets then
+				value := across sets as c all attached {SET_ENUMERATION}c.item end
 			end
-
 		end
 
 feature -- visitors
@@ -120,7 +129,7 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 
 		visit_negation(e: NEGATION)
 		do
-		check_decendants(e)
+			check_decendants(e)
 		end
 
 		visit_set_enum(e: SET_ENUMERATION)
@@ -147,5 +156,11 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 		do
 		check_decendants(e)
 		end
+
+		visit_forall(e:FOR_ALL)
+		do
+		check_decendants(e)
+		end
+
 
 	end
