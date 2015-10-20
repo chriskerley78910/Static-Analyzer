@@ -64,8 +64,16 @@ feature {NONE} -- basically check that a formula is type correct.
 		end
 
 		check_level(e: COMPOSITE_EXPRESSION)
+			-- checks that all the children nodes are the correct type for the parent.
 		do
-			if attached {SUM}e as sum then
+
+			if across e as c some attached {NIL_EXPRESSION}c.item end then
+					across e as c loop
+						if attached {NIL_EXPRESSION}c.item as nil then
+							current.visit_nil (nil)
+						end
+					end
+			elseif attached {SUM}e as sum then
 				value := attached {SET_ENUMERATION}sum.get_operand as set
 				and then (across set as c all attached {ARITHMETIC_TYPE}c.item end)
 			elseif attached {ARITHMETIC_TYPE}e then
@@ -101,6 +109,7 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 		end
 
 		visit_nil(e: NIL_EXPRESSION)
+			-- error incomplete expression.
 		do
 		ensure then
 			incomplete_expression_error:
@@ -134,7 +143,7 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 
 		visit_set_enum(e: SET_ENUMERATION)
 		do
-			-- do nothing.
+			check_decendants(e)
 		end
 
 		visit_difference(e:DIFFERENCE)

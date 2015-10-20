@@ -17,6 +17,7 @@ feature -- constructors.
 	do
 		add_boolean_case (agent test_type_check_creation)
 		add_violation_case_with_tag ("incomplete_expression_error", agent test_type_check_nil)
+		add_violation_case_with_tag ("incomplete_expression_error", agent test_type_check_nested_nil)
 		add_boolean_case(agent test_type_check_sum)
 		add_boolean_case(agent test_type_check_gt)
 		add_boolean_case(agent test_type_check_negation)
@@ -47,6 +48,19 @@ feature -- tests
 		create tc.make
 		create nil.make
 		nil.accept (tc)
+	end
+
+	test_type_check_nested_nil
+	local
+		tc:TYPE_CHECKER
+		nil:NIL_EXPRESSION
+		set:SET_ENUMERATION
+	do
+		comment("test a nested nil results in error.")
+		create tc.make
+		create nil.make
+		create set.make
+		set.accept (tc) -- should be error because nil is the only member.
 	end
 
 	test_type_check_exists:BOOLEAN
