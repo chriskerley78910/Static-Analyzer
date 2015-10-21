@@ -14,12 +14,19 @@ end
 create
 	make
 
-feature -- constructors
+feature {NONE}
 
 	value: EXPRESSION
 
+	type_check: TYPE_CHECKER
+
+feature -- constructors
+
+
+
 	make
 	do
+		create type_check.make
 		value := create {NIL_EXPRESSION}.make
 	end
 
@@ -28,9 +35,37 @@ feature -- constructors
 		Result := ""
 	end
 
-	eval_arith(e:COMPOSITE_EXPRESSION)
-	do
+feature {NONE} --  types of eval
 
+	evaluate(e:EXPRESSION): EXPRESSION
+		-- Returns the evaluated version of the expression.
+	require
+		is_type_correct:
+		type_correct(e)
+	do
+		if attached {NEGATION}e as negation then
+				end
+		Result := e
+	end
+
+
+feature -- queries
+
+	get_value:EXPRESSION
+	do
+		Result := value
+	end
+
+feature --
+
+
+
+feature -- aux queries
+
+	type_correct(e:EXPRESSION):BOOLEAN
+	do
+		e.accept (type_check)
+		Result := type_check.get_value
 	end
 
 feature -- visitors
@@ -47,7 +82,7 @@ feature -- visitors
 
 	visit_plus(e: PLUS)
 	do
-		eval_arith(e)
+
 	end
 
 	visit_sum(e: SUM)
@@ -60,7 +95,9 @@ feature -- visitors
 	do end
 
 	visit_negation(e: NEGATION)
-	do end
+	do
+		value := evaluate(e)
+	end
 
 	visit_difference(e:DIFFERENCE)
 	do end
