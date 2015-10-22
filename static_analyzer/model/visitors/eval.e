@@ -37,15 +37,12 @@ feature -- constructors
 
 feature {NONE} --  types of eval
 
-	evaluate(e:EXPRESSION): EXPRESSION
+	evaluate(e:EXPRESSION)
 		-- Returns the evaluated version of the expression.
-	require
-		is_type_correct:
-		type_correct(e)
 	do
-		if attached {NEGATION}e as negation then
-				end
-		Result := e
+		-- visit all child nodes
+		-- +, +, 3, 4, 3, 4
+		-- evaluate parent.
 	end
 
 
@@ -56,22 +53,13 @@ feature -- queries
 		Result := value
 	end
 
-feature --
-
-
-
-feature -- aux queries
-
-	type_correct(e:EXPRESSION):BOOLEAN
-	do
-		e.accept (type_check)
-		Result := type_check.get_value
-	end
 
 feature -- visitors
 
 	visit_bool_const(e: BOOLEAN_CONSTANT)
-	do end
+	do
+		value := e
+	end
 
 	visit_nil(e: NIL_EXPRESSION)
 	do end
@@ -96,7 +84,14 @@ feature -- visitors
 
 	visit_negation(e: NEGATION)
 	do
-		value := evaluate(e)
+		e.get_operand.accept (current)
+		if attached {BOOLEAN_CONSTANT}value as bool then
+			if bool.get_state then
+				value := create {BOOLEAN_CONSTANT}.make (false)
+			else
+				value := create {BOOLEAN_CONSTANT}.make (true)
+			end
+		end
 	end
 
 	visit_difference(e:DIFFERENCE)

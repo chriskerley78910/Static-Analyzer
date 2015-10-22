@@ -172,6 +172,16 @@ feature
 		enum.accept (p)
 		Result := p.out ~ "{4,(+ True)}"
 		check Result end
+
+		-- no duplicates
+		enum.make
+		enum.enter_element (create {INTEGER_CONSTANT}.make (3))
+		enum.enter_element (create {INTEGER_CONSTANT}.make (4))
+		enum.enter_element (create {INTEGER_CONSTANT}.make (3))
+		enum.close
+		p.new_printer
+		enum.accept (p)
+		Result := p.out ~ "{3,4}"
 	end
 
 	test_printer_combination: BOOLEAN

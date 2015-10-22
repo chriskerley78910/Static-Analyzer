@@ -42,10 +42,11 @@ feature -- commands
 	enter_element(e:EXPRESSION)
 		-- enters new element into the enumeration.
 	do
-		 state.add (e)
+		 	state.add (e)
 	ensure
 		count_increased:
-		not attached {COMPOSITE_EXPRESSION}e implies state.count = old state.count + 1
+		not attached {COMPOSITE_EXPRESSION}e
+		implies state.count = old state.count + 1
 	end
 
 	reactivate
