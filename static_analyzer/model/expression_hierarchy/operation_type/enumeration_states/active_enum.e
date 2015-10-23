@@ -26,15 +26,19 @@ feature -- commands
 	require else
 		one_element:
 		count >= 1
+	local
+		b:BOOLEAN
 	do
-	 	if attached {CONSTANT}e then
-		 	context.elements.put (e)
-		 	context.elements.forth
-		 	context.elements.force(create {NIL_EXPRESSION}.make)
-		 elseif attached {COMPOSITE_EXPRESSION}e then
-		 	context.elements.put (e)
-		 	context.set_state (create {INACTIVE_ENUM}.make(context))
-		 end
+		if across context as c all not c.item.is_equal (e) end then
+		 	if attached {CONSTANT}e then
+			 	context.elements.put (e)
+			 	context.elements.forth
+			 	context.elements.force(create {NIL_EXPRESSION}.make)
+			 elseif attached {COMPOSITE_EXPRESSION}e then
+			 	context.elements.put (e)
+			 	context.set_state (create {INACTIVE_ENUM}.make(context))
+			 end
+		end
 	end
 
 	reactivate

@@ -22,6 +22,7 @@ feature -- creation
 			add_boolean_case (agent test_set_enum_active_state_add_composite)
 			add_violation_case_with_tag ("no_nil_decendants",agent test_set_enum_reactivate_state_violation)
 			add_boolean_case (agent test_set_enum_reactivate_state_good)
+			add_boolean_case (agent test_set_enum_no_duplicates)
 	end
 
 feature -- unit tests
@@ -131,6 +132,18 @@ feature -- unit tests
 		set_enum.reactivate
 		Result := set_enum.count = 2
 		check Result end
+	end
+
+	test_set_enum_no_duplicates:BOOLEAN
+	local
+		set_enum:SET_ENUMERATION
+	do
+		comment("t7: test that sets do not enter duplicates")
+		create set_enum.make
+		set_enum.enter_element (create {INTEGER_CONSTANT}.make (5))
+		set_enum.enter_element (create {INTEGER_CONSTANT}.make (5))
+		set_enum.close
+		Result := set_enum.count = 1
 	end
 
 

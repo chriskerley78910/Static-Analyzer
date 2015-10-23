@@ -36,7 +36,7 @@ feature -- unit tests
 	test_nil_expression_is_equal:BOOLEAN
 	local
 		e1,e2: EXPRESSION
-		int: INTEGER
+		int: INTEGER_CONSTANT
 
 	do
 		comment("t2: test is_equal feature of NIL_EXPRESSION.")
@@ -45,8 +45,8 @@ feature -- unit tests
 		Result := e1 ~ e2
 		check Result end
 
-		create int.default_create
-		Result := e1 /= int
+		create int.make (5)
+		Result := not e1.is_equal (int)
 		check Result end
 
 	end

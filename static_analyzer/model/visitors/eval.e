@@ -37,14 +37,31 @@ feature -- constructors
 
 feature {NONE} --  types of eval
 
-	evaluate(e:EXPRESSION)
-		-- Returns the evaluated version of the expression.
-	do
-		-- visit all child nodes
-		-- +, +, 3, 4, 3, 4
-		-- evaluate parent.
-	end
-
+	check_decendants(e:COMPOSITE_EXPRESSION)
+		-- traverses the tree checking level by level for type correctness.
+		local
+			queue: LINKED_QUEUE[COMPOSITE_EXPRESSION]
+			tmp_node: COMPOSITE_EXPRESSION
+		do
+			-- reset value.
+			create queue.make
+			from
+				queue.put (e)
+			until
+				queue.is_empty or (value = false)
+			loop
+				tmp_node := queue.item
+				queue.remove
+				across
+					tmp_node as c
+				loop
+					if attached {COMPOSITE_EXPRESSION}c.item as composite then
+						queue.extend (composite)
+					end
+				end
+				tmp_node.accept (current)
+			end
+		end
 
 feature -- queries
 

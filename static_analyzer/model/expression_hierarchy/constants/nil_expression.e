@@ -24,7 +24,7 @@ feature -- constructors
 
 feature -- comparison
 
-	is_equal(other: like current):BOOLEAN
+	is_equal(other: NIL_EXPRESSION):BOOLEAN
 	do
 		Result := attached {NIL_EXPRESSION}other
 	end
