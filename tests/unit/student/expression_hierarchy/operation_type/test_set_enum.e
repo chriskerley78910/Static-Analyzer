@@ -23,6 +23,7 @@ feature -- creation
 			add_violation_case_with_tag ("no_nil_decendants",agent test_set_enum_reactivate_state_violation)
 			add_boolean_case (agent test_set_enum_reactivate_state_good)
 			add_boolean_case (agent test_set_enum_no_duplicates)
+			add_boolean_case (agent test_set_enum_no_duplicate_heirarchies)
 	end
 
 feature -- unit tests
@@ -144,7 +145,45 @@ feature -- unit tests
 		set_enum.enter_element (create {INTEGER_CONSTANT}.make (5))
 		set_enum.close
 		Result := set_enum.count = 1
+		check Result end
 	end
+
+	test_set_enum_no_duplicate_heirarchies:BOOLEAN
+	local
+		set_enum:SET_ENUMERATION
+		p1,p2,p3:PLUS
+		int1,int2,int3:INTEGER_CONSTANT
+	do
+		comment("t8: test that sets do not enter duplicate heirarchies")
+		create set_enum.make
+		create p1.make
+		create p2.make
+		create p3.make
+		create int1.make (3)
+		create int2.make (6)
+		create int3.make (7)
+
+		-- test adding new heirarchy.
+		p1.add_operand (int1)
+		p1.add_operand (int2)
+		p2.add_operand (int1)
+		p2.add_operand (int2)
+		p3.add_operand (int1)
+		set_enum.enter_element (p1)
+		set_enum.enter_element (p2)
+		set_enum.close
+		Result := set_enum.count = 1
+		check Result end
+
+		-- test adding different heiracrchy
+		set_enum.reactivate
+		p3.add_operand (int3)
+		set_enum.enter_element (p3)
+		set_enum.close
+		Result := set_enum.count = 2
+		check Result end
+	end
+
 
 
 end

@@ -15,9 +15,9 @@ feature
 		init_tests
 		do
 			add_boolean_case (agent test_eval_creation)
-			add_violation_case (agent test_eval_error_on_incomplete_expression)
-			add_boolean_case (agent test_eval_negation)
-			add_boolean_case (agent test_eval_diff)
+--			add_violation_case (agent test_eval_error_on_incomplete_expression)
+--			add_boolean_case (agent test_eval_negation)
+--			add_boolean_case (agent test_eval_diff)
 		end
 feature -- unit tests.
 
@@ -71,7 +71,6 @@ feature -- unit tests.
 		eval:EVAL
 		d:DIFFERENCE
 		b1,b2,b3: BOOLEAN_CONSTANT
-		i:INTEGER_CONSTANT
 		p:PRINTER
 		s1,s2: SET_ENUMERATION
 	do
@@ -89,7 +88,7 @@ feature -- unit tests.
 		s1.enter_element (b2)
 		s1.enter_element (b3)
 
-		
+
 
 
 

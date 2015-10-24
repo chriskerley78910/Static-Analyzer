@@ -18,6 +18,7 @@ feature {NONE}-- attributes
 
 	state: ENUMERATION_STATE
 
+
 feature -- constructors
 
 	make
@@ -43,10 +44,6 @@ feature -- commands
 		-- enters new element into the enumeration.
 	do
 		 	state.add (e)
-	ensure
-		count_increased:
-		not attached {COMPOSITE_EXPRESSION}e
-		implies state.count = old state.count + 1
 	end
 
 	reactivate

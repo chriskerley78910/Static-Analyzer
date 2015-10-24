@@ -29,7 +29,7 @@ feature -- commands
 	local
 		b:BOOLEAN
 	do
-		if across context as c all not c.item.is_equal (e) end then
+		if across context as c all not (c.item ~ e) end then
 		 	if attached {CONSTANT}e then
 			 	context.elements.put (e)
 			 	context.elements.forth
@@ -39,6 +39,11 @@ feature -- commands
 			 	context.set_state (create {INACTIVE_ENUM}.make(context))
 			 end
 		end
+	ensure then
+		count_increased:
+		not attached {COMPOSITE_EXPRESSION}e
+		and across context as c all not (c.item ~ e) end
+		implies current.count = old current.count + 1
 	end
 
 	reactivate

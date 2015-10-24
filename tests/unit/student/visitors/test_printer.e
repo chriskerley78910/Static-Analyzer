@@ -173,7 +173,7 @@ feature
 		Result := p.out ~ "{4,(+ True)}"
 		check Result end
 
-		-- no duplicates
+		 -- no duplicates
 		enum.make
 		enum.enter_element (create {INTEGER_CONSTANT}.make (3))
 		enum.enter_element (create {INTEGER_CONSTANT}.make (4))
