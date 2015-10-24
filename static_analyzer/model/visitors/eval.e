@@ -18,15 +18,10 @@ feature {NONE}
 
 	value: EXPRESSION
 
-	type_check: TYPE_CHECKER
-
 feature -- constructors
-
-
 
 	make
 	do
-		create type_check.make
 		value := create {NIL_EXPRESSION}.make
 	end
 
@@ -36,6 +31,64 @@ feature -- constructors
 	end
 
 feature {NONE} --  types of eval
+
+	evaluate(e:EXPRESSION):EXPRESSION
+	local
+		total: INTEGER
+		tmp: EXPRESSION
+		s:SET_ENUMERATION
+	do
+
+
+		Result := create {NIL_EXPRESSION}.make
+		if attached {PLUS}e as plus and then attached {INTEGER_CONSTANT}plus.get_left as l and then attached {INTEGER_CONSTANT}plus.get_right as r then
+			Result := create {INTEGER_CONSTANT}.make (l.get_value + r.get_value)
+		elseif attached {SUM}e as sum and then attached {SET_ENUMERATION}sum.get_operand as set then
+			-- sum up everthing in the set.
+			across
+				set as c
+			loop
+				if attached {INTEGER_CONSTANT}c.item as int then
+					total := total + int.get_value
+				elseif attached {COMPOSITE_EXPRESSION}c.item as comp then
+					tmp := evaluate(comp)
+					if attached {INTEGER_CONSTANT}tmp as i then
+						total := total + i.get_value
+					end
+				end
+			Result := create {INTEGER_CONSTANT}.make (total)
+			end
+		elseif attached {DIFFERENCE}e as diff
+				and then attached {SET_ENUMERATION}diff.get_left as l
+				and then attached {SET_ENUMERATION}diff.get_right as r then
+			create s.make -- create resulting set enumeration.
+
+			-- add all that are in left set but not in right.
+			across
+				l as left
+			loop
+				if across r as right all left.item /~ right.item end then
+					s.enter_element (left.item)
+				end
+			end
+
+			-- add all that are not in right but are in left.
+			across
+				r as right
+			loop
+				if across l as left all left.item /~ right.item end then
+					s.enter_element (right.item)
+				end
+			end
+
+			s.close
+			Result := s
+		elseif attached {EXISTS}e as exists then
+
+			-- Stopped here.
+
+		end
+	end
 
 
 feature -- queries
@@ -62,11 +115,13 @@ feature -- visitors
 
 	visit_plus(e: PLUS)
 	do
-
+		value := evaluate(e)
 	end
 
 	visit_sum(e: SUM)
-	do end
+	do
+		value := evaluate(e)
+	end
 
 	visit_negative(e: NEGATIVE)
 	do end
@@ -87,7 +142,9 @@ feature -- visitors
 	end
 
 	visit_difference(e:DIFFERENCE)
-	do end
+	do
+		value := evaluate(e)
+	end
 
 	visit_exists(e:EXISTS)
 	do end

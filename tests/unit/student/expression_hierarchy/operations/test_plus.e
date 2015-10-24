@@ -40,8 +40,9 @@ feature -- unit tests
 		plus.add_operand (create {INTEGER_CONSTANT}.make (3))
 		plus.add_operand (create {INTEGER_CONSTANT}.make (4))
 
-		Result := plus.get_left.is_equal (create {INTEGER_CONSTANT}.make (3))
-		and plus.get_right.is_equal (create {INTEGER_CONSTANT}.make (4))
+		if attached {INTEGER_CONSTANT}plus.get_left as l and then attached {INTEGER_CONSTANT}plus.get_right as r then
+			Result := l.get_value = 3 and r.get_value = 4
+		end
 		check Result end
 	end
 end
