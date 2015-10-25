@@ -84,9 +84,49 @@ feature {NONE} --  types of eval
 			s.close
 			Result := s
 		elseif attached {EXISTS}e as exists then
+			Result := create {BOOLEAN_CONSTANT}.make (true)
 
-			-- Stopped here.
+			if attached {SET_ENUMERATION}exists.get_operand as set then
+				Result :=
+					create {BOOLEAN_CONSTANT}.make (
+					across
+						set as c
+					some
+							(attached {BOOLEAN_CONSTANT}c.item as bool implies bool.get_state = True)
+						and	(attached {COMPOSITE_EXPRESSION}c.item as comp implies attached {BOOLEAN_CONSTANT}evaluate(comp) as bool and then bool.get_state = true)
 
+					end
+					)
+			end
+		elseif attached {FOR_ALL}e as forall then
+			Result := create {BOOLEAN_CONSTANT}.make (true)
+
+			if attached {SET_ENUMERATION}forall.get_operand as set then
+				Result :=
+					create {BOOLEAN_CONSTANT}.make (
+					across
+						set as c
+					all
+							(attached {BOOLEAN_CONSTANT}c.item as bool implies bool.get_state = True)
+						and	(attached {COMPOSITE_EXPRESSION}c.item as comp implies attached {BOOLEAN_CONSTANT}evaluate(comp) as bool and then bool.get_state = true)
+
+					end
+					)
+			end
+		elseif attached {NEGATION}e as neg then
+			if attached {BOOLEAN_CONSTANT}neg.get_operand as bool then
+					if bool.get_state then
+						Result := create {BOOLEAN_CONSTANT}.make (false)
+					else
+						Result := create {BOOLEAN_CONSTANT}.make (true)
+					end
+			elseif attached {COMPOSITE_EXPRESSION}neg.get_operand as comp then
+					if attached {BOOLEAN_CONSTANT}evaluate(comp) as bool and then bool.get_state = true then
+						Result := create {BOOLEAN_CONSTANT}.make (false)
+					else
+						Result := create {BOOLEAN_CONSTANT}.make (true)
+					end
+			end
 		end
 	end
 
@@ -131,14 +171,7 @@ feature -- visitors
 
 	visit_negation(e: NEGATION)
 	do
-		e.get_operand.accept (current)
-		if attached {BOOLEAN_CONSTANT}value as bool then
-			if bool.get_state then
-				value := create {BOOLEAN_CONSTANT}.make (false)
-			else
-				value := create {BOOLEAN_CONSTANT}.make (true)
-			end
-		end
+		value := evaluate(e)
 	end
 
 	visit_difference(e:DIFFERENCE)
@@ -147,7 +180,9 @@ feature -- visitors
 	end
 
 	visit_exists(e:EXISTS)
-	do end
+	do
+		value := evaluate(e)
+	end
 
 	visit_forall(e:FOR_ALL)
 	do end

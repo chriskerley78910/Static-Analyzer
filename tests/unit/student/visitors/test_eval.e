@@ -20,7 +20,9 @@ feature
 			add_boolean_case (agent test_eval_plus_invalid_operand)
 			add_boolean_case (agent test_eval_sum)
 			add_boolean_case (agent test_eval_diff)
---			add_boolean_case (agent test_eval_negation)
+			add_boolean_case (agent test_eval_exists)
+			add_boolean_case (agent test_eval_forall)
+			add_boolean_case (agent test_eval_negation)
 
 		end
 feature -- unit tests.
@@ -155,6 +157,120 @@ feature -- unit tests.
 		eval.get_value.accept (p)
 		Result := p.out ~ "{False,True,6}"
 
+	end
+
+	test_eval_exists:BOOLEAN
+	local
+		eval:EVAL
+		e:EXISTS
+		b,b2: BOOLEAN_CONSTANT
+		p:PRINTER
+		s:SET_ENUMERATION
+		neg:NEGATION
+
+	do
+		comment("test evaluate EXISTS.")
+		create eval.make
+		create e.make
+		create s.make
+		create b.make (true)
+		create b2.make (false)
+		s.enter_element (b)
+		s.enter_element (b2)
+		s.close
+		e.add_operand (s)
+		e.accept (eval)
+		create p.new_printer
+		eval.get_value.accept (p)
+		Result := p.out ~ "True"
+		check Result end
+
+		-- test false constant
+		b.set_state (false)
+		p.new_printer
+		e.accept (eval)
+		eval.get_value.accept (p)
+		Result := p.out ~ "False"
+		check Result end
+
+		-- test false composite
+		create neg.make
+		neg.add_operand (b)
+		s.make
+		s.enter_element (neg)  -- ! False,  False
+		s.enter_element (b2)
+		e.make
+		e.add_operand (s)
+		e.accept (eval)
+		p.new_printer
+		eval.get_value.accept (p)
+		Result := p.out ~ "True"
+		check Result end
+
+		b.set_state (true)	-- ! true, false  = false, false
+		p.new_printer
+		e.accept (eval)
+		eval.get_value.accept (p)
+		Result := p.out ~ "False"
+		check Result end
+	end
+
+	test_eval_forall:BOOLEAN
+	local
+		eval:EVAL
+		e:EXISTS
+		b,b2: BOOLEAN_CONSTANT
+		p:PRINTER
+		s:SET_ENUMERATION
+		neg:NEGATION
+
+	do
+		comment("test evaluate FORALL.")
+		create eval.make
+		create e.make
+		create s.make
+		create b.make (true)
+		create b2.make (true)
+		s.enter_element (b)
+		s.enter_element (b2)
+		s.close
+		e.add_operand (s)
+		e.accept (eval)
+		create p.new_printer
+		eval.get_value.accept (p)
+		Result := p.out ~ "True"
+		check Result end
+
+		-- test false constant
+		b.set_state (false)
+		p.new_printer
+		e.accept (eval)
+		eval.get_value.accept (p)
+		Result := p.out ~ "False"
+		check Result end
+
+		-- test false composite
+		create neg.make
+		neg.add_operand (b)
+		b2.set_state (false)
+		s.make
+		s.enter_element (neg)  -- &&  {! False,  False}
+		s.enter_element (b2)
+		e.make
+		e.add_operand (s)
+		e.accept (eval)
+		p.new_printer
+		eval.get_value.accept (p)
+		Result := p.out ~ "False"
+		check Result end
+
+--		-- && ! false, true  = true
+--		b2.set_state (true)
+--		p.new_printer
+--		e.accept (eval)
+--		eval.get_value.accept (p)
+--		Result := p.out ~ "True"
+--		check Result end
 	end
 
 	test_eval_negation:BOOLEAN
