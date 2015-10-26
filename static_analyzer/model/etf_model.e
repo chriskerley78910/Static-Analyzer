@@ -113,8 +113,6 @@ feature -- model operations
 			-- Perform update to the model state
 		do
 			i := i + 1
-
-
 		end
 
 

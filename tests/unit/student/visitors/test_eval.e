@@ -15,7 +15,6 @@ feature
 		init_tests
 		do
 			add_boolean_case (agent test_eval_creation)
-			add_violation_case (agent test_eval_error_on_incomplete_expression)
 			add_boolean_case (agent test_eval_plus)
 			add_boolean_case (agent test_eval_plus_invalid_operand)
 			add_boolean_case (agent test_eval_sum)
@@ -23,6 +22,9 @@ feature
 			add_boolean_case (agent test_eval_exists)
 			add_boolean_case (agent test_eval_forall)
 			add_boolean_case (agent test_eval_negation)
+			add_boolean_case (agent test_eval_gt)
+			add_boolean_case (agent test_eval_lt)
+			add_boolean_case (agent test_eval_negative)
 
 		end
 feature -- unit tests.
@@ -36,16 +38,6 @@ feature -- unit tests.
 		Result := attached {NIL_EXPRESSION}eval.get_value
 	end
 
-	test_eval_error_on_incomplete_expression
-	local
-		eval:EVAL
-		e:NEGATION
-	do
-		comment("test error on incomplete expression.")
-		create eval.make
-		create e.make
-		e.accept (eval) -- should fail because of nil element.
-	end
 
 	test_eval_plus:BOOLEAN
 	local
@@ -218,7 +210,7 @@ feature -- unit tests.
 	test_eval_forall:BOOLEAN
 	local
 		eval:EVAL
-		e:EXISTS
+		e:FOR_ALL
 		b,b2: BOOLEAN_CONSTANT
 		p:PRINTER
 		s:SET_ENUMERATION
@@ -251,11 +243,13 @@ feature -- unit tests.
 
 		-- test false composite
 		create neg.make
-		neg.add_operand (b)
+		create s.make
+		neg.add_operand (b)   -- ! false
 		b2.set_state (false)
-		s.make
-		s.enter_element (neg)  -- &&  {! False,  False}
-		s.enter_element (b2)
+		s.enter_element (neg)
+		s.reactivate
+		s.enter_element (b2) --{! False,  False}
+		s.close
 		e.make
 		e.add_operand (s)
 		e.accept (eval)
@@ -264,13 +258,13 @@ feature -- unit tests.
 		Result := p.out ~ "False"
 		check Result end
 
---		-- && ! false, true  = true
---		b2.set_state (true)
---		p.new_printer
---		e.accept (eval)
---		eval.get_value.accept (p)
---		Result := p.out ~ "True"
---		check Result end
+		-- && ! false, true  = true
+		b2.set_state (true)
+		p.new_printer
+		e.accept (eval)
+		eval.get_value.accept (p)
+		Result := p.out ~ "True"
+		check Result end
 	end
 
 	test_eval_negation:BOOLEAN
@@ -299,6 +293,94 @@ feature -- unit tests.
 		check Result end
 	end
 
+	test_eval_gt:BOOLEAN
+	local
+		gt:GREATER_THAN
+		int1,int2: INTEGER_CONSTANT
+		e:EVAL
+		p:PRINTER
+	do
+		comment("test evaluate GREATER_THAN.")
+		create p.new_printer
+		create e.make
+		create int1.make (1)
+		create int2.make (2)
+		create gt.make
 
+		gt.add_operand (int1)
+		gt.add_operand (int2)
+		gt.accept (e)
+		e.get_value.accept (p)
+		Result := p.out ~ "False"
+		check Result end
 
+		gt.make
+		gt.add_operand (int2)
+		gt.add_operand (int1)
+		gt.accept (e)
+		p.new_printer
+		e.get_value.accept (p)
+		Result := p.out ~ "True"
+		check Result end
+	end
+
+	test_eval_lt:BOOLEAN
+	local
+		lt:LESS_THAN
+		int1,int2: INTEGER_CONSTANT
+		e:EVAL
+		p:PRINTER
+	do
+		comment("test evaluate LESS_THAN.")
+		create p.new_printer
+		create e.make
+		create int1.make (1)
+		create int2.make (2)
+		create lt.make
+
+		lt.add_operand (int1)
+		lt.add_operand (int2)
+		lt.accept (e)
+		e.get_value.accept (p)
+		Result := p.out ~ "True"
+		check Result end
+
+		lt.make
+		lt.add_operand (int2)
+		lt.add_operand (int1)
+		lt.accept (e)
+		p.new_printer
+		e.get_value.accept (p)
+		Result := p.out ~ "False"
+		check Result end
+	end
+
+	test_eval_negative:BOOLEAN
+	local
+		neg:NEGATIVE
+		int1,int2: INTEGER_CONSTANT
+		e:EVAL
+		p:PRINTER
+	do
+		comment("test evaluate NEGATIVE.")
+		create p.new_printer
+		create e.make
+		create int1.make (1)
+		create neg.make
+
+		neg.add_operand (int1)
+		neg.accept (e)
+		e.get_value.accept (p)
+		Result := p.out ~ "-1"
+		check Result end
+
+		neg.make
+		create int2.make (-1)
+		neg.add_operand (int2)
+		neg.accept (e)
+		p.new_printer
+		e.get_value.accept (p)
+		Result := p.out ~ "1"
+		check Result end
+	end
 end

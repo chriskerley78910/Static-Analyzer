@@ -1,6 +1,6 @@
 note
-	description: "Summary description for {EVAL}."
-	author: ""
+	description: "Evaluator class, it assumed that all expressions are type correct before evaluating."
+	author: "Christopher Kerley"
 	date: "$Date$"
 	revision: "$Revision$"
 
@@ -113,6 +113,10 @@ feature {NONE} --  types of eval
 					end
 					)
 			end
+		elseif attached {GREATER_THAN}e as gt and then attached {INTEGER_CONSTANT}gt.get_left as l and then attached {INTEGER_CONSTANT}gt.get_right as r then
+			Result := create {BOOLEAN_CONSTANT}.make (l.get_value > r.get_value)
+		elseif attached {LESS_THAN}e as lt and then attached {INTEGER_CONSTANT}lt.get_left as l and then attached {INTEGER_CONSTANT}lt.get_right as r then
+			Result := create {BOOLEAN_CONSTANT}.make (l.get_value < r.get_value)
 		elseif attached {NEGATION}e as neg then
 			if attached {BOOLEAN_CONSTANT}neg.get_operand as bool then
 					if bool.get_state then
@@ -126,6 +130,10 @@ feature {NONE} --  types of eval
 					else
 						Result := create {BOOLEAN_CONSTANT}.make (true)
 					end
+			end
+		elseif attached {NEGATIVE}e as negative then
+			if attached {INTEGER_CONSTANT}negative.get_operand as int then
+				Result := create {INTEGER_CONSTANT}.make (-int.get_value)
 			end
 		end
 	end
@@ -164,7 +172,9 @@ feature -- visitors
 	end
 
 	visit_negative(e: NEGATIVE)
-	do end
+	do
+		value := evaluate(e)
+	end
 
 	visit_set_enum(e: SET_ENUMERATION)
 	do end
@@ -185,12 +195,18 @@ feature -- visitors
 	end
 
 	visit_forall(e:FOR_ALL)
-	do end
+	do
+		value := evaluate(e)
+	end
 
 	visit_greater_than(e: GREATER_THAN)
-	do end
+	do
+		value := evaluate(e)
+	end
 
 	visit_lt(e: LESS_THAN)
-	do end
+	do
+		value := evaluate(e)
+	end
 
 end
