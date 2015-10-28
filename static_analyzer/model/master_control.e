@@ -1,6 +1,6 @@
 note
 	description: "Summary description for {MASTER_CONTROL}."
-	author: ""
+	author: "Christopher Kerley"
 	date: "$Date$"
 	revision: "$Revision$"
 
@@ -48,6 +48,7 @@ feature -- queries
 	do
 
 	end
+
 
 
 feature -- commands

@@ -15,14 +15,14 @@ feature -- constructors
 
 	init_tests
 	do
-		add_violation_case_with_tag ("incomplete_expression_error", agent test_mc_creation)
+		add_violation_case_with_tag ("incomplete_expression_error", agent test_mc_incomplete_exp)
 		add_boolean_case (agent test_mc_add_int)
 	end
 
 
 feature -- unit tests
 
-	test_mc_creation
+	test_mc_incomplete_exp
 	local
 		mc: MASTER_CONTROL
 		e: EXPRESSION
@@ -37,7 +37,9 @@ feature -- unit tests
 		mc: MASTER_CONTROL
 	do
 		comment("test MASTER_CONTROL add integer")
-		Result := false
+
+
+
 	end
 
 end

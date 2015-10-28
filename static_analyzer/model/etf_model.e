@@ -32,16 +32,13 @@ feature -- model attributes
 
 feature {ETF_COMMAND}-- report items  (only can be set by abtract user interface)
 
--- default report string is empty
+
 	report : STRING
 	attribute create Result.make_empty end
 
---When the static analyzer is first started.
 	report_initialized: STRING
 	attribute Result :=  "Expression is initialized." end
 
---When the static analyzer is successfully reset,
---or when the last expression input by the user
 	report_success: STRING
 	attribute Result := "OK." end
 
@@ -88,11 +85,9 @@ feature {ETF_COMMAND}-- report items  (only can be set by abtract user interface
 	report_set_enum_must_be_non_empty: STRING
 	attribute Result := "Error: (Set enumeration must be non-empty)." end
 
---When the user attempts to close a pending set
---enumeration, but no member expressions have
---been specified for that set enumeration.
 	report_is_type_correct: STRING
 	attribute Result := "is type-correct." end
+	
 
 feature -- set report
 
@@ -106,14 +101,15 @@ feature -- model operations
 
 	reset
 	do
-
 	end
 
 	default_update
-			-- Perform update to the model state
-		do
-			i := i + 1
-		end
+		-- Perform update to the model state
+	require
+		i > 0
+	do
+		i := i + 1
+	end
 
 
 
