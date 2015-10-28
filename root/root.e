@@ -34,7 +34,7 @@ feature -- Attributes
 	switch: INTEGER
 			-- Running mode of ETF application.
 		do
-			Result := etf_cl_show_history
+			Result := unit_test
 		end
 
 feature -- Tests
@@ -74,6 +74,8 @@ feature -- Tests
 			add_test (create {TEST_TYPE_CHECKER}.init_tests)
 			add_test (create {TEST_EVAL}.init_tests)
 			-- add cluster for tests
+
+			add_test (create {TEST_MASTER_CONTROL}.init_tests)
 		end
 
 feature -- Constructor
