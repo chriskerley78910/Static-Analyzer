@@ -1,0 +1,4 @@
+reset
+add_integer_constant(5)
+
+

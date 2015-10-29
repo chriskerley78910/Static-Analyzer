@@ -29,6 +29,9 @@ feature -- commands
 
 	-- before every evaluation a type check is done.
 	-- when ever a composite expression is completed and it is contained within a set, the set will be reactivated.
+	-- an algorithm must place each new part into the correct place in the composite.
+	-- a set must be started and ended explicitly
+
 
 feature -- queries
 

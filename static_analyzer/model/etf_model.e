@@ -20,15 +20,17 @@ feature {NONE} -- Initialization
 	make
 			-- Initialization for `Current'.
 		do
-
-			create s.make_empty
+			create p.new_printer
+			create {NIL_EXPRESSION}e.make
 			i := 0
 			report := report_initialized
+
 		end
 
 feature -- model attributes
-	s : STRING	-- output of pretty print.
 	i : INTEGER -- keeps track of how many commands are done.
+	e : EXPRESSION -- handle to the current expression.
+	p : PRINTER	   -- handles pretty printing.
 
 feature {ETF_COMMAND}-- report items  (only can be set by abtract user interface)
 
@@ -42,52 +44,30 @@ feature {ETF_COMMAND}-- report items  (only can be set by abtract user interface
 	report_success: STRING
 	attribute Result := "OK." end
 
---When the user attempts to reset the expres-
---sion immediately after it is initialized or re-
---initialized.
 	report_cant_reset_initial_expression: STRING
 	attribute Result := "Error (Initial expression cannot be reset)." end
 
---When the user attempts to add a new sub-
---expression, or to close a set enumeration, but
---the expression being specified has been com-
---pleted already.
 	report_expression_already_fully_specified: STRING
 	attribute Result := "Error (Expression is already fully specified)." end
 
-
---When the user attempts to type check or eval-
---uate, but the expression being specified has not
---yet been completed.
 	report_expression_not_fully_spec_: STRING
 	attribute Result := "Error (Expression is not yet fully specified)." end
 
---When the user attempts to evaluate the expres-
---sion that has been completely specified but is
---not type-correct.
 	report__expression_not_type_correct: STRING
 	attribute Result := "Error (Expression is not type-correct)." end
 
---When the user attempts to evaluate a division
---where the divisor is zero
 	report_cant_divide_by_zero: STRING
 	attribute Result := "Error (Divisor is zero)." end
 
---When the user attempts to close a set enumer-
---ation, but there is currently not a pending set
---enumeration.
 	report_set_enum_not_being_spec: STRING
 	attribute Result := "Error (Set enumeration is not being specified)." end
 
---When the user attempts to close a pending set
---enumeration, but no member expressions have
---been specified for that set enumeration.
 	report_set_enum_must_be_non_empty: STRING
 	attribute Result := "Error: (Set enumeration must be non-empty)." end
 
 	report_is_type_correct: STRING
 	attribute Result := "is type-correct." end
-	
+
 
 feature -- set report
 
@@ -99,14 +79,20 @@ end
 
 feature -- model operations
 
-	reset
+	add_int(int:INTEGER)
 	do
+		enter_element(create {INTEGER_CONSTANT}.make (int))
+	end
+
+	reset
+	require
+		i > 0
+	do
+		create {NIL_EXPRESSION}e.make
 	end
 
 	default_update
 		-- Perform update to the model state
-	require
-		i > 0
 	do
 		i := i + 1
 	end
@@ -116,12 +102,34 @@ feature -- model operations
 -- *************************** COMMANDS *************************************
 
 
+feature {NONE} -- aux commands
+
+	enter_element(new_e:EXPRESSION)
+	local
+		tmp: EXPRESSION
+	do
+		-- traverse the tree to find the first nil expression
+		from
+			tmp := e
+		until
+			attached {NIL_EXPRESSION}tmp
+		loop
+			-- only true when the first nil is encountered.
+		end
+
+		-- replace the nill expression with 'e'
+		 tmp := new_e
+
+	end
+
 feature -- queries
 	out : STRING
 		do
+			p.new_printer
+			e.accept (p)
 			create Result.make_from_string ("  ")
 			Result.append ("Expression currently specified: ")
-			Result.append (s.out + "%N")
+			Result.append (p.out + "%N")
 			Result.append ("  Report: ")
 			Result.append (report)
 		end
