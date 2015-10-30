@@ -14,7 +14,9 @@ create
 feature -- command
 	evaluate
     	do
-
+--    		if model.type_check then
+--    			model.evaluate
+--    		end
 			model.default_update
 			-- perform some update on the model state
 			etf_cmd_container.on_change.notify ([Current])

@@ -71,10 +71,10 @@ feature {ETF_COMMAND}-- report items  (only can be set by abtract user interface
 
 feature -- set report
 
-set_report(new_report: STRING)
-do
-	report := new_report
-end
+	set_report(new_report: STRING)
+	do
+		report := new_report
+	end
 
 
 feature -- model operations
@@ -102,25 +102,21 @@ feature -- model operations
 -- *************************** COMMANDS *************************************
 
 
-feature {NONE} -- aux commands
+feature -- aux commands
 
 	enter_element(new_e:EXPRESSION)
-	local
-		tmp: EXPRESSION
 	do
-		-- traverse the tree to find the first nil expression
-		from
-			tmp := e
-		until
-			attached {NIL_EXPRESSION}tmp
-		loop
-			-- only true when the first nil is encountered.
+		if attached {NIL_EXPRESSION}e then e:= new_e
+		elseif attached {COMPOSITE_EXPRESSION}e as c then
+			traverse(new_e,c)
 		end
-
-		-- replace the nill expression with 'e'
-		 tmp := new_e
-
 	end
+
+	traverse(new_e:EXPRESSION; c:COMPOSITE_EXPRESSION)
+	do
+		-- across c as index loop if attached {NIL_EXPRESSION}index.item then index.item := new_e end  end
+	end
+
 
 feature -- queries
 	out : STRING
