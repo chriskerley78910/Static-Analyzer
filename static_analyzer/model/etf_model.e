@@ -79,11 +79,6 @@ feature -- set report
 
 feature -- model operations
 
-	add_int(int:INTEGER)
-	do
-		enter_element(create {INTEGER_CONSTANT}.make (int))
-	end
-
 	reset
 	require
 		i > 0
@@ -101,21 +96,6 @@ feature -- model operations
 
 -- *************************** COMMANDS *************************************
 
-
-feature -- aux commands
-
-	enter_element(new_e:EXPRESSION)
-	do
-		if attached {NIL_EXPRESSION}e then e:= new_e
-		elseif attached {COMPOSITE_EXPRESSION}e as c then
-			traverse(new_e,c)
-		end
-	end
-
-	traverse(new_e:EXPRESSION; c:COMPOSITE_EXPRESSION)
-	do
-		-- across c as index loop if attached {NIL_EXPRESSION}index.item then index.item := new_e end  end
-	end
 
 
 feature -- queries

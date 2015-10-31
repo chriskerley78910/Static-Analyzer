@@ -12,6 +12,7 @@ undefine
 	out
 end
 
+
 feature
 
 	visit_bool_const(e: BOOLEAN_CONSTANT)

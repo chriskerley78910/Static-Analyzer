@@ -26,10 +26,7 @@ feature -- unit tests
 		e: EXPRESSION
 	do
 		comment("add a integer element to the tree.")
-		create {INTEGER_CONSTANT}e.make (3)
-		m_access.m.enter_element (e)
-		Result := m_access.m.out ~ "Expression currently specified: 3%N"
-	end
+		Result := false	end
 end
 
 
