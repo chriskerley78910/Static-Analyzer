@@ -61,7 +61,7 @@ feature -- traversal
 
 	add_bool(b: BOOLEAN)
 	do
-
+		add_element(create {BOOLEAN_CONSTANT}.make (b))
 	end
 
 	add_set_enum
@@ -71,7 +71,7 @@ feature -- traversal
 
 	add_plus
 	do
-
+		add_element(create {PLUS}.make)
 	end
 
 	add_diff
@@ -81,7 +81,7 @@ feature -- traversal
 
 	add_exists
 	do
-
+		add_element(create {EXISTS}.make)
 	end
 
 	add_for_all
@@ -114,36 +114,42 @@ feature -- traversal
 
 	end
 
-	nil_found: BOOLEAN
+	nil_count: INTEGER
 
 	fetch_nil:COMPOSITE_EXPRESSION
 		-- returns the enclosing parent of a nil expression.
 	do
-		nil_found := false
+		nil_count := 0
 		Result := create {PLUS}.make  -- TEMP DUMM
-		if attached {COMPOSITE_EXPRESSION}expres as c and not nil_found then
+		if attached {COMPOSITE_EXPRESSION}expres as c and nil_count = 0 then
 			Result := recurse(c)
 		end
 	ensure
-		nil_found
+		nil_exists:
+		nil_count > 0
 	end
 
 	recurse(c:COMPOSITE_EXPRESSION):COMPOSITE_EXPRESSION
 	-- if there is a enclosed nil in the composite this returns the enclosing parent
+	local
+		dummy: COMPOSITE_EXPRESSION
 	do
 		Result := create {PLUS}.make  -- TEMP DUMMY
+
 		across
 			c as comp
 		loop
-			if attached {NIL_EXPRESSION}comp.item and not nil_found then
+			if attached {NIL_EXPRESSION}comp.item and nil_count = 0 then
 				Result := c
-				nil_found := true
-			elseif attached {COMPOSITE_EXPRESSION}comp.item as composite and not nil_found then
+				nil_count := nil_count + 1
+			elseif attached {COMPOSITE_EXPRESSION}comp.item as composite and nil_count = 0 then
 				Result := recurse(composite)
+			elseif attached {NIL_EXPRESSION}comp.item and nil_count > 0 then
+				nil_count := nil_count + 1
+			elseif attached {COMPOSITE_EXPRESSION}comp.item as composite and nil_count > 0 then
+				dummy := recurse(composite)
 			end
 		end
-	ensure
-		nil_found
 	end
 
 
