@@ -52,6 +52,29 @@ feature -- traversal
 		elseif attached {SET_ENUMERATION}fetch_nil as enum then
 			enum.enter_element (e)
 		end
+
+	end
+
+	consider_enum_reactivate
+	-- finds the lowest inactive enum in the tree and reactivates it if it has no nil decendants.
+	local
+		set_enum: SET_ENUMERATION
+	do
+		if attached {COMPOSITE_EXPRESSION}expres as c then
+			across
+				c as composite
+			loop
+				if attached {SET_ENUMERATION}composite.item as comp and then comp.is_inactive then
+					set_enum := recursive_e_react(comp)
+				end
+			end
+		end
+	end
+
+	recursive_enum_reactivate(exp: COMPOSITE_EXPRESSION, acc: SET_ENUMERATION):SET_ENUMERATION
+		-- find the inactive enum which is lowest in tree.
+	do
+
 	end
 
 	add_int(i:INTEGER)
@@ -114,19 +137,19 @@ feature -- traversal
 
 	end
 
-	nil_count: INTEGER
+	nil_found: BOOLEAN
 
 	fetch_nil:COMPOSITE_EXPRESSION
 		-- returns the enclosing parent of a nil expression.
 	do
-		nil_count := 0
+		nil_found := false
 		Result := create {PLUS}.make  -- TEMP DUMM
-		if attached {COMPOSITE_EXPRESSION}expres as c and nil_count = 0 then
+		if attached {COMPOSITE_EXPRESSION}expres as c and not nil_found then
 			Result := recurse(c)
 		end
 	ensure
 		nil_exists:
-		nil_count > 0
+		nil_found
 	end
 
 	recurse(c:COMPOSITE_EXPRESSION):COMPOSITE_EXPRESSION
@@ -139,15 +162,11 @@ feature -- traversal
 		across
 			c as comp
 		loop
-			if attached {NIL_EXPRESSION}comp.item and nil_count = 0 then
+			if attached {NIL_EXPRESSION}comp.item and not nil_found then
 				Result := c
-				nil_count := nil_count + 1
-			elseif attached {COMPOSITE_EXPRESSION}comp.item as composite and nil_count = 0 then
+				nil_found := true
+			elseif attached {COMPOSITE_EXPRESSION}comp.item as composite and not nil_found then
 				Result := recurse(composite)
-			elseif attached {NIL_EXPRESSION}comp.item and nil_count > 0 then
-				nil_count := nil_count + 1
-			elseif attached {COMPOSITE_EXPRESSION}comp.item as composite and nil_count > 0 then
-				dummy := recurse(composite)
 			end
 		end
 	end

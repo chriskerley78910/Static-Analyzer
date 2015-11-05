@@ -24,6 +24,9 @@ feature -- commmands
 		attached {INACTIVE_ENUM}current
 	deferred end
 
+	has_nil_decendant:BOOLEAN
+	deferred end
+
 	close
 	deferred end
 

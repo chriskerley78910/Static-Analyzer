@@ -82,7 +82,7 @@ feature -- unit tests
 		p:PRINTER
 	do
 
-		comment("test incomplete subexpresson of enum")
+		comment("test complete subexpresson of enum")
 		create b.make
 		b.add_set_enum
 		b.add_int(3)

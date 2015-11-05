@@ -24,6 +24,7 @@ feature -- creation
 			add_boolean_case (agent test_set_enum_reactivate_state_good)
 			add_boolean_case (agent test_set_enum_no_duplicates)
 			add_boolean_case (agent test_set_enum_no_duplicate_heirarchies)
+			add_boolean_case (agent test_set_enum_has_nil_decendant)
 	end
 
 feature -- unit tests
@@ -148,6 +149,7 @@ feature -- unit tests
 		check Result end
 	end
 
+
 	test_set_enum_no_duplicate_heirarchies:BOOLEAN
 	local
 		set_enum:SET_ENUMERATION
@@ -184,6 +186,25 @@ feature -- unit tests
 		check Result end
 	end
 
+	test_set_enum_has_nil_decendant:BOOLEAN
+	local
+		set_enum:SET_ENUMERATION
+		plus: PLUS
+		int1,int2: INTEGER_CONSTANT
+	do
+		comment("t9: test that has nil decendant works")
+		create set_enum.make
+		create plus.make
+		create int1.make (3)
+		create int2.make (4)
+		set_enum.enter_element (plus)
+		plus.add_operand (int1)
+		Result := set_enum.has_nil_decendant
+		check Result end
 
+		plus.add_operand (int2)
+		Result := not set_enum.has_nil_decendant
+		check Result end
+	end
 
 end

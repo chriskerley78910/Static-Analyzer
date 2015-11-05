@@ -55,6 +55,13 @@ feature -- commands
 		False
 	end
 
+	has_nil_decendant:BOOLEAN
+	do
+	ensure then
+	 -- an active enum will never have a nil decendant since all previous elements are assumeed to be filled.
+		false
+	end
+
 	close
 		-- closes this open enum.
 	local

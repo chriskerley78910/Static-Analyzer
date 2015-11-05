@@ -28,10 +28,6 @@ feature -- commands
 
 	do
 
-		-- nil member -> (open active enum ^ unfilled composite)
-		-- check that no decendants are nil
-		-- if none are nill then swtich context to active state
-		-- else violation.
 	end
 
 	reactivate
@@ -58,6 +54,14 @@ feature -- commands
 
 feature -- auxilary queries
 
+	has_nil_decendant:BOOLEAN
+	do
+		Result :=
+		across context as cur some
+			attached {COMPOSITE_EXPRESSION}cur.item as item implies has_nil_decend(item)
+		end
+	end
+
 	has_nil_decend(e:COMPOSITE_EXPRESSION):BOOLEAN
 	do
 		across
@@ -66,7 +70,7 @@ feature -- auxilary queries
 			if attached {COMPOSITE_EXPRESSION}cur.item as comp then
 				Result := has_nil_decend(comp)
 			elseif attached {NIL_EXPRESSION}cur.item then
-				Result := True
+				Result := true
 			end
 		end
 	end

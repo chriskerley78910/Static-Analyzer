@@ -39,6 +39,13 @@ feature -- commands
 		False
 	end
 
+	has_nil_decendant:BOOLEAN
+	do
+	ensure then
+	 -- a closed enum will never have a nil decendant since all elements are assumeed to be filled.
+		false
+	end
+
 	close
 		-- can't close a set enumeration that's already closed
 	do

@@ -61,6 +61,11 @@ feature -- commands
 		 -- if parent is a enumeration, move its state from INACTIVE to ACTIVE
 	end
 
+	has_nil_decendant:BOOLEAN
+	do
+		Result := state.has_nil_decendant
+	end
+
 feature {ENUMERATION_STATE}-- hidden commands
 
 	set_state(s:ENUMERATION_STATE)

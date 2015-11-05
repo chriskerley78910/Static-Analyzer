@@ -44,6 +44,13 @@ feature -- commands
 
 	end
 
+	has_nil_decendant:BOOLEAN
+	do
+	ensure then
+	 -- a new enum will never have a nil decendant since nothing has been added to it yet.
+		false
+	end
+
 	reactivate
 	do
 		-- do Nothing.
