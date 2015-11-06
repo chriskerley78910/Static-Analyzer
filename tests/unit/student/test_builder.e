@@ -100,7 +100,6 @@ feature -- unit tests
 		create p.new_printer
 		b.get_result.accept(p)
 		Result := p.out ~ "{3,True,(2 + (3 + 3)),?}"
---	Result := p.out ~ "{True, 4, (5 + False)}"
 	end
 
 end

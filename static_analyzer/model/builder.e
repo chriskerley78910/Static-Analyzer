@@ -7,7 +7,6 @@ note
 class
 	BUILDER
 inherit
-	VISITOR
 	ANY
 redefine
 	out
@@ -53,29 +52,9 @@ feature -- traversal
 			enum.enter_element (e)
 		end
 
+		-- need a way to find the parent enumeration to reactivated it.
 	end
 
-	consider_enum_reactivate
-	-- finds the lowest inactive enum in the tree and reactivates it if it has no nil decendants.
-	local
-		set_enum: SET_ENUMERATION
-	do
-		if attached {COMPOSITE_EXPRESSION}expres as c then
-			across
-				c as composite
-			loop
-				if attached {SET_ENUMERATION}composite.item as comp and then comp.is_inactive then
-					set_enum := recursive_e_react(comp)
-				end
-			end
-		end
-	end
-
-	recursive_enum_reactivate(exp: COMPOSITE_EXPRESSION, acc: SET_ENUMERATION):SET_ENUMERATION
-		-- find the inactive enum which is lowest in tree.
-	do
-
-	end
 
 	add_int(i:INTEGER)
 	do
@@ -167,54 +146,12 @@ feature -- traversal
 				nil_found := true
 			elseif attached {COMPOSITE_EXPRESSION}comp.item as composite and not nil_found then
 				Result := recurse(composite)
+				-- backtracking recursion, reactivate the closest ancestor enum if its inactive and there are no more nils.
+				if attached {SET_ENUMERATION}comp.item as set and then nil_found and then set.is_inactive then
+					set.reactivate
+				end
 			end
 		end
 	end
-
-
-feature -- visitors
-
-	visit_bool_const(e: BOOLEAN_CONSTANT)
-	do
-		-- error
-	end
-
-	visit_nil(e: NIL_EXPRESSION)
-	do
-
-	end
-
-	visit_int_const(e: INTEGER_CONSTANT)
-	do end
-
-	visit_plus(e: PLUS)
-	do end
-
-	visit_sum(e: SUM)
-	do end
-
-	visit_negative(e: NEGATIVE)
-	do end
-
-	visit_set_enum(e: SET_ENUMERATION)
-	do end
-
-	visit_negation(e: NEGATION)
-	do end
-
-	visit_difference(e:DIFFERENCE)
-	do end
-
-	visit_exists(e:EXISTS)
-	do end
-
-	visit_forall(e:FOR_ALL)
-	do end
-
-	visit_greater_than(e: GREATER_THAN)
-	do end
-
-	visit_lt(e: LESS_THAN)
-	do end
 
 end

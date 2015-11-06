@@ -76,7 +76,6 @@ feature -- Tests
 			add_test (create {TEST_BUILDER}.init_tests)
 			-- add cluster for tests
 
-			add_test (create {TEST_MASTER_CONTROL}.init_tests)
 			add_test (create {TEST_ETF_MODEL}.init_tests)
 		end
 
