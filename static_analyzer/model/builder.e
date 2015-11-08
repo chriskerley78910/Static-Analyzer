@@ -48,6 +48,8 @@ feature {NONE} -- traversal algorithms
 	do
 		if attached {NIL_EXPRESSION}expres then
 			expres := e
+		elseif attached {UNARY_OP}fetch_nil as un_op then
+			un_op.add_operand (e)
 		elseif attached {BINARY_OP}fetch_nil as bin_op then
 			bin_op.add_operand (e)
 		elseif attached {SET_ENUMERATION}fetch_nil as enum then
@@ -166,6 +168,24 @@ feature {NONE} -- traversal algorithms
 		end
 	end
 
+	recurse_close_set(c:COMPOSITE_EXPRESSION)
+	local
+		set_closed: BOOLEAN
+	do
+		set_closed := false
+		across
+			c as index
+		loop
+			if attached {SET_ENUMERATION}index.item as set and then set.is_active then
+				set.close
+				set_closed := true
+			elseif attached {COMPOSITE_EXPRESSION}index.item as composite and then not set_closed then
+				recurse_close_set(composite)
+			end
+		end
+	end
+
+
 	feature -- building commands
 
 	add_int(i:INTEGER)
@@ -189,24 +209,27 @@ feature {NONE} -- traversal algorithms
 		set_closed: BOOLEAN
 	do
 		set_closed := false
-		if attached {COMPOSITE_EXPRESSION}expres as comp then
+		if attached {SET_ENUMERATION}expres as set and then set.is_active then
+			set.close
+			set_closed := true
+		elseif attached {COMPOSITE_EXPRESSION}expres as comp and not set_closed then
 			across
 				comp as index
 			loop
 				if attached {SET_ENUMERATION}index.item as set and then set.is_active then
 					set.close
 					set_closed := true
-				elseif attached {COMPOSITE_EXPRESSION}index.item as c and then set_closed = false then
-					-- left off here
+				elseif attached {COMPOSITE_EXPRESSION}index.item as c and then not set_closed then
+					recurse_close_set(c)
 				end
 			end
 		end
+
+		if no_nil_decendants then
+			reactivate_lowest_inactive_enum
+		end
 	end
 
-	recurse_close_set(c:COMPOSITE_EXPRESSION)
-	do
-		-- and here.
-	end
 
 	add_plus
 	do
@@ -215,7 +238,7 @@ feature {NONE} -- traversal algorithms
 
 	add_diff
 	do
-
+		add_element(create {DIFFERENCE}.make)
 	end
 
 	add_exists
@@ -225,32 +248,32 @@ feature {NONE} -- traversal algorithms
 
 	add_for_all
 	do
-
+		add_element(create {FOR_ALL}.make)
 	end
 
 	add_gt
 	do
-
+		add_element(create {GREATER_THAN}.make)
 	end
 
 	add_lt
 	do
-
+		 add_element(create {LESS_THAN}.make)
 	end
 
 	add_negation
 	do
-
+		add_element(create {NEGATION}.make)
 	end
 
 	add_negative
 	do
-
+		 add_element(create {NEGATIVE}.make)
 	end
 
 	add_sum
 	do
-
+		 add_element(create {SUM}.make)
 	end
 
 

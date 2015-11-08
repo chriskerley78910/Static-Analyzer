@@ -21,16 +21,18 @@ feature {NONE} -- Initialization
 			-- Initialization for `Current'.
 		do
 			create p.new_printer
-			create {NIL_EXPRESSION}e.make
+			create builder.make
 			i := 0
 			report := report_initialized
 
 		end
 
 feature -- model attributes
-	i : INTEGER -- keeps track of how many commands are done.
-	e : EXPRESSION -- handle to the current expression.
+		i : INTEGER -- keeps track of how many commands are done.
+feature {NONE}-- private attributes
+
 	p : PRINTER	   -- handles pretty printing.
+	builder : BUILDER	   -- builds the expression.
 
 feature {ETF_COMMAND}-- report items  (only can be set by abtract user interface)
 
@@ -83,7 +85,7 @@ feature -- model operations
 	require
 		i > 0
 	do
-		create {NIL_EXPRESSION}e.make
+		create builder.make
 	end
 
 	default_update
@@ -91,6 +93,13 @@ feature -- model operations
 	do
 		i := i + 1
 	end
+
+	add_plus
+	do
+		builder.add_plus
+	end
+
+
 
 
 
@@ -102,7 +111,6 @@ feature -- queries
 	out : STRING
 		do
 			p.new_printer
-			e.accept (p)
 			create Result.make_from_string ("  ")
 			Result.append ("Expression currently specified: ")
 			Result.append (p.out + "%N")

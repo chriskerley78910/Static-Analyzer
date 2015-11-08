@@ -109,7 +109,9 @@ feature
 	end
 
 	visit_negative(e: NEGATIVE)
-	do end
+	do
+		visit_unary_op(e,"-")
+	end
 
 	visit_negation(e: NEGATION)
 	do
