@@ -19,6 +19,7 @@ feature -- command
 				model.set_report (model.report_cant_reset_initial_expression)
 			else
 				model.reset
+				model.set_report (model.report_success)
 			end
 			etf_cmd_container.on_change.notify ([Current])
     	end

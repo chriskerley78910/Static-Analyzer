@@ -16,10 +16,12 @@ inherit
 create {ETF_MODEL_ACCESS}
 	make
 
-feature {NONE} -- Initialization
+feature {ETF_MODEL} -- Initialization
 	make
 			-- Initialization for `Current'.
 		do
+			create eval.make
+			create tc.make
 			create p.new_printer
 			create builder.make
 			i := 0
@@ -30,7 +32,8 @@ feature {NONE} -- Initialization
 feature -- model attributes
 		i : INTEGER -- keeps track of how many commands are done.
 feature {NONE}-- private attributes
-
+	eval: EVAL
+	tc: TYPE_CHECKER
 	p : PRINTER	   -- handles pretty printing.
 	builder : BUILDER	   -- builds the expression.
 
@@ -81,11 +84,25 @@ feature -- set report
 
 feature -- model operations
 
+	evaluate
+	do
+		builder.get_result.accept (eval)
+		p.new_printer
+		eval.get_value.accept (p)
+		current.set_report (p.out)
+	end
+
 	reset
 	require
 		i > 0
 	do
-		create builder.make
+		current.make
+	end
+
+	type_check:BOOLEAN
+	do
+		builder.get_result.accept (tc)
+		Result := tc.get_value
 	end
 
 	default_update
@@ -94,23 +111,21 @@ feature -- model operations
 		i := i + 1
 	end
 
-	add_plus
-	do
-		builder.add_plus
-	end
-
-
-
-
-
 -- *************************** COMMANDS *************************************
 
 
 
 feature -- queries
+
+	get_builder: BUILDER
+	do
+		result := builder
+	end
+
 	out : STRING
 		do
 			p.new_printer
+			builder.get_result.accept (p)
 			create Result.make_from_string ("  ")
 			Result.append ("Expression currently specified: ")
 			Result.append (p.out + "%N")

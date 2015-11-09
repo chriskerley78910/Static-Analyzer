@@ -14,7 +14,7 @@ create
 feature -- command
 	add_addition
     	do
-			model.add_plus -- left off here.
+			model.get_builder.add_plus
 			model.default_update
 			-- perform some update on the model state
 			etf_cmd_container.on_change.notify ([Current]) -- observer pattern

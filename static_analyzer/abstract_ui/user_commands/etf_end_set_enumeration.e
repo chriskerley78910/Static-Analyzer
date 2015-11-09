@@ -14,8 +14,13 @@ create
 feature -- command
 	end_set_enumeration
     	do
-
-			model.default_update
+			model.get_builder.close_set
+			if model.get_builder.set_was_closed then
+				model.set_report (model.report_success)
+				model.default_update
+			else
+				model.set_report (model.report_set_enum_not_being_spec)
+			end
 			-- perform some update on the model state
 			etf_cmd_container.on_change.notify ([Current])
     	end

@@ -15,7 +15,12 @@ feature -- command
 	add_boolean_constant(c: BOOLEAN)
     	do
 
-			model.default_update
+			model.get_builder.add_bool (c)
+			if true then
+				model.set_report (model.report_success)
+				model.default_update
+			end
+
 			-- perform some update on the model state
 			etf_cmd_container.on_change.notify ([Current])
     	end

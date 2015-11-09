@@ -42,6 +42,12 @@ feature -- constructors
 		Result := expres
 	end
 
+feature -- queries
+
+	set_was_closed: BOOLEAN
+	do
+		result := set_closed
+	end
 feature {NONE} -- traversal algorithms
 
 	add_element(e:EXPRESSION)
@@ -168,11 +174,10 @@ feature {NONE} -- traversal algorithms
 		end
 	end
 
+	set_closed: BOOLEAN
+
 	recurse_close_set(c:COMPOSITE_EXPRESSION)
-	local
-		set_closed: BOOLEAN
 	do
-		set_closed := false
 		across
 			c as index
 		loop
@@ -188,25 +193,8 @@ feature {NONE} -- traversal algorithms
 
 	feature -- building commands
 
-	add_int(i:INTEGER)
-	do
-		add_element(create {INTEGER_CONSTANT}.make (i))
-	end
-
-	add_bool(b: BOOLEAN)
-	do
-		add_element(create {BOOLEAN_CONSTANT}.make (b))
-	end
-
-	add_set_enum
-	do
-		add_element(create {SET_ENUMERATION}.make)
-	end
-
 	close_set
 		-- closes the current active set enumeration. (assumes that only one set enum is active at a time).
-	local
-		set_closed: BOOLEAN
 	do
 		set_closed := false
 		if attached {SET_ENUMERATION}expres as set and then set.is_active then
@@ -230,6 +218,21 @@ feature {NONE} -- traversal algorithms
 		end
 	end
 
+
+	add_int(i:INTEGER)
+	do
+		add_element(create {INTEGER_CONSTANT}.make (i))
+	end
+
+	add_bool(b: BOOLEAN)
+	do
+		add_element(create {BOOLEAN_CONSTANT}.make (b))
+	end
+
+	add_set_enum
+	do
+		add_element(create {SET_ENUMERATION}.make)
+	end
 
 	add_plus
 	do

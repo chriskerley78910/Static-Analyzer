@@ -14,7 +14,8 @@ create
 feature -- command
 	add_integer_constant(c: INTEGER)
     	do
-			model.default_update
+    		model.get_builder.add_int (c)
+    		model.default_update
 			-- perform some update on the model state
 			etf_cmd_container.on_change.notify ([Current])
     	end

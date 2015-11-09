@@ -14,8 +14,12 @@ create
 feature -- command
 	type_check
     	do
+			if model.type_check	then
+				model.set_report (model.report_is_type_correct)
+			else
+				model.set_report (model.report__expression_not_type_correct)
+			end
 
-			model.default_update
 			-- perform some update on the model state
 			etf_cmd_container.on_change.notify ([Current])
     	end
