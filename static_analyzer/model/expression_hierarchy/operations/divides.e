@@ -10,13 +10,12 @@ inherit
 	ARITHMETIC_TYPE
 	BINARY_OP
 redefine
-	make
+	make,
+	is_equal
 end
 
 create
 	make
-
-feature -- constructors
 
 feature -- constructors
 
@@ -32,5 +31,11 @@ feature -- equality
 		Result := precursor(other)
 	end
 
+feature -- visitor
+
+	accept(v:VISITOR)
+	do
+		v.visit_divides(current)
+	end
 
 end

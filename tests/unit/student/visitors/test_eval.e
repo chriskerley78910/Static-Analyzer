@@ -26,6 +26,16 @@ feature
 			add_boolean_case (agent test_eval_lt)
 			add_boolean_case (agent test_eval_negative)
 
+			add_boolean_case (agent test_eval_intersect)
+			add_boolean_case (agent test_eval_and)
+			add_boolean_case (agent test_eval_equals)
+			add_boolean_case (agent test_eval_implies)
+			add_boolean_case (agent test_eval_or)
+			add_boolean_case (agent test_eval_minus)
+			add_boolean_case (agent test_eval_times)
+			add_boolean_case (agent test_eval_union)
+
+
 		end
 feature -- unit tests.
 

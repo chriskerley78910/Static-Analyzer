@@ -11,7 +11,8 @@ inherit
 	ARITHMETIC_TYPE
 	BINARY_OP
 redefine
-	make
+	make,
+	is_equal
 end
 
 create
@@ -31,4 +32,10 @@ feature -- equality
 		Result := precursor(other)
 	end
 
+feature -- visitors
+
+	accept(e: VISITOR)
+	do
+		e.visit_minus (current)
+	end
 end

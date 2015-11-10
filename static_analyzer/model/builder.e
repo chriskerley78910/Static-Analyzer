@@ -48,6 +48,9 @@ feature -- queries
 	do
 		result := set_closed
 	end
+
+	set_has_nil: BOOLEAN
+
 feature {NONE} -- traversal algorithms
 
 	add_element(e:EXPRESSION)
@@ -196,28 +199,31 @@ feature {NONE} -- traversal algorithms
 	close_set
 		-- closes the current active set enumeration. (assumes that only one set enum is active at a time).
 	do
-		set_closed := false
-		if attached {SET_ENUMERATION}expres as set and then set.is_active then
-			set.close
-			set_closed := true
-		elseif attached {COMPOSITE_EXPRESSION}expres as comp and not set_closed then
-			across
-				comp as index
-			loop
-				if attached {SET_ENUMERATION}index.item as set and then set.is_active then
-					set.close
-					set_closed := true
-				elseif attached {COMPOSITE_EXPRESSION}index.item as c and then not set_closed then
-					recurse_close_set(c)
+		if not set_has_nil then
+			set_closed := false
+			if attached {SET_ENUMERATION}expres as set and then set.is_active then
+				set.close
+				set_closed := true
+			elseif attached {COMPOSITE_EXPRESSION}expres as comp and not set_closed then
+				across
+					comp as index
+				loop
+					if attached {SET_ENUMERATION}index.item as set and then set.is_active then
+						set.close
+						set_closed := true
+					elseif attached {COMPOSITE_EXPRESSION}index.item as c and then not set_closed then
+						recurse_close_set(c)
+					end
 				end
 			end
+			if no_nil_decendants then
+				reactivate_lowest_inactive_enum
+			end
 		end
-
-		if no_nil_decendants then
-			reactivate_lowest_inactive_enum
-		end
+	rescue
+		set_has_nil := true
+		retry
 	end
-
 
 	add_int(i:INTEGER)
 	do

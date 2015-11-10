@@ -11,13 +11,12 @@ inherit
 	SET_TYPE
 	BINARY_OP
 redefine
-	make
+	make,
+	is_equal
 end
 
 create
 	make
-
-feature -- constructors
 
 feature -- constructors
 
@@ -31,6 +30,13 @@ feature -- equality
 	is_equal(other: INTERSECT): BOOLEAN
 	do
 		Result := precursor(other)
+	end
+
+feature -- visitors
+
+	accept(e: VISITOR)
+	do
+		e.visit_intersect (current)
 	end
 
 end

@@ -25,6 +25,15 @@ feature
 		add_boolean_case (agent test_printer_exists)
 		add_boolean_case (agent test_printer_greater_than)
 
+		add_boolean_case (agent test_printer_intersect)
+		add_boolean_case (agent test_printer_and)
+		add_boolean_case (agent test_printer_equals)
+		add_boolean_case (agent test_printer_implies)
+		add_boolean_case (agent test_printer_or)
+		add_boolean_case (agent test_printer_minus)
+		add_boolean_case (agent test_printer_times)
+		add_boolean_case (agent test_printer_union)
+
 	end
 
 feature
@@ -257,4 +266,100 @@ feature
 
 	end
 
+	test_printer_intersect: BOOLEAN
+	local
+		i: INTERSECT
+		p:PRINTER
+	do
+		comment("t9: test printer works for INTERSECT")
+		create i.make
+		create p.new_printer
+		i.accept (p)
+		Result := p.out ~ "(? /\ nil)"
+	end
+
+
+	test_printer_and: BOOLEAN
+	local
+		i: INTERSECT
+		p:PRINTER
+	do
+		comment("t10: test printer works for LOGICAL_AND")
+		create i.make
+		create p.new_printer
+		i.accept (p)
+		Result := p.out ~ "(? && nil)"
+	end
+
+	test_printer_equal: BOOLEAN
+	local
+		i: INTERSECT
+		p:PRINTER
+	do
+		comment("t11: test printer works for EQUALS")
+		create i.make
+		create p.new_printer
+		i.accept (p)
+		Result := p.out ~ "(? = nil)"
+	end
+
+	test_printer_implies: BOOLEAN
+	local
+		i: INTERSECT
+		p:PRINTER
+	do
+		comment("t12: test printer works for IMPLIES")
+		create i.make
+		create p.new_printer
+		i.accept (p)
+		Result := p.out ~ "(? => nil)"
+	end
+
+	test_printer_or: BOOLEAN
+	local
+		i: INTERSECT
+		p:PRINTER
+	do
+		comment("t12: test printer works for OR")
+		create i.make
+		create p.new_printer
+		i.accept (p)
+		Result := p.out ~ "(? || nil)"
+	end
+
+	test_printer_minus: BOOLEAN
+	local
+		i: INTERSECT
+		p:PRINTER
+	do
+		comment("t13: test printer works for MINUS")
+		create i.make
+		create p.new_printer
+		i.accept (p)
+		Result := p.out ~ "(? - nil)"
+	end
+
+	test_printer_times: BOOLEAN
+	local
+		i: INTERSECT
+		p:PRINTER
+	do
+		comment("t9: test printer works for TIMES")
+		create i.make
+		create p.new_printer
+		i.accept (p)
+		Result := p.out ~ "(? * nil)"
+	end
+
+	test_printer_union: BOOLEAN
+	local
+		i: INTERSECT
+		p:PRINTER
+	do
+		comment("t9: test printer works for UNION")
+		create i.make
+		create p.new_printer
+		i.accept (p)
+		Result := p.out ~ "(? \/ nil)"
+	end
 end

@@ -18,11 +18,12 @@ feature -- command
 			if model.get_builder.set_was_closed then
 				model.set_report (model.report_success)
 				model.default_update
-			else
+			elseif not  model.get_builder.set_was_closed and not model.get_builder.set_has_nil then
 				model.set_report (model.report_set_enum_not_being_spec)
+			elseif not  model.get_builder.set_was_closed and model.get_builder.set_has_nil then
+				model.set_report (model.report_set_enum_must_be_non_empty)
 			end
 			-- perform some update on the model state
 			etf_cmd_container.on_change.notify ([Current])
     	end
-
 end

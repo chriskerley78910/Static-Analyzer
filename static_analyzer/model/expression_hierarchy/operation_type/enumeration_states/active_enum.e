@@ -87,11 +87,11 @@ feature -- commands
 			context.elements.wipe_out
 			context.elements.copy (el)
 		end
-
 	ensure then
 		postive_non_nil_count:
 			count >= 1
 		and across context as cur some not attached {NIL_EXPRESSION}cur.item end
+
 	end
 
 end

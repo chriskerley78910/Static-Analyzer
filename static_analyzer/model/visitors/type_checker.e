@@ -22,6 +22,8 @@ feature {NONE} -- attributes
 
 	value:BOOLEAN
 
+	retried: BOOLEAN
+
 feature -- queries
 
 	out:STRING
@@ -33,6 +35,9 @@ feature -- queries
 	do
 		Result := value
 	end
+
+	is_incomplete: BOOLEAN
+
 
 feature {NONE} -- basically check that a formula is type correct.
 
@@ -108,12 +113,20 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 			-- do nothing.
 		end
 
+
 		visit_nil(e: NIL_EXPRESSION)
 			-- error incomplete expression.
 		do
+			if retried then
+				is_incomplete := true
+				value := false
+			end
 		ensure then
 			incomplete_expression_error:
-			False
+			retried
+		rescue
+			retried := true
+			retry
 		end
 
 		visit_int_const(e: INTEGER_CONSTANT)
