@@ -35,6 +35,6 @@ feature -- visitors
 
 	accept(e: VISITOR)
 	do
-		e.visit_logical_equals (current)
+		e.visit_equals (current)
 	end
 end

@@ -36,7 +36,7 @@ feature -- visitors
 
 	accept(e: VISITOR)
 	do
-		e.visit_logical_and (current)
+		e.visit_and (current)
 	end
 
 end

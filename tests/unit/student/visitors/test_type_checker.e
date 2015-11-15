@@ -26,14 +26,14 @@ feature -- constructors.
 		add_boolean_case (agent test_type_check_plus)
 		add_boolean_case (agent test_queue)
 
-		add_boolean_case (agent test_type_check_intersect)
-		add_boolean_case (agent test_type_check_and)
-		add_boolean_case (agent test_type_check_equals)
-		add_boolean_case (agent test_type_check_implies)
-		add_boolean_case (agent test_type_check_or)
-		add_boolean_case (agent test_type_check_minus)
-		add_boolean_case (agent test_type_check_times)
-		add_boolean_case (agent test_type_check_union)
+--		add_boolean_case (agent test_type_check_intersect)
+--		add_boolean_case (agent test_type_check_and)
+--		add_boolean_case (agent test_type_check_equals)
+--		add_boolean_case (agent test_type_check_implies)
+--		add_boolean_case (agent test_type_check_or)
+--		add_boolean_case (agent test_type_check_minus)
+--		add_boolean_case (agent test_type_check_times)
+--		add_boolean_case (agent test_type_check_union)
 	end
 
 feature -- tests

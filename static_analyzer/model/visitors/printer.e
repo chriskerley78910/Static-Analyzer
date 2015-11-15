@@ -139,6 +139,31 @@ feature
 		string := string + "}"
 	end
 
+	visit_intersect(e:INTERSECT)
+	do
+ 		visit_binary_op(e,"/\")
+	end
+
+	visit_and(e:LOGICAL_AND)
+	do
+ 		visit_binary_op(e,"&&")
+	end
+
+	visit_equals(e:LOGICAL_EQUALS)
+	do
+ 		visit_binary_op(e,"=")
+	end
+
+	visit_implies(e:LOGICAL_IMPLIES)
+	do
+		visit_binary_op(e,"=>")
+	end
+
+	visit_or(e:LOGICAL_OR)
+	do
+		visit_binary_op(e,"||")
+	end
+
 feature
 
 	out: STRING

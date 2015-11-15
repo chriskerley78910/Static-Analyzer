@@ -27,17 +27,52 @@ feature
 			add_boolean_case (agent test_eval_negative)
 
 			add_boolean_case (agent test_eval_intersect)
-			add_boolean_case (agent test_eval_and)
-			add_boolean_case (agent test_eval_equals)
-			add_boolean_case (agent test_eval_implies)
-			add_boolean_case (agent test_eval_or)
-			add_boolean_case (agent test_eval_minus)
-			add_boolean_case (agent test_eval_times)
-			add_boolean_case (agent test_eval_union)
+--			add_boolean_case (agent test_eval_and)
+--			add_boolean_case (agent test_eval_equals)
+--			add_boolean_case (agent test_eval_implies)
+--			add_boolean_case (agent test_eval_or)
+--			add_boolean_case (agent test_eval_minus)
+--			add_boolean_case (agent test_eval_times)
+--			add_boolean_case (agent test_eval_union)
 
 
 		end
 feature -- unit tests.
+
+
+
+	test_eval_intersect:BOOLEAN
+	local
+		eval:EVAL
+		inter:INTERSECT
+		s1,s2:SET_ENUMERATION
+		p: PRINTER
+		c1,c2,c22,c3: INTEGER_CONSTANT
+	do
+		comment("test evaluation of INTERSECT.")
+		create eval.make
+		create inter.make
+		create s1.make
+		create s2.make
+		create p.new_printer
+		create c1.make (1)
+		create c2.make (2)
+		create c22.make (2)
+		create c3.make (3)
+		s1.enter_element (c1)
+		s1.enter_element (c2)
+		s2.enter_element (c22)
+		s2.enter_element (c3)
+		inter.add_operand (s1)
+		inter.add_operand (s2)
+		inter.accept (eval)
+		eval.get_value.accept (p)
+		Result := not (p.out ~ "{2,1}")
+		check Result end
+
+		Result := p.out ~ "{2}"
+		check Result end
+	end
 
 	test_eval_creation:BOOLEAN
 	local

@@ -54,6 +54,31 @@ feature
 	visit_lt(e: LESS_THAN)
 	deferred end
 
+	visit_intersect(e: INTERSECT)
+	deferred end
+
+	visit_and(e:LOGICAL_AND)
+	deferred end
+
+	visit_equals(e:LOGICAL_EQUALS)
+	deferred end
+
+	visit_implies(e:LOGICAL_IMPLIES)
+	deferred end
+
+	visit_or(e:LOGICAL_OR)
+	deferred end
+
+--	visit_minus(e:MINUS)
+--	deferred end
+
+--	visit_times(e:TIMES)
+--	deferred end
+
+--	visit_union(e:UNION)
+--	deferred end
+
+
 end
 
 

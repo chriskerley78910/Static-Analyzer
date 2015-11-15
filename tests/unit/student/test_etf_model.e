@@ -25,7 +25,7 @@ feature -- unit tests
 		m_access: ETF_MODEL_ACCESS
 		e: EXPRESSION
 	do
-		comment("add a integer element to the tree.")
+		comment("NOT IMPLEMENTED")
 		Result := false	end
 end
 

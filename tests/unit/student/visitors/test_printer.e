@@ -30,9 +30,9 @@ feature
 		add_boolean_case (agent test_printer_equals)
 		add_boolean_case (agent test_printer_implies)
 		add_boolean_case (agent test_printer_or)
-		add_boolean_case (agent test_printer_minus)
-		add_boolean_case (agent test_printer_times)
-		add_boolean_case (agent test_printer_union)
+--		add_boolean_case (agent test_printer_minus)
+--		add_boolean_case (agent test_printer_times)
+--		add_boolean_case (agent test_printer_union)
 
 	end
 
@@ -281,7 +281,7 @@ feature
 
 	test_printer_and: BOOLEAN
 	local
-		i: INTERSECT
+		i: LOGICAL_AND
 		p:PRINTER
 	do
 		comment("t10: test printer works for LOGICAL_AND")
@@ -291,9 +291,9 @@ feature
 		Result := p.out ~ "(? && nil)"
 	end
 
-	test_printer_equal: BOOLEAN
+	test_printer_equals: BOOLEAN
 	local
-		i: INTERSECT
+		i: LOGICAL_EQUALS
 		p:PRINTER
 	do
 		comment("t11: test printer works for EQUALS")
@@ -305,7 +305,7 @@ feature
 
 	test_printer_implies: BOOLEAN
 	local
-		i: INTERSECT
+		i: LOGICAL_IMPLIES
 		p:PRINTER
 	do
 		comment("t12: test printer works for IMPLIES")
@@ -317,49 +317,49 @@ feature
 
 	test_printer_or: BOOLEAN
 	local
-		i: INTERSECT
+		i: LOGICAL_OR
 		p:PRINTER
 	do
-		comment("t12: test printer works for OR")
+		comment("t13: test printer works for OR")
 		create i.make
 		create p.new_printer
 		i.accept (p)
 		Result := p.out ~ "(? || nil)"
 	end
 
-	test_printer_minus: BOOLEAN
-	local
-		i: INTERSECT
-		p:PRINTER
-	do
-		comment("t13: test printer works for MINUS")
-		create i.make
-		create p.new_printer
-		i.accept (p)
-		Result := p.out ~ "(? - nil)"
-	end
+--	test_printer_minus: BOOLEAN
+--	local
+--		i: MINUS
+--		p:PRINTER
+--	do
+--		comment("t13: test printer works for MINUS")
+--		create i.make
+--		create p.new_printer
+--		i.accept (p)
+--		Result := p.out ~ "(? - nil)"
+--	end
 
-	test_printer_times: BOOLEAN
-	local
-		i: INTERSECT
-		p:PRINTER
-	do
-		comment("t9: test printer works for TIMES")
-		create i.make
-		create p.new_printer
-		i.accept (p)
-		Result := p.out ~ "(? * nil)"
-	end
+--	test_printer_times: BOOLEAN
+--	local
+--		i: TIMES
+--		p:PRINTER
+--	do
+--		comment("t14: test printer works for TIMES")
+--		create i.make
+--		create p.new_printer
+--		i.accept (p)
+--		Result := p.out ~ "(? * nil)"
+--	end
 
-	test_printer_union: BOOLEAN
-	local
-		i: INTERSECT
-		p:PRINTER
-	do
-		comment("t9: test printer works for UNION")
-		create i.make
-		create p.new_printer
-		i.accept (p)
-		Result := p.out ~ "(? \/ nil)"
-	end
+--	test_printer_union: BOOLEAN
+--	local
+--		i: UNION
+--		p:PRINTER
+--	do
+--		comment("t15: test printer works for UNION")
+--		create i.make
+--		create p.new_printer
+--		i.accept (p)
+--		Result := p.out ~ "(? \/ nil)"
+--	end
 end

@@ -36,7 +36,7 @@ feature -- visitors
 
 	accept(e: VISITOR)
 	do
-		e.visit_intersect (current)
+		e.visit_intersect(current)
 	end
 
 end

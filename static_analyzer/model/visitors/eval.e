@@ -83,6 +83,22 @@ feature {NONE} --  types of eval
 
 			s.close
 			Result := s
+		elseif attached {INTERSECT}e as intersect and then
+			   attached {SET_ENUMERATION}intersect.get_left as l and then
+			   attached {SET_ENUMERATION}intersect.get_right as r then
+
+				create s.make -- create resulting set enumeration.
+
+				-- add all elements that exist in both enums.
+				across
+					l as left
+				loop
+					if across r as right some left.item ~ right.item end then
+						s.enter_element (left.item)
+					end
+				end
+				s.close
+			Result := s
 		elseif attached {EXISTS}e as exists then
 			Result := create {BOOLEAN_CONSTANT}.make (true)
 
@@ -209,4 +225,30 @@ feature -- visitors
 		value := evaluate(e)
 	end
 
+
+	visit_intersect(e: INTERSECT)
+
+	do
+		value := evaluate(e)
+	end
+
+	visit_and(e:LOGICAL_AND)
+	do
+ 		value := evaluate(e)
+	end
+
+	visit_equals(e:LOGICAL_EQUALS)
+	do
+ 		value := evaluate(e)
+	end
+
+	visit_implies(e:LOGICAL_IMPLIES)
+	do
+	 	value := evaluate(e)
+	end
+
+	visit_or(e:LOGICAL_OR)
+	do
+		value := evaluate(e)
+	end
 end

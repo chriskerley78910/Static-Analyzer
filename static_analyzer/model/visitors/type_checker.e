@@ -22,7 +22,6 @@ feature {NONE} -- attributes
 
 	value:BOOLEAN
 
-	retried: BOOLEAN
 
 feature -- queries
 
@@ -117,16 +116,9 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 		visit_nil(e: NIL_EXPRESSION)
 			-- error incomplete expression.
 		do
-			if retried then
-				is_incomplete := true
-				value := false
-			end
 		ensure then
-			incomplete_expression_error:
-			retried
-		rescue
-			retried := true
-			retry
+		incomplete_expression_error:
+			false
 		end
 
 		visit_int_const(e: INTEGER_CONSTANT)
@@ -184,5 +176,29 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 		check_decendants(e)
 		end
 
+		visit_intersect(e:INTERSECT)
+		do
+	 		-- needs imp
+		end
+
+		visit_and(e:LOGICAL_AND)
+		do
+	 	check_decendants(e)
+		end
+
+		visit_equals(e:LOGICAL_EQUALS)
+		do
+	 	check_decendants(e)
+		end
+
+		visit_implies(e:LOGICAL_IMPLIES)
+		do
+		 	check_decendants(e)
+		end
+
+		visit_or(e:LOGICAL_OR)
+		do
+			check_decendants(e)
+		end
 
 	end
