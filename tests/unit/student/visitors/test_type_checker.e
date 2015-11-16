@@ -26,9 +26,9 @@ feature -- constructors.
 		add_boolean_case (agent test_type_check_plus)
 		add_boolean_case (agent test_queue)
 
---		add_boolean_case (agent test_type_check_intersect)
---		add_boolean_case (agent test_type_check_and)
---		add_boolean_case (agent test_type_check_equals)
+		add_boolean_case (agent test_type_check_intersect)
+		add_boolean_case (agent test_type_check_and)
+		add_boolean_case (agent test_type_check_equals)
 --		add_boolean_case (agent test_type_check_implies)
 --		add_boolean_case (agent test_type_check_or)
 --		add_boolean_case (agent test_type_check_minus)
@@ -37,6 +37,7 @@ feature -- constructors.
 	end
 
 feature -- tests
+
 
 	test_type_check_creation:BOOLEAN
 	local
@@ -333,5 +334,106 @@ feature -- tests
 		check result end
 	end
 
+	test_type_check_intersect:BOOLEAN
+	local
+		tc:TYPE_CHECKER
+		int:INTEGER_CONSTANT
+		bool:BOOLEAN_CONSTANT
+		diff:INTERSECT
+		s1,s2:SET_ENUMERATION
+	do
+		comment("INTERSECT")
+		create diff.make
+		create int.make (5)
+		create bool.make(true)
+		create tc.make
+		create s1.make
+		create s2.make
+
+		-- not both sets
+		s1.enter_element (bool)
+		s1.close
+		diff.add_operand(s1)
+		diff.add_operand (int)
+		diff.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		-- both sets.
+		s2.enter_element (bool)
+		s2.close
+		diff.make
+		diff.add_operand (s1)
+		diff.add_operand (s2)
+		diff.accept (tc)
+		Result := tc.get_value
+		check Result end
+
+	end
+
+
+	test_type_check_and:BOOLEAN
+	local
+		tc:TYPE_CHECKER
+		neg:NEGATIVE
+		plus:LOGICAL_AND
+		int1: INTEGER_CONSTANT
+		bool1: BOOLEAN_CONSTANT
+	do
+		comment("AND")
+		create tc.make
+		create int1.make (2)
+		create bool1.make (True)
+		create neg.make
+		create plus.make
+
+		-- wrong operand
+		plus.add_operand (bool1)
+		plus.add_operand (int1)
+		plus.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		-- right operands
+		plus.make
+		plus.add_operand (bool1)
+		plus.add_operand (bool1)
+		plus.accept (tc)
+		Result := tc.get_value
+		check Result end
+
+	end
+
+	test_type_check_equals:BOOLEAN
+	local
+		tc:TYPE_CHECKER
+		neg:NEGATIVE
+		plus:LOGICAL_EQUALS
+		int1: INTEGER_CONSTANT
+		bool1: BOOLEAN_CONSTANT
+	do
+		comment("LOGICAL_EQUALS")
+		create tc.make
+		create int1.make (2)
+		create bool1.make (True)
+		create neg.make
+		create plus.make
+
+		-- wrong operand
+		plus.add_operand (bool1)
+		plus.add_operand (int1)
+		plus.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+--		-- right operands
+--		plus.make
+--		plus.add_operand (int1)
+--		plus.add_operand (int1)
+--		plus.accept (tc)
+--		Result := tc.get_value
+--		check Result end
+
+	end
 
 end

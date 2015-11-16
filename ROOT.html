@@ -1,0 +1,372 @@
+<html>
+<head>
+<base target="main">
+</head>
+<body>
+<p align="center"><b>Test Run:11/15/2015   8:01:03.950 PM</b></p><font color="blue"><H2  align="center">ROOT</H2></font><p align="center">Note: * indicates a violation test case</p>
+<table border=1 align="center">
+<tr><td bgcolor="#FF0000" colspan="3">&nbsp;</td></tr><tr><td align="center" colspan="3">FAILED (3 failed & 81 passed out of 84)</td></tr>
+<tr><td align="center" bgcolor="#000080"><font color="#FFCC00"><b>Case Type</b></font></td>
+<td align="center" bgcolor="#000080"><font color="#FFCC00"><b>Passed</b></font></td>
+<td align="center" bgcolor="#000080"><font color="#FFCC00"><b>Total</b></font></td></tr>
+<tr><td align="center"><font color="blue"><b>Violation</b></font></td>
+<td align="center">7</td><td align="center">7</td></tr>
+<tr><td align="center"><font color="blue"><b>Boolean</b></font></td>
+<td align="center">74</td><td align="center">77</td></tr>
+<tr><td align="center"><font color="blue"><b>All Cases</b></font></td>
+<td align="center">81</td><td align="center">84</td></tr>
+<tr><td align="center" bgcolor="#000080"><font color="#FFCC00"><b>State</b></font></td>
+<td align="center" bgcolor="#000080"><font color="#FFCC00"><b>Contract Violation</b></font></td>
+<td align="center" bgcolor="#000080"><font color="#FFCC00"><b>Test Name</b></font></td></tr>
+<tr><td bgcolor="#008080" align="center"><font color="#FFCC00"><b>Test1</b></font></td>
+<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_NIL_EXPRESSION</font></td></tr><tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t1: test that nil expression can be created.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t2: test is_equal feature of NIL_EXPRESSION.</td>
+</tr>
+<tr><td bgcolor="#008080" align="center"><font color="#FFCC00"><b>Test2</b></font></td>
+<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_INTEGER_CONSTANT</font></td></tr><tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t0: tests the creation of an integer constant.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t1: tests the equality feature.</td>
+</tr>
+<tr><td bgcolor="#008080" align="center"><font color="#FFCC00"><b>Test3</b></font></td>
+<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_BOOLEAN_CONSTANT</font></td></tr><tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t0: tests the creation of an boolean constant.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t1: tests the equality feature.</td>
+</tr>
+<tr><td bgcolor="#008080" align="center"><font color="#FFCC00"><b>Test4</b></font></td>
+<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_NEGATIVE</font></td></tr><tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t0: test for the proper creation of a negative expression.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t1: tests negation with non-arithmetic type;boolean.</td>
+</tr>
+<tr><td bgcolor="#008080" align="center"><font color="#FFCC00"><b>Test5</b></font></td>
+<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_PLUS</font></td></tr><tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t0: test the creation of PLUS operation.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t1: test the get operand feature of plus.</td>
+</tr>
+<tr><td bgcolor="#008080" align="center"><font color="#FFCC00"><b>Test6</b></font></td>
+<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_BINARY_OP</font></td></tr><tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t3: test add_operation of PLUS.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>*t0: test precondition of having at least one nil expression as an operand.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t1: test is_equal for proper functioning.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t2: test rest_unchanged post condition .</td>
+</tr>
+<tr><td bgcolor="#008080" align="center"><font color="#FFCC00"><b>Test7</b></font></td>
+<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_UNARY_OP</font></td></tr><tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t3: test add_operand of NEGATIVE.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>*t0: test precondition of having at least one nil expression as an operand before adding operand.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t1: test is_equal for proper functioning.</td>
+</tr>
+<tr><td bgcolor="#008080" align="center"><font color="#FFCC00"><b>Test8</b></font></td>
+<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_SUM</font></td></tr><tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t0: test the creation of a summation</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t1: test summation equality</td>
+</tr>
+<tr><td bgcolor="#008080" align="center"><font color="#FFCC00"><b>Test9</b></font></td>
+<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_SET_ENUM</font></td></tr><tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t0: test the creation of a set enumeration.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t1: test the active state of set enumeration.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t2: test the active state close feature</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>*t3: test the active state close add</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t4: test the active state of set enumeration add feature for composite expression.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>*t5: test the reactivate feature of set enumeration.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t6: test the reactivate feature of set enumeration.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t7: test that sets do not enter duplicates</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t8: test that sets do not enter duplicate heirarchies</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t9: test that has nil decendant works</td>
+</tr>
+<tr><td bgcolor="#008080" align="center"><font color="#FFCC00"><b>Test10</b></font></td>
+<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_PRINTER</font></td></tr><tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t0 - test the creation of a new PRINTER object.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t1 - test printing a boolean constant.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t2 - test printing a PLUS</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t3 - test printing a PLUS with a missing operand - should show question mark</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t4 - test printing a SUM</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t5 - test printing a enumeration</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t5 - test printing a complex combination</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t6: test printer workds for DIFFERENCE</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t7: test printer works for EXISTS</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t8: test printer works for GREATER_THAN</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t9: test printer works for INTERSECT</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t10: test printer works for LOGICAL_AND</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t11: test printer works for EQUALS</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t12: test printer works for IMPLIES</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t13: test printer works for OR</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t14: test printer works for MINUS</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t15: test printer works for TIMES</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t16: test printer works for UNION</td>
+</tr>
+<tr><td bgcolor="#008080" align="center"><font color="#FFCC00"><b>Test11</b></font></td>
+<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_TYPE_CHECKER</font></td></tr><tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>Test the creation of type checker</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>*test nil results in error.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>*test a nested nil results in error.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test SUM</td>
+</tr>
+<tr><td><font color="red"><b>FAILED</b></font></td>
+<td align="center">Check assertion violated.</td>
+<td>test GREATER_THAN</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test NEGATION</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test EXISTS</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test DIFFERENCE</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>Test PLUS</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>t6: Test queue.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>INTERSECT</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>AND</td>
+</tr>
+<tr><td><font color="red"><b>FAILED</b></font></td>
+<td align="center">Check assertion violated.</td>
+<td>LOGICAL_EQUALS</td>
+</tr>
+<tr><td bgcolor="#008080" align="center"><font color="#FFCC00"><b>Test12</b></font></td>
+<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_EVAL</font></td></tr><tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test creation of evaluator</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test evaluate PLUS.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test evaluate PLUS violation.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test evaluate SUM.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test evaluate DIFFERENCE.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test evaluate EXISTS.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test evaluate FORALL.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test evaluate NEGATION.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test evaluate GREATER_THAN.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test evaluate LESS_THAN.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test evaluate NEGATIVE.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test evaluation of INTERSECT.</td>
+</tr>
+<tr><td bgcolor="#008080" align="center"><font color="#FFCC00"><b>Test13</b></font></td>
+<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_BUILDER</font></td></tr><tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test BUILDER creation</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>*test trying to add when no nil exists.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test incomplete subexpresson of enum</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test complete subexpresson of enum</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test proper behaviour of close set enumeration.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test proper operation of add difference.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test proper operation of add forall.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test proper operation of add greater than.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test proper operation of add less than.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test proper operation of add negative.</td>
+</tr>
+<tr><td><font color="green"><b>PASSED</b></font></td>
+<td align="center">NONE</td>
+<td>test proper operation of add SUM.</td>
+</tr>
+<tr><td bgcolor="#008080" align="center"><font color="#FFCC00"><b>Test14</b></font></td>
+<td bgcolor="#008080" align="center" colspan="2"><font color="#FFCC00">TEST_ETF_MODEL</font></td></tr><tr><td><font color="red"><b>FAILED</b></font></td>
+<td align="center">NONE</td>
+<td>NOT IMPLEMENTED</td>
+</tr>
+</table></body>
+</html>

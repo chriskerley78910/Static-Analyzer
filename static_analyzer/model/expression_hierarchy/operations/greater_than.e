@@ -8,7 +8,8 @@ class
 	GREATER_THAN
 
 inherit
-	LOGICAL_TYPE
+	ARITHMETIC_DOMAIN
+	LOGICAL_CODOMAIN
 	BINARY_OP
 redefine
 	make,

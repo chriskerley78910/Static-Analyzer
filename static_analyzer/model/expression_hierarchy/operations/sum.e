@@ -8,7 +8,7 @@ class
 	SUM
 
 inherit
-	ARITHMETIC_TYPE
+	ARITHMETIC_CODOMAIN
 	UNARY_OP
 redefine
 	make,

@@ -5,7 +5,7 @@ note
 	revision: "$Revision$"
 
 deferred class
-	LOGICAL_TYPE
+	LOGICAL_CODOMAIN
 inherit
 	ANY
 undefine

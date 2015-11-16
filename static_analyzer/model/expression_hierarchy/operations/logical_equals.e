@@ -7,7 +7,7 @@ note
 class
 	LOGICAL_EQUALS
 inherit
-	LOGICAL_TYPE
+	LOGICAL_CODOMAIN
 	BINARY_OP
 redefine
 	make,

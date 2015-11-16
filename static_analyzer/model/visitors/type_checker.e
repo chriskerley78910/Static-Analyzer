@@ -79,19 +79,19 @@ feature {NONE} -- basically check that a formula is type correct.
 					end
 			elseif attached {SUM}e as sum then
 				value := attached {SET_ENUMERATION}sum.get_operand as set
-				and then (across set as c all attached {ARITHMETIC_TYPE}c.item end)
-			elseif attached {ARITHMETIC_TYPE}e then
-				value := across e as operand all attached{ARITHMETIC_TYPE}operand.item end
+				and then (across set as c all attached {ARITHMETIC_CODOMAIN}c.item end)
+			elseif attached {ARITHMETIC_CODOMAIN}e then
+				value := across e as operand all attached{ARITHMETIC_CODOMAIN}operand.item end
 			elseif attached {GREATER_THAN}e or attached {LESS_THAN}e then
-				value := across e as operand all attached {ARITHMETIC_TYPE}operand.item end
+				value := across e as operand all attached {ARITHMETIC_CODOMAIN}operand.item end
 			elseif attached {EXISTS}e or attached {FOR_ALL}e then
 				value := across e as set
 				 all
 				 	attached {SET_ENUMERATION}set.item as enum and then
-				 	(across enum as c all attached {LOGICAL_TYPE}c.item end)
+				 	(across enum as c all attached {LOGICAL_CODOMAIN}c.item end)
 				 end
-			elseif attached {LOGICAL_TYPE}e then
-				value := across e as operand all attached {LOGICAL_TYPE}operand.item end
+			elseif attached {LOGICAL_CODOMAIN}e then
+				value := across e as operand all attached {LOGICAL_CODOMAIN}operand.item end
 			elseif attached {SET_TYPE}e and attached {COMPOSITE_EXPRESSION}e as sets then
 				value := across sets as c all attached {SET_ENUMERATION}c.item end
 			end
@@ -178,7 +178,7 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 
 		visit_intersect(e:INTERSECT)
 		do
-	 		-- needs imp
+	 	check_decendants(e)
 		end
 
 		visit_and(e:LOGICAL_AND)
@@ -197,6 +197,21 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 		end
 
 		visit_or(e:LOGICAL_OR)
+		do
+			check_decendants(e)
+		end
+
+		visit_minus(e:MINUS)
+		do
+			check_decendants(e)
+		end
+
+		visit_times(e:TIMES)
+		do
+			check_decendants(e)
+		end
+
+		visit_union(e:UNION)
 		do
 			check_decendants(e)
 		end

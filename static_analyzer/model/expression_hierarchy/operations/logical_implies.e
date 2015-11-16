@@ -8,7 +8,7 @@ class
 	LOGICAL_IMPLIES
 
 inherit
-	LOGICAL_TYPE
+	LOGICAL_CODOMAIN
 	BINARY_OP
 redefine
 	make,

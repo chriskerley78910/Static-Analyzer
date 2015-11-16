@@ -164,6 +164,21 @@ feature
 		visit_binary_op(e,"||")
 	end
 
+	visit_minus(e:MINUS)
+	do
+		visit_binary_op(e,"-")
+	end
+
+	visit_times(e:TIMES)
+	do
+		visit_binary_op(e,"*")
+	end
+
+	visit_union(e:UNION)
+	do
+		visit_binary_op(e,"\/")
+	end
+
 feature
 
 	out: STRING

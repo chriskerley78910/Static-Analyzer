@@ -69,14 +69,14 @@ feature
 	visit_or(e:LOGICAL_OR)
 	deferred end
 
---	visit_minus(e:MINUS)
---	deferred end
+	visit_minus(e:MINUS)
+	deferred end
 
---	visit_times(e:TIMES)
---	deferred end
+	visit_times(e:TIMES)
+	deferred end
 
---	visit_union(e:UNION)
---	deferred end
+	visit_union(e:UNION)
+	deferred end
 
 
 end

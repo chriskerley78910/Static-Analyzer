@@ -30,9 +30,9 @@ feature
 		add_boolean_case (agent test_printer_equals)
 		add_boolean_case (agent test_printer_implies)
 		add_boolean_case (agent test_printer_or)
---		add_boolean_case (agent test_printer_minus)
---		add_boolean_case (agent test_printer_times)
---		add_boolean_case (agent test_printer_union)
+		add_boolean_case (agent test_printer_minus)
+		add_boolean_case (agent test_printer_times)
+		add_boolean_case (agent test_printer_union)
 
 	end
 
@@ -327,39 +327,39 @@ feature
 		Result := p.out ~ "(? || nil)"
 	end
 
---	test_printer_minus: BOOLEAN
---	local
---		i: MINUS
---		p:PRINTER
---	do
---		comment("t13: test printer works for MINUS")
---		create i.make
---		create p.new_printer
---		i.accept (p)
---		Result := p.out ~ "(? - nil)"
---	end
+	test_printer_minus: BOOLEAN
+	local
+		i: MINUS
+		p:PRINTER
+	do
+		comment("t14: test printer works for MINUS")
+		create i.make
+		create p.new_printer
+		i.accept (p)
+		Result := p.out ~ "(? - nil)"
+	end
 
---	test_printer_times: BOOLEAN
---	local
---		i: TIMES
---		p:PRINTER
---	do
---		comment("t14: test printer works for TIMES")
---		create i.make
---		create p.new_printer
---		i.accept (p)
---		Result := p.out ~ "(? * nil)"
---	end
+	test_printer_times: BOOLEAN
+	local
+		i: TIMES
+		p:PRINTER
+	do
+		comment("t15: test printer works for TIMES")
+		create i.make
+		create p.new_printer
+		i.accept (p)
+		Result := p.out ~ "(? * nil)"
+	end
 
---	test_printer_union: BOOLEAN
---	local
---		i: UNION
---		p:PRINTER
---	do
---		comment("t15: test printer works for UNION")
---		create i.make
---		create p.new_printer
---		i.accept (p)
---		Result := p.out ~ "(? \/ nil)"
---	end
+	test_printer_union: BOOLEAN
+	local
+		i: UNION
+		p:PRINTER
+	do
+		comment("t16: test printer works for UNION")
+		create i.make
+		create p.new_printer
+		i.accept (p)
+		Result := p.out ~ "(? \/ nil)"
+	end
 end

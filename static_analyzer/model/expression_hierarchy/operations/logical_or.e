@@ -8,7 +8,7 @@ class
 	LOGICAL_OR
 
 inherit
-	LOGICAL_TYPE
+	LOGICAL_CODOMAIN
 	BINARY_OP
 redefine
 	make,

@@ -8,7 +8,7 @@ class
 	FOR_ALL
 
 inherit
-	LOGICAL_TYPE
+	LOGICAL_CODOMAIN
 
 	UNARY_OP
 

@@ -8,7 +8,7 @@ class
 	NEGATION
 
 inherit
-	LOGICAL_TYPE
+	LOGICAL_CODOMAIN
 	UNARY_OP
 
 redefine

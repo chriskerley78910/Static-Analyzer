@@ -9,7 +9,7 @@ class
 inherit
 	EXPRESSION
 	CONSTANT
-	LOGICAL_TYPE
+	LOGICAL_CODOMAIN
 redefine
 	is_equal
 end

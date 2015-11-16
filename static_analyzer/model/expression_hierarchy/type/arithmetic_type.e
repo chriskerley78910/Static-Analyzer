@@ -5,7 +5,7 @@ note
 	revision: "$Revision$"
 
 deferred class
-	ARITHMETIC_TYPE
+	ARITHMETIC_CODOMAIN
 inherit
 	ANY
 undefine

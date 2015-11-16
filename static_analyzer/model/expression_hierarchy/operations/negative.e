@@ -8,7 +8,7 @@ class
 	NEGATIVE
 
 inherit
-	ARITHMETIC_TYPE
+	ARITHMETIC_CODOMAIN
 	UNARY_OP
 redefine
 	make,

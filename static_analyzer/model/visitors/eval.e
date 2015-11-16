@@ -251,4 +251,19 @@ feature -- visitors
 	do
 		value := evaluate(e)
 	end
+
+	visit_minus(e:MINUS)
+	do
+	value := evaluate(e)
+	end
+
+	visit_times(e:TIMES)
+	do
+		value := evaluate(e)
+	end
+
+	visit_union(e:UNION)
+	do
+		value := evaluate(e)
+	end
 end

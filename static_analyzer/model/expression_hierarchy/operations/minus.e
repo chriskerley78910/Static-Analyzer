@@ -8,7 +8,7 @@ class
 	MINUS
 
 inherit
-	ARITHMETIC_TYPE
+	ARITHMETIC_CODOMAIN
 	BINARY_OP
 redefine
 	make,
