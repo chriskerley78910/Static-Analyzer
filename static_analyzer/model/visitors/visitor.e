@@ -78,6 +78,8 @@ feature
 	visit_union(e:UNION)
 	deferred end
 
+	visit_divides(e:DIVIDES)
+	deferred end
 
 end
 

@@ -33,6 +33,7 @@ feature
 		add_boolean_case (agent test_printer_minus)
 		add_boolean_case (agent test_printer_times)
 		add_boolean_case (agent test_printer_union)
+		add_boolean_case (agent test_printer_divides)
 
 	end
 
@@ -361,5 +362,17 @@ feature
 		create p.new_printer
 		i.accept (p)
 		Result := p.out ~ "(? \/ nil)"
+	end
+
+	test_printer_divides: BOOLEAN
+	local
+		i: DIVIDES
+		p:PRINTER
+	do
+		comment("t17: DIVIDES")
+		create i.make
+		create p.new_printer
+		i.accept (p)
+		Result := p.out ~ "(? / nil)"
 	end
 end

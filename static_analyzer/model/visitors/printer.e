@@ -179,6 +179,12 @@ feature
 		visit_binary_op(e,"\/")
 	end
 
+
+	visit_divides(e:DIVIDES)
+	do
+		visit_binary_op(e,"/")
+	end
+
 feature
 
 	out: STRING

@@ -27,18 +27,44 @@ feature
 			add_boolean_case (agent test_eval_negative)
 
 			add_boolean_case (agent test_eval_intersect)
---			add_boolean_case (agent test_eval_and)
+			add_boolean_case (agent test_eval_and)
 --			add_boolean_case (agent test_eval_equals)
 --			add_boolean_case (agent test_eval_implies)
 --			add_boolean_case (agent test_eval_or)
 --			add_boolean_case (agent test_eval_minus)
 --			add_boolean_case (agent test_eval_times)
 --			add_boolean_case (agent test_eval_union)
+--			add_boolean_case (agent test_eval_divides)
 
 
 		end
 feature -- unit tests.
 
+
+
+	test_eval_and:BOOLEAN
+	local
+		eval:EVAL
+		inter:LOGICAL_AND
+		s1,s2:SET_ENUMERATION
+		p: PRINTER
+		l1,l2,l3,l4: BOOLEAN_CONSTANT
+	do
+		comment("LOGICAL_AND")
+		create inter.make
+		create l1.make (true)
+		create l2.make (false)
+		inter.add_operand (l1)
+		inter.add_operand (l2)
+		create eval.make
+		inter.accept (eval)
+		create p.new_printer
+		eval.get_value.accept (p)
+		Result := p.out ~ "False"
+		check Result end
+
+
+	end
 
 
 	test_eval_intersect:BOOLEAN

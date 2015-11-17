@@ -29,11 +29,12 @@ feature -- constructors.
 		add_boolean_case (agent test_type_check_intersect)
 		add_boolean_case (agent test_type_check_and)
 		add_boolean_case (agent test_type_check_equals)
---		add_boolean_case (agent test_type_check_implies)
---		add_boolean_case (agent test_type_check_or)
---		add_boolean_case (agent test_type_check_minus)
---		add_boolean_case (agent test_type_check_times)
---		add_boolean_case (agent test_type_check_union)
+		add_boolean_case (agent test_type_check_implies)
+		add_boolean_case (agent test_type_check_or)
+		add_boolean_case (agent test_type_check_minus)
+		add_boolean_case (agent test_type_check_times)
+		add_boolean_case (agent test_type_check_union)
+		add_boolean_case (agent test_type_check_divide)
 	end
 
 feature -- tests
@@ -426,14 +427,209 @@ feature -- tests
 		Result := not tc.get_value
 		check Result end
 
---		-- right operands
---		plus.make
---		plus.add_operand (int1)
---		plus.add_operand (int1)
---		plus.accept (tc)
---		Result := tc.get_value
---		check Result end
+		-- right operands
+		plus.make
+		plus.add_operand (int1)
+		plus.add_operand (int1)
+		plus.accept (tc)
+		Result := tc.get_value
+		check Result end
 
 	end
+
+	test_type_check_implies:BOOLEAN
+	local
+		tc:TYPE_CHECKER
+		neg:NEGATIVE
+		plus:LOGICAL_IMPLIES
+		int1: INTEGER_CONSTANT
+		bool1: BOOLEAN_CONSTANT
+	do
+		comment("LOGICAL_IMPLIES")
+		create tc.make
+		create int1.make (2)
+		create bool1.make (True)
+		create neg.make
+		create plus.make
+
+		-- wrong operand
+		plus.add_operand (bool1)
+		plus.add_operand (int1)
+		plus.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		-- right operands
+		plus.make
+		plus.add_operand (bool1)
+		plus.add_operand (bool1)
+		plus.accept (tc)
+		Result := tc.get_value
+		check Result end
+
+	end
+
+	test_type_check_or:BOOLEAN
+	local
+		tc:TYPE_CHECKER
+		neg:NEGATIVE
+		plus:LOGICAL_OR
+		int1: INTEGER_CONSTANT
+		bool1: BOOLEAN_CONSTANT
+	do
+		comment("OR")
+		create tc.make
+		create int1.make (2)
+		create bool1.make (True)
+		create neg.make
+		create plus.make
+
+		-- wrong operand
+		plus.add_operand (bool1)
+		plus.add_operand (int1)
+		plus.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		-- right operands
+		plus.make
+		plus.add_operand (bool1)
+		plus.add_operand (bool1)
+		plus.accept (tc)
+		Result := tc.get_value
+		check Result end
+
+	end
+
+	test_type_check_minus:BOOLEAN
+	local
+		tc:TYPE_CHECKER
+		neg:NEGATIVE
+		plus:MINUS
+		int1: INTEGER_CONSTANT
+		bool1: BOOLEAN_CONSTANT
+	do
+		comment("MINUS")
+		create tc.make
+		create int1.make (2)
+		create bool1.make (True)
+		create neg.make
+		create plus.make
+
+		-- wrong operand
+		plus.add_operand (int1)
+		plus.add_operand (bool1)
+		plus.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		-- right operands
+		plus.make
+		plus.add_operand (int1)
+		plus.add_operand (int1)
+		plus.accept (tc)
+		Result := tc.get_value
+		check Result end
+
+	end
+
+	test_type_check_times:BOOLEAN
+	local
+		tc:TYPE_CHECKER
+		neg:NEGATIVE
+		plus:TIMES
+		int1: INTEGER_CONSTANT
+		bool1: BOOLEAN_CONSTANT
+	do
+		comment("TIMES")
+		create tc.make
+		create int1.make (2)
+		create bool1.make (True)
+		create neg.make
+		create plus.make
+
+		-- wrong operand
+		plus.add_operand (int1)
+		plus.add_operand (bool1)
+		plus.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		-- right operands
+		plus.make
+		plus.add_operand (int1)
+		plus.add_operand (int1)
+		plus.accept (tc)
+		Result := tc.get_value
+		check Result end
+
+	end
+
+	test_type_check_union:BOOLEAN
+	local
+		tc:TYPE_CHECKER
+		neg:NEGATIVE
+		plus:UNION
+		int1: SET_ENUMERATION
+		bool1: BOOLEAN_CONSTANT
+	do
+		comment("UNION")
+		create tc.make
+		create int1.make
+		create bool1.make (True)
+		int1.enter_element (bool1)
+		int1.close -- {True}
+		create neg.make
+		create plus.make
+
+		-- wrong operand
+		plus.add_operand (int1)
+		plus.add_operand (bool1)
+		plus.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		-- right operands
+		plus.make
+		plus.add_operand (int1)
+		plus.add_operand (int1)
+		plus.accept (tc)
+		Result := tc.get_value
+		check Result end
+
+	end
+
+	test_type_check_divide:BOOLEAN
+	local
+		tc:TYPE_CHECKER
+		neg:NEGATIVE
+		plus:DIVIDES
+		int1: INTEGER_CONSTANT
+		bool1: BOOLEAN_CONSTANT
+	do
+		comment("DIVIDES")
+		create tc.make
+		create int1.make (2)
+		create bool1.make (True)
+		create neg.make
+		create plus.make
+
+		-- wrong operand
+		plus.add_operand (int1)
+		plus.add_operand (bool1)
+		plus.accept (tc)
+		Result := not tc.get_value
+		check Result end
+
+		-- right operands
+		plus.make
+		plus.add_operand (int1)
+		plus.add_operand (int1)
+		plus.accept (tc)
+		Result := tc.get_value
+		check Result end
+
+	end
+
 
 end

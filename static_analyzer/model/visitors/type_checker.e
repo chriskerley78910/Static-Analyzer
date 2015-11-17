@@ -82,7 +82,7 @@ feature {NONE} -- basically check that a formula is type correct.
 				and then (across set as c all attached {ARITHMETIC_CODOMAIN}c.item end)
 			elseif attached {ARITHMETIC_CODOMAIN}e then
 				value := across e as operand all attached{ARITHMETIC_CODOMAIN}operand.item end
-			elseif attached {GREATER_THAN}e or attached {LESS_THAN}e then
+			elseif attached {GREATER_THAN}e or attached {LESS_THAN}e or attached {LOGICAL_EQUALS}e then
 				value := across e as operand all attached {ARITHMETIC_CODOMAIN}operand.item end
 			elseif attached {EXISTS}e or attached {FOR_ALL}e then
 				value := across e as set
@@ -212,6 +212,11 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 		end
 
 		visit_union(e:UNION)
+		do
+			check_decendants(e)
+		end
+
+		visit_divides(e:DIVIDES)
 		do
 			check_decendants(e)
 		end

@@ -41,8 +41,15 @@ feature {NONE} --  types of eval
 
 
 		Result := create {NIL_EXPRESSION}.make
-		if attached {PLUS}e as plus and then attached {INTEGER_CONSTANT}plus.get_left as l and then attached {INTEGER_CONSTANT}plus.get_right as r then
-			Result := create {INTEGER_CONSTANT}.make (l.get_value + r.get_value)
+		-- this is a new implementation of plus,  much better as it evaluates the left and right operands before evaluating the sum of them.
+		if attached {PLUS}e as plus then
+			plus.get_left.accept (current)
+			if attached {INTEGER_CONSTANT}current.get_value as l then
+				plus.get_right.accept (current)
+				if attached {INTEGER_CONSTANT}current.get_value as r then
+					Result := create {INTEGER_CONSTANT}.make (l.get_value + r.get_value)
+				end
+			end
 		elseif attached {SUM}e as sum and then attached {SET_ENUMERATION}sum.get_operand as set then
 			-- sum up everthing in the set.
 			across
@@ -133,6 +140,10 @@ feature {NONE} --  types of eval
 			Result := create {BOOLEAN_CONSTANT}.make (l.get_value > r.get_value)
 		elseif attached {LESS_THAN}e as lt and then attached {INTEGER_CONSTANT}lt.get_left as l and then attached {INTEGER_CONSTANT}lt.get_right as r then
 			Result := create {BOOLEAN_CONSTANT}.make (l.get_value < r.get_value)
+		elseif attached {LOGICAL_AND}e as and_op then
+					if attached {BOOLEAN_CONSTANT}and_op.get_left as left and then attached {BOOLEAN_CONSTANT}and_op.get_right as right then
+			Result := create {BOOLEAN_CONSTANT}.make (left.get_state and right.get_state)
+					end
 		elseif attached {NEGATION}e as neg then
 			if attached {BOOLEAN_CONSTANT}neg.get_operand as bool then
 					if bool.get_state then
@@ -175,6 +186,7 @@ feature -- visitors
 
 	visit_int_const(e: INTEGER_CONSTANT)
 	do
+		value := e
 	end
 
 	visit_plus(e: PLUS)
@@ -234,6 +246,10 @@ feature -- visitors
 
 	visit_and(e:LOGICAL_AND)
 	do
+		-- if both left and right are boolean constants then the result the the and of the two.
+		-- if left is composite then evaluate it and save its value as left
+		-- if rught is compite then evaluate it and save its value as righ
+		-- and the result of left and right.
  		value := evaluate(e)
 	end
 
@@ -266,4 +282,11 @@ feature -- visitors
 	do
 		value := evaluate(e)
 	end
+
+
+	visit_divides(e:DIVIDES)
+	do
+		value := evaluate(e)
+	end
+
 end
