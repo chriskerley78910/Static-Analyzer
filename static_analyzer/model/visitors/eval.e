@@ -30,7 +30,48 @@ feature -- constructors
 		Result := ""
 	end
 
+	add(i1:INTEGER;i2:INTEGER):INTEGER
+	do
+		Result := i1 + i2
+	end
+
+	rrt:BOOLEAN
+	do
+		Result := arith_binary(agent add) = 5
+	end
+
+	arith_binary(v: FUNCTION[EVAL, TUPLE[INTEGER,INTEGER], INTEGER]):INTEGER
+	do
+		-- could be used for plus,minus,divides,times
+		Result := v.item (2,3)
+	end
+
 feature {NONE} --  types of eval
+
+	-- its bin op
+	-- get left accept current
+	-- save as left
+	-- get right accept current
+	-- save as right
+	-- result = whatever the result is of the two operands.
+	eval_bin_operands(er:EXPRESSION)
+
+	local
+		left,right: EXPRESSION
+		pair: TUPLE[EXPRESSION]
+	do
+--		bin_op.get_left.accept (current)
+--		left :=	current.get_value
+
+--		bin_op.get_right.accept (current)
+--		right := current.get_value
+
+--		create pair.default_create
+--		pair.put (left, 1)
+--		pair.put (right,2)
+--		Result := pair
+
+	end
 
 	evaluate(e:EXPRESSION):EXPRESSION
 	local
@@ -38,8 +79,6 @@ feature {NONE} --  types of eval
 		tmp: EXPRESSION
 		s:SET_ENUMERATION
 	do
-
-
 		Result := create {NIL_EXPRESSION}.make
 		-- this is a new implementation of plus,  much better as it evaluates the left and right operands before evaluating the sum of them.
 		if attached {PLUS}e as plus then
@@ -140,6 +179,14 @@ feature {NONE} --  types of eval
 			Result := create {BOOLEAN_CONSTANT}.make (l.get_value > r.get_value)
 		elseif attached {LESS_THAN}e as lt and then attached {INTEGER_CONSTANT}lt.get_left as l and then attached {INTEGER_CONSTANT}lt.get_right as r then
 			Result := create {BOOLEAN_CONSTANT}.make (l.get_value < r.get_value)
+		elseif attached {LOGICAL_EQUALS}e as eq then
+			eq.get_left.accept (current)
+			if attached {INTEGER_CONSTANT}current.get_value as l then
+				eq.get_right.accept (current)
+				if attached {INTEGER_CONSTANT}current.get_value as r then
+					Result := create {BOOLEAN_CONSTANT}.make (l.get_value ~ r.get_value)
+				end
+			end
 		elseif attached {LOGICAL_AND}e as and_op then
 					if attached {BOOLEAN_CONSTANT}and_op.get_left as left and then attached {BOOLEAN_CONSTANT}and_op.get_right as right then
 			Result := create {BOOLEAN_CONSTANT}.make (left.get_state and right.get_state)
