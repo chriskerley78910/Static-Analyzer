@@ -4,4 +4,7 @@ add_division
 type_check
 evaluate
 
+reset
+
+add_division
 

@@ -13,6 +13,10 @@ undefine
 end
 
 
+feature -- algorithm templates
+
+
+
 feature
 
 	visit_bool_const(e: BOOLEAN_CONSTANT)

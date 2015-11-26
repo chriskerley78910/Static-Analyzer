@@ -30,48 +30,8 @@ feature -- constructors
 		Result := ""
 	end
 
-	add(i1:INTEGER;i2:INTEGER):INTEGER
-	do
-		Result := i1 + i2
-	end
-
-	rrt:BOOLEAN
-	do
-		Result := arith_binary(agent add) = 5
-	end
-
-	arith_binary(v: FUNCTION[EVAL, TUPLE[INTEGER,INTEGER], INTEGER]):INTEGER
-	do
-		-- could be used for plus,minus,divides,times
-		Result := v.item (2,3)
-	end
-
 feature {NONE} --  types of eval
 
-	-- its bin op
-	-- get left accept current
-	-- save as left
-	-- get right accept current
-	-- save as right
-	-- result = whatever the result is of the two operands.
-	eval_bin_operands(er:EXPRESSION)
-
-	local
-		left,right: EXPRESSION
-		pair: TUPLE[EXPRESSION]
-	do
---		bin_op.get_left.accept (current)
---		left :=	current.get_value
-
---		bin_op.get_right.accept (current)
---		right := current.get_value
-
---		create pair.default_create
---		pair.put (left, 1)
---		pair.put (right,2)
---		Result := pair
-
-	end
 
 	evaluate(e:EXPRESSION):EXPRESSION
 	local
@@ -90,7 +50,7 @@ feature {NONE} --  types of eval
 				end
 			end
 		elseif attached {SUM}e as sum and then attached {SET_ENUMERATION}sum.get_operand as set then
-			-- sum up everthing in the set.
+			-- sum up everything in the set.
 			across
 				set as c
 			loop
@@ -147,7 +107,6 @@ feature {NONE} --  types of eval
 			Result := s
 		elseif attached {EXISTS}e as exists then
 			Result := create {BOOLEAN_CONSTANT}.make (true)
-
 			if attached {SET_ENUMERATION}exists.get_operand as set then
 				Result :=
 					create {BOOLEAN_CONSTANT}.make (
@@ -208,6 +167,14 @@ feature {NONE} --  types of eval
 		elseif attached {NEGATIVE}e as negative then
 			if attached {INTEGER_CONSTANT}negative.get_operand as int then
 				Result := create {INTEGER_CONSTANT}.make (-int.get_value)
+			end
+		elseif attached {LOGICAL_IMPLIES}e as imply then
+			imply.get_left.accept (current)
+			if attached {BOOLEAN_CONSTANT}current.get_value as l then
+				imply.get_right.accept (current)
+				if attached {BOOLEAN_CONSTANT}current.get_value as r then
+					value := create {BOOLEAN_CONSTANT}.make(l.get_state implies r.get_state)
+				end
 			end
 		end
 	end

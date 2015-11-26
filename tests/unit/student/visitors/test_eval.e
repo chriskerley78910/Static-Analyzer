@@ -29,26 +29,47 @@ feature
 			add_boolean_case (agent test_eval_intersect)
 			add_boolean_case (agent test_eval_and)
 			add_boolean_case (agent test_eval_equals)
---			add_boolean_case (agent test_eval_implies)
+			add_boolean_case (agent test_eval_implies)
 --			add_boolean_case (agent test_eval_or)
 --			add_boolean_case (agent test_eval_minus)
 --			add_boolean_case (agent test_eval_times)
 --			add_boolean_case (agent test_eval_union)
 --			add_boolean_case (agent test_eval_divides)
 
-			add_boolean_case (agent test_agent_usage)
 
 
 		end
 feature -- unit tests.
 
-	test_agent_usage:BOOLEAN
+test_eval_implies:BOOLEAN
 	local
 		eval:EVAL
+		inter:LOGICAL_IMPLIES
+		p: PRINTER
+		l1,l2: BOOLEAN_CONSTANT
 	do
-		comment("AGENTS")
+		comment("LOGICAL_IMPLIES")
+		create inter.make
+		create l1.make (true)
+		create l2.make (false)
+		inter.add_operand (l1)
+		inter.add_operand (l2)
 		create eval.make
-		Result := eval.rrt
+		inter.accept (eval)
+		create p.new_printer
+		eval.get_value.accept (p)
+		Result := p.out ~ "False"
+		check Result end
+
+--		inter.make
+--		inter.add_operand (l1)
+--		inter.add_operand (l3)
+--		inter.accept (eval)
+--		p.new_printer
+--		eval.get_value.accept (p)
+--		Result := p.out ~ "False"
+--		check Result end
+
 	end
 
 
