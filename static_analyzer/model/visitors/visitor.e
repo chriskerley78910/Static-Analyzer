@@ -83,6 +83,9 @@ feature
 	deferred end
 
 	visit_divides(e:DIVIDES)
+	require
+		divide_by_zero:
+		attached {INTEGER_CONSTANT}e.get_right as r implies r.get_value /= 0
 	deferred end
 
 end

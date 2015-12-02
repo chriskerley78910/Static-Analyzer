@@ -368,11 +368,16 @@ feature
 	local
 		i: DIVIDES
 		p:PRINTER
+		o1,o2: INTEGER_CONSTANT
 	do
 		comment("t17: DIVIDES")
 		create i.make
 		create p.new_printer
+		create o1.make (4)
+		create o2.make (6)
+		i.add_operand (o1)
+		i.add_operand (o2)
 		i.accept (p)
-		Result := p.out ~ "(? / nil)"
+		Result := p.out ~ "(4 / 6)"
 	end
 end

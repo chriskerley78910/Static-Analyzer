@@ -173,8 +173,53 @@ feature {NONE} --  types of eval
 			if attached {BOOLEAN_CONSTANT}current.get_value as l then
 				imply.get_right.accept (current)
 				if attached {BOOLEAN_CONSTANT}current.get_value as r then
-					value := create {BOOLEAN_CONSTANT}.make(l.get_state implies r.get_state)
+					Result := create {BOOLEAN_CONSTANT}.make(l.get_state implies r.get_state)
 				end
+			end
+		elseif attached {LOGICAL_OR}e as logic_or then
+			logic_or.get_left.accept (current)
+			if attached {BOOLEAN_CONSTANT}current.get_value as l then
+				logic_or.get_right.accept (current)
+				if attached {BOOLEAN_CONSTANT}current.get_value as r then
+					Result := create {BOOLEAN_CONSTANT}.make (l.get_state or r.get_state)
+				end
+			end
+		elseif attached {MINUS}e as minus then
+			if attached {INTEGER_CONSTANT}minus.get_left as l and then attached {INTEGER_CONSTANT}minus.get_right as r  then
+				Result := create {INTEGER_CONSTANT}.make (l.get_value - r.get_value)
+			end
+		elseif attached {TIMES}e as times then
+			if attached {INTEGER_CONSTANT}times.get_left as l and then attached {INTEGER_CONSTANT}times.get_right as r  then
+				Result := create {INTEGER_CONSTANT}.make (l.get_value * r.get_value)
+			end
+		elseif attached {UNION}e as union then
+			if attached {SET_ENUMERATION}union.get_left as l and then attached {SET_ENUMERATION}union.get_right as r  then
+
+				create s.make
+
+				-- add all elements to s from the left set that are not already in s.
+				across
+					l as left
+				loop
+					if across s as set all left.item /~ set.item end then
+						s.enter_element (left.item)
+					end
+				end
+
+				-- add all elements to s from the right set that are not already in s.
+				across
+					r as right
+				loop
+					if across s as set all right.item /~ set.item end then
+						s.enter_element (right.item)
+					end
+				end
+				s.close
+				Result := s
+			end
+		elseif attached {DIVIDES}e as divide then
+			if attached {INTEGER_CONSTANT}divide.get_left as l and then attached {INTEGER_CONSTANT}divide.get_right as r  then
+				Result := create {INTEGER_CONSTANT}.make (l.get_value // r.get_value)
 			end
 		end
 	end
