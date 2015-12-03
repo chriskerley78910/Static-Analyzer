@@ -285,6 +285,8 @@ feature {NONE} -- traversal algorithms
 		 add_element(create {SUM}.make)
 	end
 
-
-
+	add_div
+	do
+		 add_element(create {DIVIDES}.make)
+	end
 end

@@ -123,10 +123,7 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 
 		ensure then
 			incomplete_expression_error:
-			incomplete_expression
-		rescue
-			incomplete_expression := true
-			retry
+			False
 		end
 
 		visit_int_const(e: INTEGER_CONSTANT)

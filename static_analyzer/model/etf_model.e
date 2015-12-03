@@ -100,9 +100,12 @@ feature -- model operations
 	end
 
 	type_check:BOOLEAN
+	local
+		ex:EXCEPTIONS
+		is_retried: BOOLEAN
 	do
-		builder.get_result.accept (tc)
-		Result := tc.get_value
+			builder.get_result.accept (tc)
+			Result := tc.get_value
 	end
 
 	default_update

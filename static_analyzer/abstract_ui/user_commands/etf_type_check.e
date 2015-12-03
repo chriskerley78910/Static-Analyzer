@@ -13,15 +13,28 @@ create
 	make
 feature -- command
 	type_check
-    	do
-			if model.type_check	then
-				model.set_report (model.report_is_type_correct)
-			else
-				model.set_report (model.report__expression_not_type_correct)
+	local
+		is_retried:BOOLEAN
+		ex:EXCEPTIONS
+    do
+
+    	if is_retried then
+    		create ex
+    		if ex.original_tag_name ~ "incomplete_expression_error"  then
+				model.set_report (model.report_expression_not_fully_spec_)
+    		end
+		elseif model.type_check then
+			model.set_report (model.report_is_type_correct)
+		elseif not model.type_check then
+			model.set_report (model.report__expression_not_type_correct)
+		end
+
+		etf_cmd_container.on_change.notify ([Current])
+   	rescue
+			if not is_retried then
+				is_retried := True
+				retry
 			end
 
-			-- perform some update on the model state
-			etf_cmd_container.on_change.notify ([Current])
-    	end
-
+    end
 end
