@@ -344,6 +344,9 @@ feature -- visitors
 
 
 	visit_divides(e:DIVIDES)
+	require else
+		divide_by_zero:
+		attached {INTEGER_CONSTANT}e.get_right as r implies r.get_value /= 0
 	do
 		value := evaluate(e)
 	end

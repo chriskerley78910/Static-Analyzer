@@ -16,6 +16,7 @@ feature -- command
     	do
 
 			model.get_builder.add_div
+			model.set_report (model.report_success)
 			model.default_update
 			-- perform some update on the model state
 			etf_cmd_container.on_change.notify ([Current])

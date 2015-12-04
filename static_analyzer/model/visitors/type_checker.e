@@ -222,6 +222,8 @@ test_queue(e: LINKED_QUEUE[INTEGER] )
 		end
 
 		visit_divides(e:DIVIDES)
+		require else
+			True
 		do
 			check_decendants(e)
 		end

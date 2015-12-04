@@ -289,4 +289,19 @@ feature {NONE} -- traversal algorithms
 	do
 		 add_element(create {DIVIDES}.make)
 	end
+
+	add_conjunc
+	do
+		add_element(create {LOGICAL_AND}.make)
+	end
+
+	add_disjunct
+	do
+		add_element(create {LOGICAL_OR}.make)
+	end
+
+	add_gen_or
+	do
+		add_element(create {EXISTS}.make)
+	end
 end

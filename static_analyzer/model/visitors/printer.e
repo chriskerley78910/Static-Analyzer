@@ -130,9 +130,9 @@ feature
 	loop
 		e.get_element (i).accept (current) -- current element could be any expression type.
 		if i = e.count and (not e.is_closed) and (not e.is_inactive) and (not attached {NIL_EXPRESSION}e.get_element (i)) then
-			string := string + ","
+			string := string + ", "
 		elseif i < e.count then
-			string := string + ","
+			string := string + ", "
 		end
 		i := i + 1
 	end
@@ -181,6 +181,8 @@ feature
 
 
 	visit_divides(e:DIVIDES)
+	require else
+		true
 	do
 		visit_binary_op(e,"/")
 	end

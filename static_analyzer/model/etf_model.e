@@ -70,6 +70,9 @@ feature {ETF_COMMAND}-- report items  (only can be set by abtract user interface
 	report_set_enum_must_be_non_empty: STRING
 	attribute Result := "Error: (Set enumeration must be non-empty)." end
 
+	report_is_not_type_correct: STRING
+	attribute Result := "is not type-correct." end
+
 	report_is_type_correct: STRING
 	attribute Result := "is type-correct." end
 

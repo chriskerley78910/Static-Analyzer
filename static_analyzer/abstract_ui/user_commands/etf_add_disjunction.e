@@ -14,7 +14,7 @@ create
 feature -- command
 	add_disjunction
     	do
-
+			model.get_builder.add_disjunct
 			model.default_update
 			-- perform some update on the model state
 			etf_cmd_container.on_change.notify ([Current])

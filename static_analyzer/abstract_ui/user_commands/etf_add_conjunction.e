@@ -14,7 +14,7 @@ create
 feature -- command
 	add_conjunction
     	    	do
-
+			model.get_builder.add_conjunc
 			model.default_update
 			-- perform some update on the model state
 			etf_cmd_container.on_change.notify ([Current])
