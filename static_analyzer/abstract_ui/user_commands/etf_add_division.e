@@ -14,7 +14,6 @@ create
 feature -- command
 	add_division
     	do
-
 			model.get_builder.add_div
 			model.set_report (model.report_success)
 			model.default_update

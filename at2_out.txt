@@ -2,7 +2,7 @@
   Report: Expression is initialized.
 ->add_division
   Expression currently specified: (? / nil)
-  Report: Expression is initialized.
+  Report: OK.
 ->reset
   Expression currently specified: ?
   Report: OK.

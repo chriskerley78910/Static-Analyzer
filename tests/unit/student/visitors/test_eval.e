@@ -111,7 +111,7 @@ test_eval_union:BOOLEAN
 		inter.accept (eval)
 		create p.new_printer
 		eval.get_value.accept (p)
-		Result := p.out ~ "{5,6}"
+		Result := p.out ~ "{5, 6}"
 		check Result end
 
 		inter.make
@@ -468,7 +468,7 @@ test_eval_implies:BOOLEAN
 		d.add_operand (s2)
 		d.accept (eval)
 		eval.get_value.accept (p)
-		Result := p.out ~ "{False,True,6}"
+		Result := p.out ~ "{False, True, 6}"
 
 	end
 

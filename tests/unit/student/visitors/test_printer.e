@@ -152,35 +152,35 @@ feature
 		create enum.make
 		enum.enter_element (create {INTEGER_CONSTANT}.make (4))
 		enum.accept (p)
-		Result := p.out ~ "{4,?}"
+		Result := p.out ~ "{4, ?}"
 		check Result end
 
 		p.new_printer
 		create sum.make
 		enum.enter_element (sum)
 		enum.accept (p)
-		Result := p.out ~ "{4,(+ ?)}"
+		Result := p.out ~ "{4, (+ ?)}"
 		check Result end
 
 		-- goes inactive upon entering composite
 		sum.add_operand (create {BOOLEAN_CONSTANT}.make (True))
 		p.new_printer
 		enum.accept (p)
-		Result := p.out ~ "{4,(+ True)}"
+		Result := p.out ~ "{4, (+ True)}"
 		check Result end
 
 		-- manually reactiated
 		enum.reactivate
 		p.new_printer
 		enum.accept (p)
-		Result := p.out ~ "{4,(+ True),?}"
+		Result := p.out ~ "{4, (+ True), ?}"
 		check Result end
 
 		-- manually close.
 		enum.close
 		p.new_printer
 		enum.accept (p)
-		Result := p.out ~ "{4,(+ True)}"
+		Result := p.out ~ "{4, (+ True)}"
 		check Result end
 
 		 -- no duplicates
@@ -191,7 +191,7 @@ feature
 		enum.close
 		p.new_printer
 		enum.accept (p)
-		Result := p.out ~ "{3,4}"
+		Result := p.out ~ "{3, 4}"
 	end
 
 	test_printer_combination: BOOLEAN
@@ -221,7 +221,7 @@ feature
 		sum.add_operand (enum)
 		p.new_printer
 		sum.accept (p)
-		Result := p.out ~ "(+ {1,(False + 8)})"
+		Result := p.out ~ "(+ {1, (False + 8)})"
 		check Result end
 	end
 

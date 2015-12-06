@@ -74,12 +74,12 @@ feature -- unit tests
 
 		create p.new_printer
 		b.get_result.accept(p)
-		Result := p.out ~ "{3,True,(2 + (? + nil))}"
+		Result := p.out ~ "{3, True, (2 + (? + nil))}"
 
 		b.add_int (3)
 		create p.new_printer
 		b.get_result.accept(p)
-		Result := p.out ~ "{3,True,(2 + (3 + ?))}"
+		Result := p.out ~ "{3, True, (2 + (3 + ?))}"
 --	Result := p.out ~ "{True, 4, (5 + False)}"
 	end
 
@@ -100,21 +100,21 @@ feature -- unit tests
 
 		create p.new_printer
 		b.get_result.accept(p)
-		Result := p.out ~ "{3,True,(2 + (? + nil))}"
+		Result := p.out ~ "{3, True, (2 + (? + nil))}"
 		check Result end
 
 		b.add_int (3)
 		b.add_int (3)
 		create p.new_printer
 		b.get_result.accept(p)
-		Result := p.out ~ "{3,True,(2 + (3 + 3)),?}"
+		Result := p.out ~ "{3, True, (2 + (3 + 3)), ?}"
 		check Result  end
 
 		b.add_set_enum
 		b.add_int (1)
 		p.new_printer
 		b.get_result.accept(p)
-		Result := p.out ~ "{3,True,(2 + (3 + 3)),{1,?}}"
+		Result := p.out ~ "{3, True, (2 + (3 + 3)), {1, ?}}"
 		check Result  end
 	end
 
@@ -131,13 +131,13 @@ feature -- unit tests
 		b.add_int (3)
 		create p.new_printer
 		b.get_result.accept (p)
-		Result := p.out ~ "{{3,?}}"
+		Result := p.out ~ "{{3, ?}}"
 		check Result end
 
 		b.close_set
 		p.new_printer
 		b.get_result.accept (p)
-		Result := p.out ~ "{{3},?}"
+		Result := p.out ~ "{{3}, ?}"
 		check Result end
 
 		b.close_set
@@ -166,7 +166,7 @@ feature -- unit tests
 		b.close_set
 		create p.new_printer
 		b.get_result.accept (p)
-		Result := p.out ~ "({1,3,2} \ {2})"
+		Result := p.out ~ "({1, 3, 2} \ {2})"
 	end
 
 
@@ -187,7 +187,7 @@ feature -- unit tests
 
 		create p.new_printer
 		b.get_result.accept (p)
-		Result := p.out ~ "(&& {True,(! False)})"
+		Result := p.out ~ "(&& {True, (! False)})"
 	end
 
 	builder_add_greater_than:BOOLEAN
