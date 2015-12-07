@@ -1,0 +1,2 @@
+Type Error: specification of command executions is not type-correct
+add_integer_constant() does not conform to declaration add_integer_constant(c: INTEGER)

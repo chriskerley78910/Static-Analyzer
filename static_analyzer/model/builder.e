@@ -304,4 +304,9 @@ feature {NONE} -- traversal algorithms
 	do
 		add_element(create {EXISTS}.make)
 	end
+
+	add_equals
+	do
+		add_element(create {LOGICAL_EQUALS}.make)
+	end
 end

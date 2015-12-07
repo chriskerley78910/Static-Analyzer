@@ -14,17 +14,12 @@ create
 feature -- command
 	type_check
 	local
-		is_retried:BOOLEAN
-		ex:EXCEPTIONS
 		report: STRING
 		p:PRINTER
     do
 
     	if is_retried then
-    		create ex
-    		if ex.original_tag_name ~ "incomplete_expression_error"  then
-				model.set_report (model.report_expression_not_fully_spec_)
-    		end
+    		handle_exception
 		elseif model.type_check then
 			create p.new_printer
 			model.get_builder.get_result.accept (p)
@@ -42,11 +37,8 @@ feature -- command
 		end
 
 		etf_cmd_container.on_change.notify ([Current])
-   	rescue
-			if not is_retried then
-				is_retried := True
-				retry
-			end
-
-    end
+		rescue
+			is_retried := true
+			retry
+    	end
 end

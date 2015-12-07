@@ -14,16 +14,20 @@ create
 feature -- command
 	add_boolean_constant(c: BOOLEAN)
     	do
-
-			model.get_builder.add_bool (c)
-			if true then
+			if is_retried then
+				handle_exception
+			else
+				model.get_builder.add_bool (c)
 				model.set_report (model.report_success)
 				model.default_update
 			end
-
-			-- perform some update on the model state
 			etf_cmd_container.on_change.notify ([Current])
+		rescue
+			is_retried := true
+			retry
     	end
+
+
 
 
 

@@ -18,6 +18,9 @@ feature -- command
 			model.default_update
 			-- perform some update on the model state
 			etf_cmd_container.on_change.notify ([Current])
+		rescue
+			is_retried := true
+			retry
     	end
 
 end

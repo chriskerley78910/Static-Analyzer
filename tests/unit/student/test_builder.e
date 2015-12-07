@@ -26,6 +26,7 @@ feature -- init tests
 		add_boolean_case (agent builder_add_less_than)
 		add_boolean_case (agent builder_add_negative)
 		add_boolean_case (agent builder_add_sum)
+		add_boolean_case (agent builder_add_equals)
 	end
 
 feature -- unit tests
@@ -256,5 +257,21 @@ feature -- unit tests
 		create p.new_printer
 		b.get_result.accept (p)
 		Result := p.out ~ "(+ 4)"
+	end
+
+	builder_add_equals:BOOLEAN
+	local
+		b: BUILDER
+		p: PRINTER
+	do
+		comment("ADD_EQUALITY")
+		create b.make
+		b.add_equals
+		b.add_int (1)
+		b.add_int (2)
+		create p.new_printer
+		b.get_result.accept (p)
+		Result := p.out ~ "(1 = 2)"
+
 	end
 end

@@ -14,11 +14,17 @@ create
 feature -- command
 	add_generalized_or
     	do
-			model.get_builder.add_gen_or
-			model.set_report (model.report_success)
-			model.default_update
-			-- perform some update on the model state
+			if is_retried then
+				handle_exception
+			else
+				model.get_builder.add_exists
+				model.set_report (model.report_success)
+				model.default_update
+			end
 			etf_cmd_container.on_change.notify ([Current])
+		rescue
+			is_retried := true
+			retry
     	end
 
 end

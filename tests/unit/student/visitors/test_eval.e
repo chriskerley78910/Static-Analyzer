@@ -25,7 +25,6 @@ feature
 			add_boolean_case (agent test_eval_gt)
 			add_boolean_case (agent test_eval_lt)
 			add_boolean_case (agent test_eval_negative)
-
 			add_boolean_case (agent test_eval_intersect)
 			add_boolean_case (agent test_eval_and)
 			add_boolean_case (agent test_eval_equals)
