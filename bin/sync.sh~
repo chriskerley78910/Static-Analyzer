@@ -1,6 +1,6 @@
 #!/bin/sh
-bin_path="/cs/home/cse20356/www/3311/oracle/bin"
-project_path="/cs/home/cse23056/3311/eecs3311/static_analyzer"
+bin_path="/cs/home/cse11011/www/3311/oracle/bin"
+project_path="/cs/home/cse11011/3311/eecs3311/static_analyzer"
 cd "${project_path}"
 git pull origin master
 source compile.sh

@@ -309,4 +309,24 @@ feature {NONE} -- traversal algorithms
 	do
 		add_element(create {LOGICAL_EQUALS}.make)
 	end
+
+	add_implies
+	do
+		add_element(create {LOGICAL_IMPLIES}.make)
+	end
+
+	add_union
+	do
+		add_element(create {UNION}.make)
+	end
+
+	add_intersect
+	do
+		add_element(create {INTERSECT}.make)
+	end
+
+	add_mult
+	do
+		add_element(create {TIMES}.make)
+	end
 end

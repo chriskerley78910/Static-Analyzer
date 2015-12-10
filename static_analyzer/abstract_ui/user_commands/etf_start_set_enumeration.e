@@ -14,10 +14,13 @@ create
 feature -- command
 	start_set_enumeration
     	do
-
-    		model.get_builder.add_set_enum
-			model.default_update
-			-- perform some update on the model state
+			if is_retried then
+				handle_exception
+			else
+				model.get_builder.add_set_enum
+				model.set_report (model.report_success)
+				model.default_update
+			end
 			etf_cmd_container.on_change.notify ([Current])
 		rescue
 			is_retried := true

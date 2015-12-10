@@ -17,7 +17,7 @@ feature -- command
 			if is_retried then
 				handle_exception
 			else
-			
+				model.get_builder.add_equals
 				model.set_report (model.report_success)
 				model.default_update
 			end
